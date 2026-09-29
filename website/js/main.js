@@ -1,30 +1,46 @@
 /**
- * AudioPro Tool — Clean SaaS Interactions & Live Audio Demo
+ * AudioPro Tool — Interactive Video & Native Plugin UI Demo
  * Developed by Md Mahadi
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Audio Elements
+  // Media Elements
+  const video = document.getElementById('demo-video');
   const audioEnhanced = document.getElementById('audio-enhanced');
   const audioOriginal = document.getElementById('audio-original');
 
-  // A/B Tabs & Play Controls
-  const btnModeRaw = document.getElementById('btn-mode-raw');
-  const btnModeClean = document.getElementById('btn-mode-clean');
-  const playPauseBtn = document.getElementById('audio-play-pause-btn');
-  const playIcon = document.getElementById('audio-play-icon');
-  const pauseIcon = document.getElementById('audio-pause-icon');
-  const playText = document.getElementById('ui-play-text');
-  const modeText = document.getElementById('ui-mode-text');
-  const barsRaw = document.getElementById('bars-raw');
-  const barsClean = document.getElementById('bars-clean');
+  // Video Overlay
+  const videoOverlay = document.getElementById('video-overlay');
+  const btnVideoOverlay = document.getElementById('video-overlay-play-btn');
 
-  // State
-  let currentMode = 'clean'; // 'clean' or 'raw'
-  let isPlaying = false;
+  // AudioPro Tool Panel Elements
+  const panelStatusTag = document.getElementById('panel-status-tag');
+  const panelStatusText = document.getElementById('panel-status-text');
+
+  const toggleIsolation = document.getElementById('demo-isolation-toggle');
+  const isolationBadge = document.getElementById('isolation-state-badge');
+  const rowIsolation = document.getElementById('row-isolation');
+  const isoDescText = document.getElementById('iso-desc-text');
+
+  const toggleRestoration = document.getElementById('demo-restoration-toggle');
+  const restorationBadge = document.getElementById('restoration-state-badge');
+  const rowRestoration = document.getElementById('row-restoration');
+
+  // Transport Controls
+  const btnTransportPlay = document.getElementById('audio-play-pause-btn');
+  const iconPlay = document.getElementById('transport-play-icon');
+  const iconPause = document.getElementById('transport-pause-icon');
+  const timelineTrack = document.getElementById('timeline-track');
+  const timelineBar = document.getElementById('timeline-bar');
+  const timeCurrent = document.getElementById('time-current');
+  const timeTotal = document.getElementById('time-total');
+
+  // Audio Graph State
   let audioCtx = null;
   let gainEnhanced = null;
   let gainOriginal = null;
+  let isPlaying = false;
+  let isClean = true;
 
   // Initialize Web Audio API on first user gesture
   function initAudioContext() {
@@ -47,28 +63,28 @@ document.addEventListener('DOMContentLoaded', () => {
         gainOriginal.connect(audioCtx.destination);
       }
 
-      updateAudioRouting();
+      applyAudioRouting();
     } catch (e) {
       console.warn('Web Audio API initialized in fallback mode:', e);
     }
   }
 
-  // Smooth 20ms linear ramp between stems
-  function updateAudioRouting() {
+  // Smooth linear audio crossfade
+  function applyAudioRouting() {
     if (audioCtx && audioCtx.state === 'suspended') {
       audioCtx.resume();
     }
 
     if (gainEnhanced && gainOriginal) {
       const now = audioCtx.currentTime;
-      if (currentMode === 'clean') {
+      if (isClean) {
         gainEnhanced.gain.cancelScheduledValues(now);
         gainEnhanced.gain.setValueAtTime(gainEnhanced.gain.value, now);
         gainEnhanced.gain.linearRampToValueAtTime(1.0, now + 0.02);
 
         gainOriginal.gain.cancelScheduledValues(now);
         gainOriginal.gain.setValueAtTime(gainOriginal.gain.value, now);
-        gainOriginal.gain.linearRampToValueAtTime(0, now + 0.02);
+        gainOriginal.gain.linearRampToValueAtTime(0.0, now + 0.02);
       } else {
         gainOriginal.gain.cancelScheduledValues(now);
         gainOriginal.gain.setValueAtTime(gainOriginal.gain.value, now);
@@ -76,136 +92,231 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gainEnhanced.gain.cancelScheduledValues(now);
         gainEnhanced.gain.setValueAtTime(gainEnhanced.gain.value, now);
-        gainEnhanced.gain.linearRampToValueAtTime(0, now + 0.02);
+        gainEnhanced.gain.linearRampToValueAtTime(0.0, now + 0.02);
       }
     } else if (audioEnhanced && audioOriginal) {
-      if (currentMode === 'clean') {
-        audioEnhanced.muted = false;
-        audioOriginal.muted = true;
-      } else {
-        audioOriginal.muted = false;
-        audioEnhanced.muted = true;
-      }
+      audioEnhanced.muted = !isClean;
+      audioOriginal.muted = isClean;
     }
   }
 
-  // Switch A/B Mode
-  function setAudioMode(mode) {
-    currentMode = mode;
-    const isClean = (mode === 'clean');
+  // Update UI for Voice Isolation Toggle
+  function updateIsolationUI(active) {
+    isClean = active;
+    if (toggleIsolation) toggleIsolation.checked = active;
 
-    if (btnModeRaw && btnModeClean) {
-      if (isClean) {
-        btnModeClean.classList.add('active');
-        btnModeRaw.classList.remove('active');
+    if (isolationBadge) {
+      isolationBadge.textContent = active ? 'ON' : 'OFF';
+      if (active) {
+        isolationBadge.classList.remove('is-off');
       } else {
-        btnModeRaw.classList.add('active');
-        btnModeClean.classList.remove('active');
+        isolationBadge.classList.add('is-off');
       }
     }
 
-    if (modeText) {
-      modeText.textContent = isClean 
-        ? 'Mode: AudioPro Clean (Isolated Dialogue)' 
-        : 'Mode: Raw Camera Audio (HVAC & Reverb)';
+    if (rowIsolation) {
+      if (active) {
+        rowIsolation.classList.add('active');
+      } else {
+        rowIsolation.classList.remove('active');
+      }
     }
 
-    updateAudioRouting();
+    if (isoDescText) {
+      isoDescText.textContent = active 
+        ? 'Studio background noise & echo removal' 
+        : 'Bypassed • Raw uncleaned camera audio';
+    }
 
-    if (!isPlaying && audioEnhanced && audioOriginal) {
+    if (panelStatusTag && panelStatusText) {
+      if (active) {
+        panelStatusTag.classList.remove('is-raw');
+        panelStatusTag.classList.add('active');
+        panelStatusText.textContent = 'AudioPro Clean Active';
+      } else {
+        panelStatusTag.classList.remove('active');
+        panelStatusTag.classList.add('is-raw');
+        panelStatusText.textContent = 'Bypass: Raw Camera Audio';
+      }
+    }
+
+    applyAudioRouting();
+
+    // If media is paused when user clicks switch, start playback automatically so they hear the difference immediately
+    if (!isPlaying) {
       startPlayback();
     }
   }
 
-  // Play / Pause
-  function toggleAudioPlay() {
-    initAudioContext();
-    if (!audioEnhanced || !audioOriginal) return;
-
-    if (audioEnhanced.paused) {
-      startPlayback();
-    } else {
-      pausePlayback();
-    }
-  }
-
+  // Playback Control
   function startPlayback() {
     initAudioContext();
-    if (!audioEnhanced || !audioOriginal) return;
 
-    audioOriginal.currentTime = audioEnhanced.currentTime;
-    Promise.all([audioEnhanced.play(), audioOriginal.play()]).then(() => {
-      isPlaying = true;
-      updatePlayControls(true);
-    }).catch(err => {
-      console.warn('Playback error:', err);
-    });
+    if (video) {
+      if (audioEnhanced) audioEnhanced.currentTime = video.currentTime;
+      if (audioOriginal) audioOriginal.currentTime = video.currentTime;
+
+      Promise.all([
+        video.play().catch(() => {}),
+        audioEnhanced ? audioEnhanced.play().catch(() => {}) : Promise.resolve(),
+        audioOriginal ? audioOriginal.play().catch(() => {}) : Promise.resolve()
+      ]).then(() => {
+        isPlaying = true;
+        updateTransportUI(true);
+      });
+    }
   }
 
   function pausePlayback() {
-    if (!audioEnhanced || !audioOriginal) return;
-    audioEnhanced.pause();
-    audioOriginal.pause();
+    if (video) video.pause();
+    if (audioEnhanced) audioEnhanced.pause();
+    if (audioOriginal) audioOriginal.pause();
     isPlaying = false;
-    updatePlayControls(false);
+    updateTransportUI(false);
   }
 
-  function updatePlayControls(playing) {
-    if (playIcon && pauseIcon) {
-      if (playing) {
-        playIcon.classList.add('hidden');
-        pauseIcon.classList.remove('hidden');
-      } else {
-        playIcon.classList.remove('hidden');
-        pauseIcon.classList.add('hidden');
-      }
-    }
-    if (playText) {
-      playText.textContent = playing ? 'Pause Preview' : 'Listen Audio Preview';
-    }
-    if (barsRaw && barsClean) {
-      if (playing) {
-        barsRaw.classList.add('animating');
-        barsClean.classList.add('animating');
-      } else {
-        barsRaw.classList.remove('animating');
-        barsClean.classList.remove('animating');
-      }
+  function togglePlayback() {
+    if (isPlaying) {
+      pausePlayback();
+    } else {
+      startPlayback();
     }
   }
 
-  // Loop & Sync Handler
-  if (audioEnhanced) {
-    audioEnhanced.addEventListener('timeupdate', () => {
-      if (audioOriginal && Math.abs(audioOriginal.currentTime - audioEnhanced.currentTime) > 0.04) {
-        audioOriginal.currentTime = audioEnhanced.currentTime;
+  function updateTransportUI(playing) {
+    if (iconPlay && iconPause) {
+      if (playing) {
+        iconPlay.classList.add('hidden');
+        iconPause.classList.remove('hidden');
+      } else {
+        iconPlay.classList.remove('hidden');
+        iconPause.classList.add('hidden');
+      }
+    }
+
+    if (videoOverlay) {
+      if (playing) {
+        videoOverlay.classList.add('is-hidden');
+      } else {
+        videoOverlay.classList.remove('is-hidden');
+      }
+    }
+  }
+
+  function formatTime(seconds) {
+    const s = Math.floor(seconds || 0);
+    const mins = Math.floor(s / 60);
+    const secs = s % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  // Timeupdate Synchronization
+  if (video) {
+    video.addEventListener('timeupdate', () => {
+      const cur = video.currentTime;
+      const dur = video.duration || 20;
+
+      // Update progress bar
+      if (timelineBar) {
+        const pct = (cur / dur) * 100;
+        timelineBar.style.width = `${pct}%`;
+      }
+
+      // Update time display
+      if (timeCurrent) {
+        timeCurrent.textContent = formatTime(cur);
+      }
+      if (timeTotal && dur) {
+        timeTotal.textContent = formatTime(dur);
+      }
+
+      // Sync drift check with audio
+      if (audioEnhanced && Math.abs(audioEnhanced.currentTime - cur) > 0.08) {
+        audioEnhanced.currentTime = cur;
+      }
+      if (audioOriginal && Math.abs(audioOriginal.currentTime - cur) > 0.08) {
+        audioOriginal.currentTime = cur;
       }
     });
 
-    audioEnhanced.addEventListener('ended', () => {
-      audioEnhanced.currentTime = 0;
+    video.addEventListener('loadedmetadata', () => {
+      if (timeTotal && video.duration) {
+        timeTotal.textContent = formatTime(video.duration);
+      }
+    });
+
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      if (audioEnhanced) audioEnhanced.currentTime = 0;
       if (audioOriginal) audioOriginal.currentTime = 0;
       startPlayback();
     });
+
+    // Clicking the video toggles play/pause
+    video.addEventListener('click', togglePlayback);
   }
 
-  // Event Listeners
-  if (btnModeRaw) {
-    btnModeRaw.addEventListener('click', () => {
-      initAudioContext();
-      setAudioMode('raw');
+  // Overlay Big Play Button
+  if (btnVideoOverlay) {
+    btnVideoOverlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlayback();
     });
   }
 
-  if (btnModeClean) {
-    btnModeClean.addEventListener('click', () => {
-      initAudioContext();
-      setAudioMode('clean');
+  // Transport Play/Pause Button
+  if (btnTransportPlay) {
+    btnTransportPlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlayback();
     });
   }
 
-  if (playPauseBtn) {
-    playPauseBtn.addEventListener('click', toggleAudioPlay);
+  // Timeline Scrubber Click/Seek
+  if (timelineTrack && video) {
+    timelineTrack.addEventListener('click', (e) => {
+      const rect = timelineTrack.getBoundingClientRect();
+      const clickRatio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const targetTime = clickRatio * (video.duration || 20);
+
+      video.currentTime = targetTime;
+      if (audioEnhanced) audioEnhanced.currentTime = targetTime;
+      if (audioOriginal) audioOriginal.currentTime = targetTime;
+
+      if (!isPlaying) {
+        startPlayback();
+      }
+    });
+  }
+
+  // Isolation Toggle Event
+  if (toggleIsolation) {
+    toggleIsolation.addEventListener('change', () => {
+      initAudioContext();
+      updateIsolationUI(toggleIsolation.checked);
+    });
+  }
+
+  // Restoration Toggle Event
+  if (toggleRestoration) {
+    toggleRestoration.addEventListener('change', () => {
+      const active = toggleRestoration.checked;
+      if (restorationBadge) {
+        restorationBadge.textContent = active ? 'ON' : 'OFF';
+        if (active) {
+          restorationBadge.classList.remove('is-off');
+        } else {
+          restorationBadge.classList.add('is-off');
+        }
+      }
+      if (rowRestoration) {
+        if (active) {
+          rowRestoration.classList.add('active');
+        } else {
+          rowRestoration.classList.remove('active');
+        }
+      }
+    });
   }
 
   // FAQ Accordion (First item open by default)
@@ -223,19 +334,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Keyboard Shortcuts (Space for Play/Pause, 1 or A for Raw, 2 or B for Clean)
+  // Keyboard Shortcuts: Space (Play/Pause), 1 (Raw/OFF), 2 (Clean/ON)
   window.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     if (e.code === 'Space') {
       e.preventDefault();
-      toggleAudioPlay();
-    } else if (e.key === 'a' || e.key === 'A' || e.key === '1') {
+      togglePlayback();
+    } else if (e.key === '1' || e.key === 'a' || e.key === 'A') {
       initAudioContext();
-      setAudioMode('raw');
-    } else if (e.key === 'b' || e.key === 'B' || e.key === '2') {
+      updateIsolationUI(false);
+    } else if (e.key === '2' || e.key === 'b' || e.key === 'B') {
       initAudioContext();
-      setAudioMode('clean');
+      updateIsolationUI(true);
     }
   });
 });
