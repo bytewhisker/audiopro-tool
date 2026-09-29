@@ -24,6 +24,7 @@ yarn-debug.log*
 temp/
 tmp/
 AudioPro_Cleaned/
+AudioPro_Stems/
 
 # IDE & Editor Settings
 .vscode/

@@ -168,9 +168,55 @@ class AEBridge {
             throw new Error(`Failed to parse revealFootageInProject response: ${raw}`);
         }
     }
+
+    async importStemLayer(stemWavPath, stemType, originalLayerIndex, compId) {
+        if (!this.isAvailable) {
+            return {
+                success: true,
+                layerIndex: (originalLayerIndex || 1),
+                layerName: `Mock [${stemType}]`,
+                stemType: stemType
+            };
+        }
+        const sPath = JSON.stringify(stemWavPath);
+        const sType = JSON.stringify(stemType);
+        const lIdx = originalLayerIndex || 0;
+        const cId = compId || 0;
+        const raw = await this.evalScriptAsync(`NoiseCleanHost.importStemLayer(${sPath}, ${sType}, ${lIdx}, ${cId})`);
+        try {
+            return JSON.parse(raw);
+        } catch (e) {
+            throw new Error(`Failed to parse importStemLayer response: ${raw}`);
+        }
+    }
+
+    async importAllStems(stemsData, originalLayerIndex, compId) {
+        if (!this.isAvailable) {
+            return {
+                success: true,
+                count: 4,
+                layers: [
+                    { stemType: 'SFX', layerIndex: 4, layerName: 'Clip [SFX]' },
+                    { stemType: 'Drums', layerIndex: 3, layerName: 'Clip [Drums]' },
+                    { stemType: 'Music', layerIndex: 2, layerName: 'Clip [Music]' },
+                    { stemType: 'Vocals', layerIndex: 1, layerName: 'Clip [Vocals]' }
+                ]
+            };
+        }
+        const sData = JSON.stringify(JSON.stringify(stemsData));
+        const lIdx = originalLayerIndex || 0;
+        const cId = compId || 0;
+        const raw = await this.evalScriptAsync(`NoiseCleanHost.importAllStems(${sData}, ${lIdx}, ${cId})`);
+        try {
+            return JSON.parse(raw);
+        } catch (e) {
+            throw new Error(`Failed to parse importAllStems response: ${raw}`);
+        }
+    }
 }
 
 // Export
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = AEBridge;
 }
+

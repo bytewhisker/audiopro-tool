@@ -20,6 +20,22 @@ class StateManager {
         this.progress = { message: '', percent: 0 };
         this.lastError = null;
         this.cleanedHistory = new Map(); // layerIdentifier -> { originalPath, cleanedPath, isVideo }
+        this.activeTab = 'voice'; // 'voice' | 'stems'
+        this.stemsState = {
+            status: 'idle', // 'idle' | 'splitting' | 'ready' | 'error'
+            stems: null, // { vocals, music, drums, sfx, duration }
+            isPlaying: false,
+            currentTime: 0,
+            duration: 0,
+            percent: 0,
+            message: '',
+            stemStates: {
+                vocals: { solo: false, mute: false },
+                music: { solo: false, mute: false },
+                drums: { solo: false, mute: false },
+                sfx: { solo: false, mute: false }
+            }
+        };
         this.listeners = new Set();
     }
 
@@ -47,12 +63,75 @@ class StateManager {
             resembleEnhance: this.resembleEnhance,
             resembleStatus: this.resembleStatus,
             progress: this.progress,
-            lastError: this.lastError
+            lastError: this.lastError,
+            activeTab: this.activeTab,
+            stemsState: this.stemsState
         };
     }
 
+    setActiveTab(tab) {
+        this.activeTab = tab;
+        this.notify();
+    }
+
+    startStemSplitting(msg = 'Analyzing audio mix...') {
+        this.stemsState.status = 'splitting';
+        this.stemsState.percent = 10;
+        this.stemsState.message = msg;
+        this.lastError = null;
+        this.notify();
+    }
+
+    updateStemProgress(percent, msg) {
+        if (this.stemsState.status !== 'splitting') return;
+        this.stemsState.percent = Math.min(100, Math.max(0, percent));
+        if (msg) this.stemsState.message = msg;
+        this.notify();
+    }
+
+    setStemsReady(stemsData) {
+        this.stemsState.status = 'ready';
+        this.stemsState.stems = stemsData;
+        this.stemsState.duration = stemsData.duration || 0;
+        this.stemsState.currentTime = 0;
+        this.stemsState.isPlaying = false;
+        this.stemsState.percent = 100;
+        this.stemsState.message = '4 Stems ready';
+        this.notify();
+    }
+
+    setStemPlayback(isPlaying, currentTime, duration) {
+        this.stemsState.isPlaying = isPlaying;
+        if (typeof currentTime === 'number') this.stemsState.currentTime = currentTime;
+        if (typeof duration === 'number' && duration > 0) this.stemsState.duration = duration;
+        this.notify();
+    }
+
+    setStemSoloMute(stemStates) {
+        this.stemsState.stemStates = stemStates;
+        this.notify();
+    }
+
+    setStemError(err) {
+        this.stemsState.status = 'error';
+        this.lastError = typeof err === 'string' ? err : (err && err.message ? err.message : 'Stem separation failed');
+        this.notify();
+    }
+
     setSource(sourceInfo) {
-        if (this.currentState === AppStates.PROCESSING) return;
+        if (this.currentState === AppStates.PROCESSING || this.stemsState.status === 'splitting') return;
+
+        const prevLayerKey = this.sourceInfo ? `${this.sourceInfo.compId}_${this.sourceInfo.layerIndex}` : null;
+        const newLayerKey = sourceInfo ? `${sourceInfo.compId}_${sourceInfo.layerIndex}` : null;
+
+        // If user changed layer in AE, reset stems player state for fresh clip
+        if (prevLayerKey && newLayerKey && prevLayerKey !== newLayerKey) {
+            this.stemsState.status = 'idle';
+            this.stemsState.stems = null;
+            this.stemsState.isPlaying = false;
+            this.stemsState.currentTime = 0;
+            this.stemsState.duration = 0;
+        }
 
         this.sourceInfo = sourceInfo;
         if (sourceInfo && sourceInfo.hasSelection) {
@@ -115,3 +194,4 @@ class StateManager {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { AppStates, StateManager };
 }
+

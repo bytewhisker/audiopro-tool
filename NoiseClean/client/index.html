@@ -17,75 +17,292 @@
         </div>
       </div>
       <div class="header-flare-line"></div>
+
+      <!-- Segmented Mode Tabs -->
+      <nav class="mode-tabs" role="tablist">
+        <button type="button" class="mode-tab-btn active" id="tab-voice-btn" data-target="voice-view">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+          <span>Voice Clean</span>
+        </button>
+        <button type="button" class="mode-tab-btn" id="tab-stems-btn" data-target="stems-view">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          <span>4-Stem Splitter</span>
+          <span class="tab-badge-ai">AI</span>
+        </button>
+      </nav>
     </header>
 
-    <!-- Pro Audio Controls Section -->
-    <section class="section controls-section">
-      <div class="pro-card">
-        <!-- Feature 1: Voice Isolation -->
-        <div class="feature-row">
-          <div class="feature-icon feature-icon-blue">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-              <line x1="12" y1="19" x2="12" y2="23"></line>
-              <line x1="8" y1="23" x2="16" y2="23"></line>
-            </svg>
+    <!-- VIEW 1: Voice Clean Controls -->
+    <main id="voice-view" class="tab-view active">
+      <section class="section controls-section">
+        <div class="pro-card">
+          <!-- Feature 1: Voice Isolation -->
+          <div class="feature-row">
+            <div class="feature-icon feature-icon-blue">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <div class="feature-title">Voice Isolation</div>
+              <div class="feature-subtitle" id="toggle-sub">Studio background noise & echo removal</div>
+            </div>
+            <label class="pro-switch switch-blue">
+              <input type="checkbox" id="noise-toggle" disabled>
+              <span class="pro-slider"></span>
+            </label>
           </div>
-          <div class="feature-text">
-            <div class="feature-title">Voice Isolation</div>
-            <div class="feature-subtitle" id="toggle-sub">Studio background noise & echo removal</div>
+
+          <div class="feature-divider"></div>
+
+          <!-- Feature 2: Voice Restoration -->
+          <div class="feature-row">
+            <div class="feature-icon feature-icon-emerald">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <div class="feature-title">Voice Restoration</div>
+              <div class="feature-subtitle" id="resemble-sub">Broadcast clarity & harmonic reconstruction</div>
+            </div>
+            <label class="pro-switch switch-emerald">
+              <input type="checkbox" id="resemble-toggle">
+              <span class="pro-slider"></span>
+            </label>
           </div>
-          <label class="pro-switch switch-blue">
-            <input type="checkbox" id="noise-toggle" disabled>
-            <span class="pro-slider"></span>
-          </label>
+        </div>
+      </section>
+
+      <!-- Progress Indicator (Voice Clean) -->
+      <div id="progress-container" class="progress-container" style="display: none;">
+        <div class="progress-status-row">
+          <div class="progress-left-info">
+            <div class="mini-equalizer" aria-hidden="true" title="Processing audio">
+              <span class="eq-bar eq-bar-1"></span>
+              <span class="eq-bar eq-bar-2"></span>
+              <span class="eq-bar eq-bar-3"></span>
+              <span class="eq-bar eq-bar-4"></span>
+              <span class="eq-bar eq-bar-5"></span>
+            </div>
+            <span id="progress-message">Restoring studio voice clarity...</span>
+          </div>
+          <span id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        </div>
+        <div class="progress-tip-row">
+          <span id="progress-tip-tag" class="tip-tag">AUDIO INSIGHT</span>
+          <span id="progress-tip-text">Reconstructing harmonic overtones for broadcast clarity...</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- VIEW 2: 4-Stem AI Splitter -->
+    <main id="stems-view" class="tab-view" style="display: none;">
+      <!-- Active Clip Badge -->
+      <div class="stem-clip-badge">
+        <div class="clip-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </div>
+        <span id="stem-clip-label" class="clip-label">Select audio/video clip in timeline</span>
+        <span id="stem-clip-time" class="clip-time"></span>
+      </div>
+
+      <!-- Action Trigger Card -->
+      <div class="stem-action-card">
+        <div class="stem-action-header">
+          <div class="stem-action-titles">
+            <h3 class="stem-main-title">4-Stem Neural Separation</h3>
+            <p class="stem-main-sub">Decompose mix into Vocals, Music, Drums & SFX</p>
+          </div>
+        </div>
+        <button type="button" id="split-stems-btn" class="split-stems-btn" disabled>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span id="split-btn-text">Separate into 4 Stems</span>
+        </button>
+      </div>
+
+      <!-- Stem Separation Progress -->
+      <div id="stem-progress-container" class="progress-container" style="display: none;">
+        <div class="progress-status-row">
+          <div class="progress-left-info">
+            <div class="mini-equalizer" aria-hidden="true">
+              <span class="eq-bar eq-bar-1"></span>
+              <span class="eq-bar eq-bar-2"></span>
+              <span class="eq-bar eq-bar-3"></span>
+              <span class="eq-bar eq-bar-4"></span>
+              <span class="eq-bar eq-bar-5"></span>
+            </div>
+            <span id="stem-progress-message">Analyzing mix & isolating stems...</span>
+          </div>
+          <span id="stem-progress-percent">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div id="stem-progress-bar-fill" class="progress-bar-fill"></div>
+        </div>
+        <div class="progress-tip-row">
+          <span class="tip-tag">AI DECOMPOSITION</span>
+          <span id="stem-progress-tip">Isolating speech formants, melodic instruments & percussive beats...</span>
+        </div>
+      </div>
+
+      <!-- Stem Player & Channel Strips Matrix (visible after separation) -->
+      <section id="stem-player-section" class="stem-player-section" style="display: none;">
+        <!-- Master Preview Transport Bar -->
+        <div class="stem-transport-card">
+          <div class="transport-top-row">
+            <button type="button" id="stem-master-play-btn" class="master-play-btn" title="Play / Pause Preview">
+              <svg id="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <svg id="pause-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+            <div class="scrubber-container">
+              <div id="stem-scrubber-track" class="scrubber-track">
+                <div id="stem-scrubber-fill" class="scrubber-fill"></div>
+              </div>
+              <div class="scrubber-labels">
+                <span id="stem-current-time">00:00</span>
+                <span id="stem-total-time">00:00</span>
+              </div>
+            </div>
+          </div>
+          <div class="transport-bottom-row">
+            <button type="button" id="add-all-stems-btn" class="btn-add-all-stems" title="Add all 4 stems into active composition">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>+ Add All 4 Stems to Comp</span>
+            </button>
+          </div>
         </div>
 
-        <div class="feature-divider"></div>
+        <!-- 4 Channel Strips -->
+        <div class="stem-channel-list">
+          <!-- 1. Vocals Stem -->
+          <div class="stem-card stem-card-vocals" data-stem="vocals">
+            <div class="stem-meta">
+              <div class="stem-badge stem-badge-yellow">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                </svg>
+              </div>
+              <div class="stem-info">
+                <div class="stem-name">Vocals</div>
+                <div class="stem-desc">Dialogue & Speech</div>
+              </div>
+            </div>
+            <div class="stem-meter" data-stem="vocals">
+              <span class="m-bar"></span><span class="m-bar"></span><span class="m-bar"></span>
+            </div>
+            <div class="stem-controls">
+              <button type="button" class="btn-stem-solo" data-stem="vocals" title="Solo Vocals">S</button>
+              <button type="button" class="btn-stem-mute" data-stem="vocals" title="Mute Vocals">M</button>
+              <button type="button" class="btn-stem-add" data-stem="vocals" title="Add Vocals to Timeline">+ Comp</button>
+            </div>
+          </div>
 
-        <!-- Feature 2: Voice Restoration -->
-        <div class="feature-row">
-          <div class="feature-icon feature-icon-emerald">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
-            </svg>
+          <!-- 2. Music Stem -->
+          <div class="stem-card stem-card-music" data-stem="music">
+            <div class="stem-meta">
+              <div class="stem-badge stem-badge-cyan">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18V5l12-2v13"></path>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+              </div>
+              <div class="stem-info">
+                <div class="stem-name">Music</div>
+                <div class="stem-desc">Melody, Synths & Keys</div>
+              </div>
+            </div>
+            <div class="stem-meter" data-stem="music">
+              <span class="m-bar"></span><span class="m-bar"></span><span class="m-bar"></span>
+            </div>
+            <div class="stem-controls">
+              <button type="button" class="btn-stem-solo" data-stem="music" title="Solo Music">S</button>
+              <button type="button" class="btn-stem-mute" data-stem="music" title="Mute Music">M</button>
+              <button type="button" class="btn-stem-add" data-stem="music" title="Add Music to Timeline">+ Comp</button>
+            </div>
           </div>
-          <div class="feature-text">
-            <div class="feature-title">Voice Restoration</div>
-            <div class="feature-subtitle" id="resemble-sub">Broadcast clarity & harmonic reconstruction</div>
-          </div>
-          <label class="pro-switch switch-emerald">
-            <input type="checkbox" id="resemble-toggle">
-            <span class="pro-slider"></span>
-          </label>
-        </div>
-      </div>
-    </section>
 
-    <!-- Progress Indicator (visible during processing) -->
-    <div id="progress-container" class="progress-container" style="display: none;">
-      <div class="progress-status-row">
-        <div class="progress-left-info">
-          <div class="mini-equalizer" aria-hidden="true" title="Processing audio">
-            <span class="eq-bar eq-bar-1"></span>
-            <span class="eq-bar eq-bar-2"></span>
-            <span class="eq-bar eq-bar-3"></span>
-            <span class="eq-bar eq-bar-4"></span>
-            <span class="eq-bar eq-bar-5"></span>
+          <!-- 3. Drums Stem -->
+          <div class="stem-card stem-card-drums" data-stem="drums">
+            <div class="stem-meta">
+              <div class="stem-badge stem-badge-orange">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+                  <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+                </svg>
+              </div>
+              <div class="stem-info">
+                <div class="stem-name">Drums</div>
+                <div class="stem-desc">Kicks, Snares & Beats</div>
+              </div>
+            </div>
+            <div class="stem-meter" data-stem="drums">
+              <span class="m-bar"></span><span class="m-bar"></span><span class="m-bar"></span>
+            </div>
+            <div class="stem-controls">
+              <button type="button" class="btn-stem-solo" data-stem="drums" title="Solo Drums">S</button>
+              <button type="button" class="btn-stem-mute" data-stem="drums" title="Mute Drums">M</button>
+              <button type="button" class="btn-stem-add" data-stem="drums" title="Add Drums to Timeline">+ Comp</button>
+            </div>
           </div>
-          <span id="progress-message">Restoring studio voice clarity...</span>
+
+          <!-- 4. SFX Stem -->
+          <div class="stem-card stem-card-sfx" data-stem="sfx">
+            <div class="stem-meta">
+              <div class="stem-badge stem-badge-emerald">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="stem-info">
+                <div class="stem-name">SFX & Ambience</div>
+                <div class="stem-desc">Room Tone, Foley & Effects</div>
+              </div>
+            </div>
+            <div class="stem-meter" data-stem="sfx">
+              <span class="m-bar"></span><span class="m-bar"></span><span class="m-bar"></span>
+            </div>
+            <div class="stem-controls">
+              <button type="button" class="btn-stem-solo" data-stem="sfx" title="Solo SFX">S</button>
+              <button type="button" class="btn-stem-mute" data-stem="sfx" title="Mute SFX">M</button>
+              <button type="button" class="btn-stem-add" data-stem="sfx" title="Add SFX to Timeline">+ Comp</button>
+            </div>
+          </div>
         </div>
-        <span id="progress-percent">0%</span>
-      </div>
-      <div class="progress-bar-track">
-        <div id="progress-bar-fill" class="progress-bar-fill"></div>
-      </div>
-      <div class="progress-tip-row">
-        <span id="progress-tip-tag" class="tip-tag">AUDIO INSIGHT</span>
-        <span id="progress-tip-text" class="tip-text">Reconstructing harmonic overtones for broadcast clarity...</span>
-      </div>
-    </div>
+      </section>
+    </main>
 
     <!-- Error Notice -->
     <div id="error-notice" class="error-notice" style="display: none;">
@@ -102,6 +319,7 @@
   <script src="js/CSInterface.js"></script>
   <script src="js/state.js"></script>
   <script src="js/ae-bridge.js"></script>
+  <script src="js/stem-player.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>

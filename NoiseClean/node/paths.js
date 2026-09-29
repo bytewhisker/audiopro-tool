@@ -99,6 +99,23 @@ class PathManager {
         return persistentDir;
     }
 
+    getStemsDir(sourceFilePath) {
+        if (sourceFilePath && fs.existsSync(sourceFilePath)) {
+            try {
+                const parentDir = path.dirname(sourceFilePath);
+                const targetDir = path.join(parentDir, 'AudioPro_Stems');
+                this.ensureDir(targetDir);
+                const test = path.join(targetDir, '.test_' + Date.now());
+                fs.writeFileSync(test, '1');
+                fs.unlinkSync(test);
+                return targetDir;
+            } catch (e) {}
+        }
+        const persistentDir = path.join(os.homedir(), 'Documents', 'AudioPro Tool', 'Stems');
+        this.ensureDir(persistentDir);
+        return persistentDir;
+    }
+
     ensureDir(dirPath) {
         if (!fs.existsSync(dirPath)) {
             fs.mkdirSync(dirPath, { recursive: true });

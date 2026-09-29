@@ -18,6 +18,7 @@ try {
 const demuxer = require('./demuxer');
 const studioEnhancer = require('./studio-enhancer');
 const resembleEngine = require('./engines/resemble-engine');
+const stemSeparator = require('./engines/stem-separator');
 
 const NoiseCleanNode = {
     version: '1.0.0',
@@ -25,7 +26,21 @@ const NoiseCleanNode = {
     demuxer: demuxer,
     studioEnhancer: studioEnhancer,
     resembleEngine: resembleEngine,
+    stemSeparator: stemSeparator,
     fs: fs,
+
+    /**
+     * Splits an audio file into 4 distinct stems (Vocals, Music, Drums, SFX).
+     * @param {string} inputFilePath 
+     * @param {string} sourceMediaPath Original source media path (for saving in AudioPro_Stems folder)
+     * @param {string} clipName 
+     * @param {Function} onProgressCallback 
+     */
+    splitAudioStems: async function(inputFilePath, sourceMediaPath = null, clipName = 'clip', onProgressCallback = null) {
+        const jobId = 'stem_' + Date.now().toString(36);
+        const targetDir = paths.getStemsDir(sourceMediaPath || inputFilePath);
+        return stemSeparator.split(jobId, inputFilePath, targetDir, clipName, onProgressCallback);
+    },
 
     /**
      * Checks if Resemble AI GPU engine is ready.

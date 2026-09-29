@@ -437,7 +437,257 @@ var NoiseCleanImport = (function() {
             }
         }
 
-        return false;
+    /**
+     * Gets or creates a project bin folder for audio stems.
+     */
+    function getOrCreateStemsFolder(parentFolder) {
+        var folderName = "AudioPro Stems";
+        var targetParent = parentFolder || app.project.rootFolder;
+        for (var i = 1; i <= targetParent.numItems; i++) {
+            var item = targetParent.item(i);
+            if (item instanceof FolderItem && item.name === folderName) {
+                return item;
+            }
+        }
+        var newFolder = app.project.items.addFolder(folderName);
+        if (targetParent !== app.project.rootFolder) {
+            newFolder.parentFolder = targetParent;
+        }
+        return newFolder;
+    }
+
+    /**
+     * Maps stem type to AE layer label index:
+     * Vocals -> 2 (Yellow)
+     * Music  -> 8 (Blue/Cyan)
+     * Drums  -> 11 (Orange)
+     * SFX    -> 9 (Green)
+     */
+    function getStemLabelIndex(stemType) {
+        var lower = (stemType || "").toLowerCase();
+        if (lower.indexOf("vocal") !== -1 || lower.indexOf("speech") !== -1) return 2; // Yellow
+        if (lower.indexOf("music") !== -1 || lower.indexOf("melody") !== -1) return 8; // Cyan / Blue
+        if (lower.indexOf("drum") !== -1 || lower.indexOf("beat") !== -1) return 11; // Orange
+        if (lower.indexOf("sfx") !== -1 || lower.indexOf("amb") !== -1) return 9; // Green
+        return 5; // Lavender
+    }
+
+    /**
+     * Imports a single stem WAV and adds it to the timeline above the original layer.
+     * Aligns timing, sets label color, and mutes original layer audio.
+     */
+    function importStemLayer(stemWavPath, stemType, originalLayerIndex, compId) {
+        if (!app.project) {
+            return JSON.stringify({ success: false, error: "No active project in After Effects." });
+        }
+
+        var stemFile = new File(stemWavPath);
+        if (!stemFile.exists) {
+            return JSON.stringify({ success: false, error: "Stem WAV file does not exist: " + stemWavPath });
+        }
+
+        try {
+            app.beginUndoGroup("AudioPro: Add " + stemType + " Stem");
+
+            // Locate comp
+            var comp = null;
+            if (app.project.activeItem && app.project.activeItem instanceof CompItem && (!compId || app.project.activeItem.id === compId)) {
+                comp = app.project.activeItem;
+            } else if (compId) {
+                for (var i = 1; i <= app.project.numItems; i++) {
+                    if (app.project.item(i).id === compId && app.project.item(i) instanceof CompItem) {
+                        comp = app.project.item(i);
+                        break;
+                    }
+                }
+            }
+            if (!comp) {
+                comp = app.project.activeItem;
+            }
+            if (!comp || !(comp instanceof CompItem)) {
+                app.endUndoGroup();
+                return JSON.stringify({ success: false, error: "Target composition not found." });
+            }
+
+            var origLayer = null;
+            if (originalLayerIndex && originalLayerIndex <= comp.numLayers) {
+                origLayer = comp.layer(originalLayerIndex);
+            }
+
+            // 1. Import footage item
+            var importOptions = new ImportOptions(stemFile);
+            var footage = app.project.importFile(importOptions);
+            if (!footage) {
+                app.endUndoGroup();
+                return JSON.stringify({ success: false, error: "After Effects failed to import stem WAV." });
+            }
+
+            // Clean footage name
+            var baseName = (origLayer ? origLayer.name : "Clip").replace(/\.[a-zA-Z0-9]+$/, "");
+            footage.name = baseName + "_" + stemType + ".wav";
+
+            // Move to Stems bin
+            var parentFolder = (origLayer && origLayer.source && origLayer.source.parentFolder) ? origLayer.source.parentFolder : app.project.rootFolder;
+            var stemsBin = getOrCreateStemsFolder(parentFolder);
+            footage.parentFolder = stemsBin;
+
+            // 2. Add layer to composition
+            var newLayer = comp.layers.add(footage);
+            newLayer.name = baseName + " [" + stemType + "]";
+            newLayer.audioEnabled = true;
+
+            // 3. Align timeline timing and position
+            if (origLayer) {
+                newLayer.startTime = origLayer.startTime;
+                newLayer.inPoint = origLayer.inPoint;
+                newLayer.outPoint = origLayer.outPoint;
+                newLayer.moveBefore(origLayer);
+                // Non-destructively mute original layer to prevent phase doubling
+                origLayer.audioEnabled = false;
+            }
+
+            // 4. Color-code layer label
+            try {
+                newLayer.label = getStemLabelIndex(stemType);
+            } catch (eLbl) {}
+
+            // Select only the new stem layer
+            for (var s = 1; s <= comp.numLayers; s++) {
+                comp.layer(s).selected = false;
+            }
+            newLayer.selected = true;
+
+            app.endUndoGroup();
+
+            return JSON.stringify({
+                success: true,
+                layerIndex: newLayer.index,
+                layerName: newLayer.name,
+                stemType: stemType,
+                footageId: footage.id
+            });
+        } catch (err) {
+            try { app.endUndoGroup(); } catch (e) {}
+            return JSON.stringify({ success: false, error: "Failed to import stem: " + err.toString() });
+        }
+    }
+
+    /**
+     * Imports all 4 stems in a single batch, positions them synchronously above the original layer,
+     * assigns individual label colors, and mutes original layer audio.
+     */
+    function importAllStems(stemsDataJson, originalLayerIndex, compId) {
+        if (!app.project) {
+            return JSON.stringify({ success: false, error: "No active project in After Effects." });
+        }
+
+        var stemsData = stemsDataJson;
+        if (typeof stemsData === "string") {
+            try {
+                stemsData = JSON.parse(stemsDataJson);
+            } catch (e) {
+                return JSON.stringify({ success: false, error: "Invalid stems JSON data." });
+            }
+        }
+
+        try {
+            app.beginUndoGroup("AudioPro: Split & Add 4 Stems to Timeline");
+
+            var comp = null;
+            if (app.project.activeItem && app.project.activeItem instanceof CompItem && (!compId || app.project.activeItem.id === compId)) {
+                comp = app.project.activeItem;
+            } else if (compId) {
+                for (var i = 1; i <= app.project.numItems; i++) {
+                    if (app.project.item(i).id === compId && app.project.item(i) instanceof CompItem) {
+                        comp = app.project.item(i);
+                        break;
+                    }
+                }
+            }
+            if (!comp) {
+                comp = app.project.activeItem;
+            }
+            if (!comp || !(comp instanceof CompItem)) {
+                app.endUndoGroup();
+                return JSON.stringify({ success: false, error: "Target composition not found." });
+            }
+
+            var origLayer = null;
+            if (originalLayerIndex && originalLayerIndex <= comp.numLayers) {
+                origLayer = comp.layer(originalLayerIndex);
+            }
+
+            var baseName = (origLayer ? origLayer.name : "Clip").replace(/\.[a-zA-Z0-9]+$/, "");
+            var parentFolder = (origLayer && origLayer.source && origLayer.source.parentFolder) ? origLayer.source.parentFolder : app.project.rootFolder;
+            var stemsBin = getOrCreateStemsFolder(parentFolder);
+
+            // Import sequence: SFX first, then Drums, then Music, then Vocals on top
+            var stemList = [
+                { type: "SFX", path: stemsData.sfx },
+                { type: "Drums", path: stemsData.drums },
+                { type: "Music", path: stemsData.music },
+                { type: "Vocals", path: stemsData.vocals }
+            ];
+
+            var addedLayers = [];
+
+            // Deselect all existing layers
+            for (var d = 1; d <= comp.numLayers; d++) {
+                comp.layer(d).selected = false;
+            }
+
+            for (var k = 0; k < stemList.length; k++) {
+                var item = stemList[k];
+                if (!item.path) continue;
+                var f = new File(item.path);
+                if (!f.exists) continue;
+
+                var impOpt = new ImportOptions(f);
+                var ftg = app.project.importFile(impOpt);
+                if (!ftg) continue;
+
+                ftg.name = baseName + "_" + item.type + ".wav";
+                ftg.parentFolder = stemsBin;
+
+                var ly = comp.layers.add(ftg);
+                ly.name = baseName + " [" + item.type + "]";
+                ly.audioEnabled = true;
+
+                if (origLayer) {
+                    ly.startTime = origLayer.startTime;
+                    ly.inPoint = origLayer.inPoint;
+                    ly.outPoint = origLayer.outPoint;
+                    ly.moveBefore(origLayer);
+                }
+
+                try {
+                    ly.label = getStemLabelIndex(item.type);
+                } catch (eL) {}
+
+                ly.selected = true;
+                addedLayers.push({
+                    stemType: item.type,
+                    layerIndex: ly.index,
+                    layerName: ly.name
+                });
+            }
+
+            // Non-destructively mute original layer
+            if (origLayer) {
+                origLayer.audioEnabled = false;
+            }
+
+            app.endUndoGroup();
+
+            return JSON.stringify({
+                success: true,
+                count: addedLayers.length,
+                layers: addedLayers
+            });
+        } catch (err) {
+            try { app.endUndoGroup(); } catch (e) {}
+            return JSON.stringify({ success: false, error: "Failed to add stems to comp: " + err.toString() });
+        }
     }
 
     return {
@@ -445,6 +695,8 @@ var NoiseCleanImport = (function() {
         addFootageToComp: addFootageToComp,
         applyNoiseClean: applyNoiseClean,
         revertNoiseClean: revertNoiseClean,
-        isLayerCleaned: isLayerCleaned
+        isLayerCleaned: isLayerCleaned,
+        importStemLayer: importStemLayer,
+        importAllStems: importAllStems
     };
 })();

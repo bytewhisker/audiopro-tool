@@ -32,6 +32,7 @@
     const stateManager = new StateManager();
     const aeBridge = new AEBridge();
     let ui = null;
+    let stemPlayer = null;
 
     // Track original audio paths for reverting in-place: layerKey -> originalFilePath
     const originalPathsMap = new Map();
@@ -52,6 +53,17 @@
         document.title = "AudioPro Tool";
 
         ui = new UIRenderer(stateManager);
+
+        // Initialize 4-Stem Web Audio Preview Player
+        if (typeof StemPlayer !== 'undefined') {
+            stemPlayer = new StemPlayer();
+            stemPlayer.onProgressCallback = ({ currentTime, duration, percent }) => {
+                stateManager.setStemPlayback(stemPlayer.isPlaying, currentTime, duration);
+            };
+            stemPlayer.onStateChangeCallback = ({ isPlaying, duration }) => {
+                stateManager.setStemPlayback(isPlaying, stemPlayer.getCurrentTime(), duration);
+            };
+        }
 
         const noiseToggle = document.getElementById('noise-toggle');
         const refreshBtn = document.getElementById('refresh-btn');
@@ -85,7 +97,6 @@
             });
         }
 
-
         const resembleToggle = document.getElementById('resemble-toggle');
         if (resembleToggle) {
             resembleToggle.addEventListener('change', () => {
@@ -95,6 +106,72 @@
                     applyNoiseCleanAction();
                 }
             });
+        }
+
+        // 4-Stem Splitter Event Listeners
+        const splitBtn = document.getElementById('split-stems-btn');
+        if (splitBtn) {
+            splitBtn.addEventListener('click', handleSplitStemsAction);
+        }
+
+        const stemMasterPlayBtn = document.getElementById('stem-master-play-btn');
+        if (stemMasterPlayBtn) {
+            stemMasterPlayBtn.addEventListener('click', () => {
+                if (stemPlayer) stemPlayer.togglePlay();
+            });
+        }
+
+        const scrubberTrack = document.getElementById('stem-scrubber-track');
+        if (scrubberTrack) {
+            let isScrubbing = false;
+            const handleScrub = (e) => {
+                const rect = scrubberTrack.getBoundingClientRect();
+                const pct = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                if (stemPlayer) stemPlayer.seekPercent(pct);
+            };
+            scrubberTrack.addEventListener('mousedown', (e) => {
+                isScrubbing = true;
+                handleScrub(e);
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (isScrubbing) handleScrub(e);
+            });
+            window.addEventListener('mouseup', () => {
+                isScrubbing = false;
+            });
+        }
+
+        document.querySelectorAll('.btn-stem-solo').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const stemKey = e.currentTarget.getAttribute('data-stem');
+                if (stemKey && stemPlayer) {
+                    const newStates = stemPlayer.toggleSolo(stemKey);
+                    stateManager.setStemSoloMute(newStates);
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-stem-mute').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const stemKey = e.currentTarget.getAttribute('data-stem');
+                if (stemKey && stemPlayer) {
+                    const newStates = stemPlayer.toggleMute(stemKey);
+                    stateManager.setStemSoloMute(newStates);
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-stem-add').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const stemKey = e.currentTarget.getAttribute('data-stem');
+                const capitalized = stemKey ? stemKey.charAt(0).toUpperCase() + stemKey.slice(1) : 'Stem';
+                handleAddSingleStem(capitalized);
+            });
+        });
+
+        const addAllBtn = document.getElementById('add-all-stems-btn');
+        if (addAllBtn) {
+            addAllBtn.addEventListener('click', handleAddAllStems);
         }
 
         // High-performance, non-intrusive selection sync
@@ -470,6 +547,112 @@
             stateManager.setError(safeMsg);
             const toggle = document.getElementById('noise-toggle');
             if (toggle) toggle.checked = true;
+        }
+    }
+
+    async function handleSplitStemsAction() {
+        const snap = stateManager.getStateSnapshot();
+        const source = snap.sourceInfo;
+        if (!source || !source.hasSelection) return;
+
+        try {
+            stateManager.startStemSplitting('Analyzing source audio mix...');
+            ui.logDebug(`Starting 4-Stem separation for: ${source.layerName}`);
+
+            const tempDir = (NoiseCleanNode && NoiseCleanNode.paths) ? NoiseCleanNode.paths.tempBaseDir : 'temp';
+            const prep = await aeBridge.prepareLayerAudio(tempDir);
+
+            if (!prep.success) {
+                throw new Error(prep.error || 'Failed to prepare audio track from layer.');
+            }
+
+            let workingSource = prep.originalPath || prep.audioPath || source.sourcePath;
+            let workingAudioPath = workingSource;
+
+            // Demux to 48kHz uncompressed WAV if needed
+            if (NoiseCleanNode && NoiseCleanNode.demuxer && (prep.isVideo || prep.needsTranscode || !workingAudioPath.toLowerCase().endsWith('.wav'))) {
+                stateManager.updateStemProgress(12, 'Extracting 48 kHz uncompressed WAV track with FFmpeg...');
+                const path = require('path');
+                const safeClipName = (source.layerName || 'clip').replace(/[^a-zA-Z0-9_\-]/g, '_');
+                const outWav = path.join(tempDir, `${safeClipName}_extracted_stems_48k.wav`);
+                ui.logDebug(`Demuxing audio with FFmpeg from: ${workingSource}`);
+                workingAudioPath = await NoiseCleanNode.demuxer.extractAudioToWav(workingSource, outWav);
+            }
+
+            // Run 4-Stem separation
+            stateManager.updateStemProgress(20, 'Neural AI isolating vocal & dialogue stem...');
+            const stemResults = await NoiseCleanNode.splitAudioStems(
+                workingAudioPath,
+                workingSource,
+                source.layerName || 'clip',
+                (prog) => {
+                    stateManager.updateStemProgress(prog.percent, prog.message);
+                }
+            );
+
+            ui.logDebug('4 Stems separated successfully!');
+
+            // Load into StemPlayer for synchronized multi-track preview
+            stateManager.updateStemProgress(95, 'Loading stems into preview player...');
+            if (stemPlayer) {
+                await stemPlayer.loadStems(stemResults);
+            }
+
+            stateManager.setStemsReady(stemResults);
+            ui.logDebug('Stems ready in player. You can preview, solo/mute, or add directly to AE timeline!');
+
+        } catch (err) {
+            ui.logDebug(`Stem Split Error: ${err.message}`);
+            const safeMsg = (ui && ui.formatUserErrorMessage) ? ui.formatUserErrorMessage(err.message) : err.message;
+            stateManager.setStemError(safeMsg);
+        }
+    }
+
+    async function handleAddSingleStem(stemType) {
+        const snap = stateManager.getStateSnapshot();
+        const source = snap.sourceInfo;
+        const stems = snap.stemsState.stems;
+        const key = stemType.toLowerCase();
+        if (!source || !stems || !stems[key]) {
+            ui.logDebug(`Cannot add ${stemType} stem: file not ready.`);
+            return;
+        }
+
+        const stemPath = stems[key];
+        try {
+            ui.logDebug(`Adding ${stemType} stem into After Effects composition...`);
+            const res = await aeBridge.importStemLayer(stemPath, stemType, source.layerIndex, source.compId);
+            if (!res.success) {
+                throw new Error(res.error || `Failed to add ${stemType} stem.`);
+            }
+            ui.logDebug(`Added ${stemType} stem to timeline (Layer ${res.layerIndex}: ${res.layerName}). Original audio muted.`);
+            setTimeout(() => refreshSelection(true), 350);
+        } catch (err) {
+            ui.logDebug(`Add Stem Error: ${err.message}`);
+            stateManager.setError(err.message);
+        }
+    }
+
+    async function handleAddAllStems() {
+        const snap = stateManager.getStateSnapshot();
+        const source = snap.sourceInfo;
+        const stems = snap.stemsState.stems;
+        if (!source || !stems) {
+            ui.logDebug('Cannot add stems: please separate stems first.');
+            return;
+        }
+
+        try {
+            ui.logDebug('Adding all 4 stems into After Effects timeline in microsecond sync...');
+            const res = await aeBridge.importAllStems(stems, source.layerIndex, source.compId);
+            if (!res.success) {
+                throw new Error(res.error || 'Failed to add stems to composition.');
+            }
+            ui.logDebug(`Successfully injected ${res.count} stems into timeline! Original audio muted.`);
+            setTimeout(() => refreshSelection(true), 350);
+        } catch (err) {
+            ui.logDebug(`Add All Stems Error: ${err.message}`);
+            stateManager.setError(err.message);
         }
     }
 })();

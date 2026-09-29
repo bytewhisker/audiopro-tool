@@ -1,5 +1,6 @@
 /**
  * AudioPro Tool - UI View Renderer (Studio Pro Interface)
+ * Controls Voice Clean toggles, 4-Stem AI Splitter matrix, progress indicators, and preview states.
  */
 
 const AUDIO_TIPS = [
@@ -32,6 +33,13 @@ class UIRenderer {
     }
 
     initDomReferences() {
+        // Mode Tabs
+        this.elements.tabVoiceBtn = document.getElementById('tab-voice-btn');
+        this.elements.tabStemsBtn = document.getElementById('tab-stems-btn');
+        this.elements.voiceView = document.getElementById('voice-view');
+        this.elements.stemsView = document.getElementById('stems-view');
+
+        // Voice Clean Elements
         this.elements.noiseToggle = document.getElementById('noise-toggle');
         this.elements.toggleSub = document.getElementById('toggle-sub');
         this.elements.resembleToggle = document.getElementById('resemble-toggle');
@@ -44,6 +52,29 @@ class UIRenderer {
         this.elements.progressTipTag = document.getElementById('progress-tip-tag');
         this.elements.progressTipText = document.getElementById('progress-tip-text');
 
+        // Stem Splitter Elements
+        this.elements.stemClipLabel = document.getElementById('stem-clip-label');
+        this.elements.stemClipTime = document.getElementById('stem-clip-time');
+        this.elements.splitStemsBtn = document.getElementById('split-stems-btn');
+        this.elements.splitBtnText = document.getElementById('split-btn-text');
+
+        this.elements.stemProgressContainer = document.getElementById('stem-progress-container');
+        this.elements.stemProgressBarFill = document.getElementById('stem-progress-bar-fill');
+        this.elements.stemProgressMessage = document.getElementById('stem-progress-message');
+        this.elements.stemProgressPercent = document.getElementById('stem-progress-percent');
+        this.elements.stemProgressTip = document.getElementById('stem-progress-tip');
+
+        this.elements.stemPlayerSection = document.getElementById('stem-player-section');
+        this.elements.stemMasterPlayBtn = document.getElementById('stem-master-play-btn');
+        this.elements.playIcon = document.getElementById('play-icon');
+        this.elements.pauseIcon = document.getElementById('pause-icon');
+        this.elements.stemScrubberTrack = document.getElementById('stem-scrubber-track');
+        this.elements.stemScrubberFill = document.getElementById('stem-scrubber-fill');
+        this.elements.stemCurrentTime = document.getElementById('stem-current-time');
+        this.elements.stemTotalTime = document.getElementById('stem-total-time');
+        this.elements.addAllStemsBtn = document.getElementById('add-all-stems-btn');
+
+        // Shared Error Notice
         this.elements.errorNotice = document.getElementById('error-notice');
         this.elements.errorText = document.getElementById('error-text');
     }
@@ -91,26 +122,41 @@ class UIRenderer {
     sanitizeProgressMessage(msg) {
         if (!msg) return 'Restoring studio dialogue clarity...';
         const lower = msg.toLowerCase();
-        // Eliminate chunk details and nerdy parameter arguments
         if (lower.includes('chunk') || lower.includes('nfe=') || lower.includes('lambd=') || lower.includes('tau=')) {
             if (lower.includes('restor') || lower.includes('resemble') || lower.includes('clarity') || lower.includes('harmoni')) {
                 return 'Restoring vocal harmonics & studio clarity...';
             }
             return 'Isolating dialogue & removing background noise...';
         }
-        // Remove any residual parentheses with parameters like (enhance, nfe=32, ...)
         msg = msg.replace(/\s*\([^)]*(nfe|lambd|chunk|param|mode)[^)]*\)/gi, '');
         msg = msg.trim();
         return msg || 'Enhancing audio dialogue...';
     }
 
     bindEvents() {
+        // Tab switching
+        if (this.elements.tabVoiceBtn && this.elements.tabStemsBtn) {
+            this.elements.tabVoiceBtn.addEventListener('click', () => {
+                this.sm.setActiveTab('voice');
+            });
+            this.elements.tabStemsBtn.addEventListener('click', () => {
+                this.sm.setActiveTab('stems');
+            });
+        }
+
         // Voice Restoration toggle update
         if (this.elements.resembleToggle) {
             this.elements.resembleToggle.addEventListener('change', (e) => {
                 this.sm.setResembleEnhance(e.target.checked);
             });
         }
+    }
+
+    formatTime(sec) {
+        if (!sec || isNaN(sec)) return '00:00';
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
     logDebug(msg) {
@@ -125,17 +171,13 @@ class UIRenderer {
         const errStr = typeof rawError === 'string' ? rawError : (rawError.message || String(rawError));
         const lower = errStr.toLowerCase();
 
-        // 1. Disk Space (ENOSPC)
         if (errStr.includes('ENOSPC') || lower.includes('no space left on device') || lower.includes('insufficient disk space')) {
             return 'Your hard drive is low on storage space. Please free up space on your primary drive (C:) to continue.';
         }
-
-        // 2. File Lock / In-use
         if (errStr.includes('EBUSY') || errStr.includes('EPERM')) {
             return 'The media file is temporarily in use by another process. Please try again in a moment.';
         }
 
-        // 3. Strip internal file system paths (C:\Users\..., /Users/..., AppData, Temp, etc.)
         let cleaned = errStr;
         cleaned = cleaned.replace(/[a-zA-Z]:\\[^\s'"]+/g, 'media file');
         cleaned = cleaned.replace(/\/Users\/[^\s'"]+/g, 'media file');
@@ -147,9 +189,20 @@ class UIRenderer {
     }
 
     render(snapshot) {
-        const { state, sourceInfo, isNoiseCleanActive, progress, lastError } = snapshot;
+        const { state, sourceInfo, isNoiseCleanActive, progress, lastError, activeTab, stemsState } = snapshot;
 
-        // 1. Render Voice Isolation Toggle
+        // 1. Render Tab Switching
+        const isVoiceTab = (activeTab === 'voice');
+        if (this.elements.tabVoiceBtn && this.elements.tabStemsBtn) {
+            this.elements.tabVoiceBtn.classList.toggle('active', isVoiceTab);
+            this.elements.tabStemsBtn.classList.toggle('active', !isVoiceTab);
+        }
+        if (this.elements.voiceView && this.elements.stemsView) {
+            this.elements.voiceView.style.display = isVoiceTab ? 'block' : 'none';
+            this.elements.stemsView.style.display = isVoiceTab ? 'none' : 'block';
+        }
+
+        // 2. Render Voice Clean View
         if (this.elements.noiseToggle) {
             if (state === 'NO_SELECTION') {
                 this.elements.noiseToggle.disabled = true;
@@ -175,7 +228,6 @@ class UIRenderer {
             }
         }
 
-        // 3. Render Voice Restoration Toggle (No GPU/NVIDIA text)
         if (this.elements.resembleToggle) {
             this.elements.resembleToggle.checked = !!snapshot.resembleEnhance;
             this.elements.resembleToggle.disabled = (state === 'PROCESSING');
@@ -189,9 +241,8 @@ class UIRenderer {
             }
         }
 
-        // 4. Render Progress Container
         if (this.elements.progressContainer) {
-            if (state === 'PROCESSING') {
+            if (state === 'PROCESSING' && isVoiceTab) {
                 this.elements.progressContainer.style.display = 'flex';
                 this.startTipRotation();
                 if (this.elements.progressBarFill) this.elements.progressBarFill.style.width = `${progress.percent}%`;
@@ -205,9 +256,124 @@ class UIRenderer {
             }
         }
 
-        // 5. Render Error Notice
+        // 3. Render 4-Stem AI Splitter View
+        const hasSelection = (sourceInfo && sourceInfo.hasSelection);
+
+        if (this.elements.stemClipLabel) {
+            if (hasSelection) {
+                this.elements.stemClipLabel.textContent = sourceInfo.layerName || 'Active Clip';
+            } else {
+                this.elements.stemClipLabel.textContent = 'Select audio/video clip in timeline';
+            }
+        }
+
+        if (this.elements.stemClipTime) {
+            if (hasSelection && sourceInfo.durationSec) {
+                this.elements.stemClipTime.textContent = this.formatTime(sourceInfo.durationSec);
+            } else {
+                this.elements.stemClipTime.textContent = '';
+            }
+        }
+
+        // Split button state
+        const isSplitting = (stemsState && stemsState.status === 'splitting');
+        const stemsReady = (stemsState && stemsState.status === 'ready');
+
+        if (this.elements.splitStemsBtn) {
+            this.elements.splitStemsBtn.disabled = !hasSelection || isSplitting;
+            if (this.elements.splitBtnText) {
+                if (isSplitting) {
+                    this.elements.splitBtnText.textContent = 'Deconstructing 4 Stems...';
+                } else if (stemsReady) {
+                    this.elements.splitBtnText.textContent = 'Re-separate 4 Stems';
+                } else {
+                    this.elements.splitBtnText.textContent = 'Separate into 4 Stems';
+                }
+            }
+        }
+
+        // Stem Splitting Progress Indicator
+        if (this.elements.stemProgressContainer) {
+            if (isSplitting) {
+                this.elements.stemProgressContainer.style.display = 'flex';
+                if (this.elements.stemProgressBarFill) {
+                    this.elements.stemProgressBarFill.style.width = `${stemsState.percent}%`;
+                }
+                if (this.elements.stemProgressPercent) {
+                    this.elements.stemProgressPercent.textContent = `${stemsState.percent}%`;
+                }
+                if (this.elements.stemProgressMessage) {
+                    this.elements.stemProgressMessage.textContent = stemsState.message || 'Separating 4 audio stems...';
+                }
+            } else {
+                this.elements.stemProgressContainer.style.display = 'none';
+            }
+        }
+
+        // Stem Player & Matrix Section
+        if (this.elements.stemPlayerSection) {
+            this.elements.stemPlayerSection.style.display = (stemsReady && !isSplitting) ? 'flex' : 'none';
+        }
+
+        if (stemsReady) {
+            // Master Play / Pause icon
+            if (this.elements.playIcon && this.elements.pauseIcon) {
+                this.elements.playIcon.style.display = stemsState.isPlaying ? 'none' : 'block';
+                this.elements.pauseIcon.style.display = stemsState.isPlaying ? 'block' : 'none';
+            }
+
+            // Scrubber
+            const curTime = stemsState.currentTime || 0;
+            const dur = stemsState.duration || 1;
+            const pct = Math.max(0, Math.min(100, (curTime / dur) * 100));
+
+            if (this.elements.stemScrubberFill) {
+                this.elements.stemScrubberFill.style.width = `${pct}%`;
+            }
+            if (this.elements.stemCurrentTime) {
+                this.elements.stemCurrentTime.textContent = this.formatTime(curTime);
+            }
+            if (this.elements.stemTotalTime) {
+                this.elements.stemTotalTime.textContent = this.formatTime(dur);
+            }
+
+            // Update per-stem Solo / Mute button highlights and VU meter animation
+            const stemKeys = ['vocals', 'music', 'drums', 'sfx'];
+            const curStates = stemsState.stemStates || {};
+
+            // Check if any solo is active
+            let anySolo = false;
+            for (const k of stemKeys) {
+                if (curStates[k] && curStates[k].solo) anySolo = true;
+            }
+
+            for (const k of stemKeys) {
+                const sObj = curStates[k] || { solo: false, mute: false };
+                const card = document.querySelector(`.stem-card[data-stem="${k}"]`);
+                const soloBtn = document.querySelector(`.btn-stem-solo[data-stem="${k}"]`);
+                const muteBtn = document.querySelector(`.btn-stem-mute[data-stem="${k}"]`);
+
+                if (soloBtn) soloBtn.classList.toggle('active', !!sObj.solo);
+                if (muteBtn) muteBtn.classList.toggle('active', !!sObj.mute);
+
+                // Is stem audible right now?
+                let isAudible = false;
+                if (stemsState.isPlaying) {
+                    if (anySolo) {
+                        isAudible = sObj.solo && !sObj.mute;
+                    } else {
+                        isAudible = !sObj.mute;
+                    }
+                }
+                if (card) {
+                    card.classList.toggle('playing', isAudible);
+                }
+            }
+        }
+
+        // 4. Render Error Notice
         if (this.elements.errorNotice) {
-            if (state === 'ERROR' && lastError) {
+            if ((state === 'ERROR' || (stemsState && stemsState.status === 'error')) && lastError) {
                 this.elements.errorNotice.style.display = 'flex';
                 if (this.elements.errorText) {
                     this.elements.errorText.textContent = this.formatUserErrorMessage(lastError);

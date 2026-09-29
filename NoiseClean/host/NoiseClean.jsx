@@ -147,6 +147,8 @@ var NoiseCleanHost = (function() {
         applyNoiseClean: NoiseCleanImport.applyNoiseClean,
         revertNoiseClean: NoiseCleanImport.revertNoiseClean,
         isLayerCleaned: NoiseCleanImport.isLayerCleaned,
-        revealFootageInProject: revealFootageInProject
+        revealFootageInProject: revealFootageInProject,
+        importStemLayer: NoiseCleanImport.importStemLayer,
+        importAllStems: NoiseCleanImport.importAllStems
     };
 })();
