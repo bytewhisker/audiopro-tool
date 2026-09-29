@@ -1,15 +1,16 @@
 /**
- * AudioPro Tool — Interactive Showcase Script
+ * AudioPro Tool — Suprema Interactive Showcase Script
  * Features:
- * - Dual Synchronized Video A/B Audio Switcher (0ms instant crossfade)
- * - Real-Time Web Audio API Frequency Spectrum Visualizer
+ * - Dual Synchronized Video A/B Switcher (0ms instant crossfade)
+ * - Real-Time Web Audio API Spectral Visualizer
  * - Timeline Scrubber with Snap Marker (0:08)
+ * - Interactive Mousemove Card Spotlight Effect (Suprema/Framer Signature)
+ * - Suprema 2-Column FAQ Accordion
  * - Keyboard Shortcuts (Space, A, B, S, M)
- * - FAQ Accordion & Smooth Navigation
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Elements
+  // Video & Controls Elements
   const videoEnhanced = document.getElementById('video-enhanced');
   const videoOriginal = document.getElementById('video-original');
   const playPauseBtn = document.getElementById('play-pause-btn');
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const timelineProgress = document.getElementById('timeline-progress');
   const snapJumpBtn = document.getElementById('snap-jump-btn');
 
+  // A/B Switch Elements
   const abSwitchInput = document.getElementById('ab-switch-input');
   const btnModeRaw = document.getElementById('btn-mode-raw');
   const btnModeEnhanced = document.getElementById('btn-mode-enhanced');
@@ -134,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       badgeEnhanced.classList.remove('hidden');
       badgeOriginal.classList.add('hidden');
       visStatus.textContent = 'MONITORING: AUDIOPRO ENHANCED (VOCALS ISOLATED)';
-      visStatus.style.color = 'var(--accent-cyan)';
+      visStatus.style.color = 'var(--sup-cyan)';
       videoOriginal.style.opacity = '0';
     } else {
       btnModeRaw.classList.add('active');
@@ -170,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initAudioContext();
 
     if (videoEnhanced.paused) {
-      // Sync timestamps before starting
       videoOriginal.currentTime = videoEnhanced.currentTime;
       Promise.all([videoEnhanced.play(), videoOriginal.play()]).then(() => {
         isPlaying = true;
@@ -207,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cur = videoEnhanced.currentTime;
     const dur = videoEnhanced.duration || 20.0;
 
-    // Keep secondary video tightly synced within 0.04s (1 frame)
+    // Keep secondary video tightly synced within 0.04s
     if (Math.abs(videoOriginal.currentTime - cur) > 0.04) {
       videoOriginal.currentTime = cur;
     }
@@ -220,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
   });
 
-  // When video loops or finishes
+  // Loop together seamlessly
   videoEnhanced.addEventListener('ended', () => {
     videoEnhanced.currentTime = 0;
     videoOriginal.currentTime = 0;
@@ -249,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
   snapJumpBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     initAudioContext();
-    // Jump right before the snap moment at 0:07.5
     videoEnhanced.currentTime = 7.5;
     videoOriginal.currentTime = 7.5;
     if (videoEnhanced.paused) {
@@ -281,26 +281,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const height = canvas.height;
       canvasCtx.clearRect(0, 0, width, height);
 
-      const barCount = 36;
+      const barCount = 42;
       const barWidth = (width / barCount) - 4;
       let x = 2;
 
       for (let i = 0; i < barCount; i++) {
-        // Sample frequencies with emphasis on speech band
         const index = Math.floor(i * (bufferLength / barCount) * 0.75);
         const value = isPlaying ? dataArray[index] : 0;
         const barHeight = (value / 255) * height * 0.88;
-
         const isEnh = (currentMode === 'enhanced');
 
-        // Dynamic gradients
         const gradient = canvasCtx.createLinearGradient(0, height, 0, height - barHeight);
         if (isEnh) {
           gradient.addColorStop(0, '#00F5D4');
-          gradient.addColorStop(1, '#00B4D8');
+          gradient.addColorStop(1, '#FFFFFF');
         } else {
           gradient.addColorStop(0, '#F43F5E');
-          gradient.addColorStop(1, '#FB7185');
+          gradient.addColorStop(1, '#FFD166');
         }
 
         canvasCtx.fillStyle = gradient;
@@ -315,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
     draw();
   }
 
-  // Fallback visualizer if Web Audio is blocked
   function startFallbackVisualizer() {
     function drawFallback() {
       animFrameId = requestAnimationFrame(drawFallback);
@@ -323,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const height = canvas.height;
       canvasCtx.clearRect(0, 0, width, height);
 
-      const barCount = 36;
+      const barCount = 42;
       const barWidth = (width / barCount) - 4;
       let x = 2;
 
@@ -331,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let barHeight = 4;
         if (isPlaying) {
           const factor = (currentMode === 'enhanced') ? 0.6 : 0.95;
-          barHeight = (Math.sin(Date.now() / 150 + i * 0.5) * 0.5 + 0.5) * height * factor * 0.75;
+          barHeight = (Math.sin(Date.now() / 150 + i * 0.4) * 0.5 + 0.5) * height * factor * 0.75;
         }
 
         canvasCtx.fillStyle = (currentMode === 'enhanced') ? '#00F5D4' : '#F43F5E';
@@ -342,9 +338,44 @@ document.addEventListener('DOMContentLoaded', () => {
     drawFallback();
   }
 
+  // Suprema Card Mouse Spotlight Effect
+  const cards = document.querySelectorAll('.sup-bento-card, .sup-pricing-card, .testimonial-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      const glow = card.querySelector('.card-inner-glow, .pricing-card-glow');
+      if (glow) {
+        glow.style.background = `radial-gradient(circle 180px at ${x}px ${y}px, rgba(255, 255, 255, 0.12) 0%, transparent 100%)`;
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      const glow = card.querySelector('.card-inner-glow, .pricing-card-glow');
+      if (glow) {
+        glow.style.background = '';
+      }
+    });
+  });
+
+  // Suprema 2-Column FAQ Accordion
+  const faqItems = document.querySelectorAll('.sup-faq-item');
+  faqItems.forEach(item => {
+    const btn = item.querySelector('.sup-faq-btn');
+    btn.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      faqItems.forEach(i => i.classList.remove('active'));
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    });
+  });
+
   // Keyboard Shortcuts
   window.addEventListener('keydown', (e) => {
-    // Avoid interfering if focus is in input
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     if (e.code === 'Space') {
@@ -362,31 +393,4 @@ document.addEventListener('DOMContentLoaded', () => {
       muteBtn.click();
     }
   });
-
-  // FAQ Accordion
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    question.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      faqItems.forEach(i => i.classList.remove('active'));
-      if (!isActive) {
-        item.classList.add('active');
-      }
-    });
-  });
-
-  // Auto-pause video when scrolled out of viewport
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting && isPlaying) {
-        videoEnhanced.pause();
-        videoOriginal.pause();
-        isPlaying = false;
-        updatePlayState();
-      }
-    });
-  }, { threshold: 0.2 });
-
-  observer.observe(document.getElementById('player-container'));
 });
