@@ -31,8 +31,7 @@ class StateManager {
             message: '',
             stemStates: {
                 voice: { solo: false, mute: false },
-                music: { solo: false, mute: false },
-                noise: { solo: false, mute: false }
+                music: { solo: false, mute: false }
             }
         };
         this.listeners = new Set();
@@ -95,7 +94,7 @@ class StateManager {
         this.stemsState.currentTime = 0;
         this.stemsState.isPlaying = false;
         this.stemsState.percent = 100;
-        this.stemsState.message = '3 Stems ready';
+        this.stemsState.message = 'Vocal & Music stems ready';
         this.notify();
     }
 

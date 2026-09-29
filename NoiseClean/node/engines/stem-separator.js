@@ -1,14 +1,10 @@
 /**
- * AudioPro Tool - 3-Stem AI Audio Splitter Engine
- * Precision decomposition into 3 distinct stems: Voice, Music, and Noise.
+ * AudioPro Tool - Precision 2-Stem AI Audio Splitter Engine
+ * Decomposes mix into:
+ * 1. Voice: Neural speech isolation (sample-aligned with 0ms lookahead latency)
+ * 2. Music: Clean musical soundtrack/BGM (vocals reverse-engineered & removed + background noise removed)
+ * 
  * 100% offline, local CPU execution, zero cloud dependencies.
- *
- * Latency-compensated, phase-coherent DSP pipeline:
- * - Voice: Neural dialogue & vocal isolation (sample-aligned with 0ms lookahead latency)
- * - Music: Melodic soundtrack, instruments, synths, chords, and background score
- * - Noise: Room tone, HVAC hum, hiss, reverberant floor, and ambient acoustics
- *
- * Mathematical guarantee: Voice + Music + Noise === Source with microsecond sample precision.
  */
 
 const fs = require('fs');
@@ -18,6 +14,24 @@ const deepFilter = require('./deepfilternet-engine');
 const { parseWav, writeWavFile, resampleFloatBuffer } = require('../resampler');
 const paths = require('../paths');
 
+function getSafeStemPath(dir, base, stemType) {
+    const candidate = path.join(dir, `${base}_${stemType}.wav`);
+    if (!fs.existsSync(candidate)) {
+        return candidate;
+    }
+    // Check if writable or locked by AE / another process
+    try {
+        const fd = fs.openSync(candidate, 'r+');
+        fs.closeSync(fd);
+        return candidate;
+    } catch (e) {
+        // File is locked by After Effects project panel or media player!
+        // Append a short unique timestamp suffix so writing succeeds without EBUSY
+        const uid = Date.now().toString().slice(-4);
+        return path.join(dir, `${base}_${stemType}_${uid}.wav`);
+    }
+}
+
 class StemSeparatorEngine {
     constructor() {
         this.cancelledJobs = new Set();
@@ -25,29 +39,28 @@ class StemSeparatorEngine {
     }
 
     /**
-     * Splits an input WAV file into 3 high-fidelity stems:
+     * Splits an input WAV file into 2 high-fidelity stems:
      * - Voice (dialogue, speech, singing)
-     * - Music (instruments, keys, synths, soundtrack, melody)
-     * - Noise (room tone, HVAC, mic floor, ambience)
+     * - Music (clean instrumental BGM, melodies, chords with vocals and noise stripped)
      * 
      * @param {string} jobId Unique identifier for the job
      * @param {string} inputWavPath Path to source 48kHz WAV
-     * @param {string} outputDir Directory where the 3 stems will be written
+     * @param {string} outputDir Directory where the stems will be written
      * @param {string} baseClipName Base name for the generated stem files
      * @param {Function} onProgress Progress callback ({ status, message, percent })
-     * @returns {Promise<{ voice: string, music: string, noise: string, vocals: string, sfx: string, duration: number, sampleRate: number }>}
+     * @returns {Promise<{ voice: string, music: string, vocals: string, duration: number, sampleRate: number }>}
      */
     async split(jobId, inputWavPath, outputDir, baseClipName = 'clip', onProgress = null) {
         this.cancelledJobs.delete(jobId);
         paths.ensureDir(outputDir);
+        const tempBaseDir = paths.getTempBaseDir();
 
         const safeBase = (baseClipName || 'audio')
             .replace(/\.[a-zA-Z0-9]+$/, '')
             .replace(/[^a-zA-Z0-9_\-]/g, '_');
 
-        const outVoice = path.join(outputDir, `${safeBase}_Voice.wav`);
-        const outMusic = path.join(outputDir, `${safeBase}_Music.wav`);
-        const outNoise = path.join(outputDir, `${safeBase}_Noise.wav`);
+        const outVoice = getSafeStemPath(outputDir, safeBase, 'Voice');
+        const outMusic = getSafeStemPath(outputDir, safeBase, 'Music');
 
         if (onProgress) onProgress({ status: 'running', message: 'Analyzing source audio mix...', percent: 5 });
 
@@ -88,7 +101,8 @@ class StemSeparatorEngine {
             throw new Error('Stem separation was cancelled.');
         }
 
-        const tempVocalWav = path.join(outputDir, `_temp_${jobId}_vocal.wav`);
+        // Put temp processing files strictly in temp directory to prevent lock conflicts
+        const tempVocalWav = path.join(tempBaseDir, `_temp_${jobId}_vocal.wav`);
         await deepFilter.process(
             `${jobId}_vocal`,
             inputWavPath,
@@ -96,8 +110,8 @@ class StemSeparatorEngine {
             { attenuationDb: 70 },
             (p) => {
                 if (onProgress) {
-                    const mappedPercent = 20 + Math.round((p.progress || 30) * 0.4);
-                    onProgress({ status: 'running', message: 'Neural AI isolating vocal & speech stem...', percent: Math.min(60, mappedPercent) });
+                    const mappedPercent = 20 + Math.round((p.progress || 30) * 0.45);
+                    onProgress({ status: 'running', message: 'Neural AI isolating vocal & speech stem...', percent: Math.min(65, mappedPercent) });
                 }
             }
         );
@@ -121,7 +135,7 @@ class StemSeparatorEngine {
         const DF_DELAY = 1440;
 
         // 3. Compute Phase-Coherent Voice & Non-Vocal Residual (R = S - V)
-        if (onProgress) onProgress({ status: 'running', message: 'Separating musical soundtrack & ambient noise...', percent: 65 });
+        if (onProgress) onProgress({ status: 'running', message: 'Reverse-engineering soundtrack & removing vocals...', percent: 70 });
 
         const voiceStereo = new Float32Array(totalFrames * 2);
         const residualStereo = new Float32Array(totalFrames * 2);
@@ -172,7 +186,7 @@ class StemSeparatorEngine {
             sampleGain[i] = lastG;
         }
 
-        // Generate Voice and Residual
+        // Generate Voice and Residual (vocals removed from source mix)
         let resSumSq = 0;
         for (let i = 0; i < totalFrames; i++) {
             const g = sampleGain[i];
@@ -196,20 +210,20 @@ class StemSeparatorEngine {
             throw new Error('Stem separation was cancelled.');
         }
 
-        // 4. Decompose Residual into Music and Noise using Adaptive FFmpeg Denoiser
-        const tempResWav = path.join(outputDir, `_temp_${jobId}_residual.wav`);
-        const tempMusicWav = path.join(outputDir, `_temp_${jobId}_music.wav`);
+        // 4. Clean Music: Strip room noise, HVAC & hiss from non-vocal residual
+        const tempResWav = path.join(tempBaseDir, `_temp_${jobId}_residual.wav`);
+        const tempMusicWav = path.join(tempBaseDir, `_temp_${jobId}_music.wav`);
         writeWavFile(tempResWav, sr, 2, residualStereo);
 
         // Adaptive noise floor based on residual energy
         const resRmsDb = 20 * Math.log10(Math.max(1e-7, Math.sqrt(resSumSq / (totalFrames * 2))));
         const targetNf = Math.max(-65, Math.min(-30, Math.round(resRmsDb - 8)));
 
-        if (onProgress) onProgress({ status: 'running', message: 'Acoustic tracking isolating soundtrack & room noise...', percent: 80 });
+        if (onProgress) onProgress({ status: 'running', message: 'Removing background noise to isolate clean music...', percent: 82 });
 
-        // Run FFmpeg afftdn:
-        // nr=22 (22dB musical isolation), nf=targetNf, tn=1 (noise tracking), gs=5 (gain smoothing for 0 chirp artifacts)
-        const cmdMusic = `"${this.ffmpegPath}" -y -i "${tempResWav}" -af "afftdn=nr=22:nf=${targetNf}:tn=1:gs=5:om=o" "${tempMusicWav}"`;
+        // Run FFmpeg afftdn on residual:
+        // nr=24 (24dB noise isolation), nf=targetNf, tn=1 (noise tracking), gs=5 (gain smoothing for 0 chirp artifacts)
+        const cmdMusic = `"${this.ffmpegPath}" -y -i "${tempResWav}" -af "afftdn=nr=24:nf=${targetNf}:tn=1:gs=5:om=o" "${tempMusicWav}"`;
         try {
             execSync(cmdMusic, { stdio: 'pipe' });
         } catch (eFf) {
@@ -221,7 +235,6 @@ class StemSeparatorEngine {
         const FFT_DELAY = 1200;
         const rawMusicWav = parseWav(fs.readFileSync(tempMusicWav));
         const musicStereo = new Float32Array(totalFrames * 2);
-        const noiseStereo = new Float32Array(totalFrames * 2);
 
         for (let i = 0; i < totalFrames; i++) {
             const mIdx = (i + FFT_DELAY) * 2;
@@ -230,39 +243,27 @@ class StemSeparatorEngine {
                 mL = rawMusicWav.samples[mIdx];
                 mR = rawMusicWav.samples[mIdx + 1];
             }
-            const rL = residualStereo[i * 2];
-            const rR = residualStereo[i * 2 + 1];
 
-            // Music stem
             musicStereo[i * 2] = mL;
             musicStereo[i * 2 + 1] = mR;
-
-            // Noise stem is the exact acoustic difference: Residual - Music
-            // Guaranteeing: Voice + Music + Noise == Source with microsecond sample precision!
-            noiseStereo[i * 2] = rL - mL;
-            noiseStereo[i * 2 + 1] = rR - mR;
         }
 
         // Clean up temporary residual and music files
         try { fs.unlinkSync(tempResWav); } catch (e) {}
         try { fs.unlinkSync(tempMusicWav); } catch (e) {}
 
-        // 5. Write the 3 stem WAV files
+        // 5. Write the 2 clean stem WAV files
         if (onProgress) onProgress({ status: 'running', message: 'Writing high-fidelity 48 kHz stem masters...', percent: 92 });
 
         writeWavFile(outVoice, sr, 2, voiceStereo);
         writeWavFile(outMusic, sr, 2, musicStereo);
-        writeWavFile(outNoise, sr, 2, noiseStereo);
 
-        if (onProgress) onProgress({ status: 'completed', message: '3 Stems separated successfully!', percent: 100 });
+        if (onProgress) onProgress({ status: 'completed', message: 'Vocal & Music stems separated successfully!', percent: 100 });
 
         return {
             voice: outVoice,
             music: outMusic,
-            noise: outNoise,
-            // Aliases for compatibility
-            vocals: outVoice,
-            sfx: outNoise,
+            vocals: outVoice, // Alias for backward compatibility
             duration: durationSec,
             sampleRate: sr
         };

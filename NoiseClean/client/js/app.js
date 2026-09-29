@@ -551,13 +551,36 @@
     }
 
     async function handleSplitStemsAction() {
-        const snap = stateManager.getStateSnapshot();
-        const source = snap.sourceInfo;
-        if (!source || !source.hasSelection) return;
+        if (stemPlayer) {
+            stemPlayer.destroyStems();
+        }
+
+        // Live check: directly query After Effects for the currently selected audio/video layer
+        let source = null;
+        try {
+            const liveSel = await aeBridge.getSelectedAudioLayer();
+            if (liveSel && liveSel.hasSelection) {
+                source = liveSel;
+                stateManager.setSource(liveSel);
+            }
+        } catch (eSel) {
+            console.warn('[handleSplitStemsAction] Could not refresh live selection:', eSel);
+        }
+
+        if (!source || !source.hasSelection) {
+            const snap = stateManager.getStateSnapshot();
+            source = snap.sourceInfo;
+        }
+
+        if (!source || !source.hasSelection) {
+            ui.logDebug('Cannot separate: No audio or video layer is currently selected.');
+            stateManager.setStemError('Please select an audio or video clip in your After Effects timeline first.');
+            return;
+        }
 
         try {
             stateManager.startStemSplitting('Analyzing source audio mix...');
-            ui.logDebug(`Starting 3-Stem separation for: ${source.layerName}`);
+            ui.logDebug(`Starting Vocal & Music separation for: ${source.layerName}`);
 
             const tempDir = (NoiseCleanNode && NoiseCleanNode.paths) ? NoiseCleanNode.paths.tempBaseDir : 'temp';
             const prep = await aeBridge.prepareLayerAudio(tempDir);
@@ -579,7 +602,7 @@
                 workingAudioPath = await NoiseCleanNode.demuxer.extractAudioToWav(workingSource, outWav);
             }
 
-            // Run 3-Stem separation
+            // Run Vocal & Clean Music separation
             stateManager.updateStemProgress(20, 'Neural AI isolating vocal & speech stem...');
             const stemResults = await NoiseCleanNode.splitAudioStems(
                 workingAudioPath,
@@ -590,7 +613,7 @@
                 }
             );
 
-            ui.logDebug('3 Stems separated successfully!');
+            ui.logDebug('Vocal & Music stems separated successfully!');
 
             // Load into StemPlayer for synchronized multi-track preview
             stateManager.updateStemProgress(95, 'Loading stems into preview player...');
@@ -599,7 +622,7 @@
             }
 
             stateManager.setStemsReady(stemResults);
-            ui.logDebug('3 Stems ready in player. You can preview, solo/mute, or add directly to AE timeline!');
+            ui.logDebug('Vocal & Music stems ready in player. You can preview, solo/mute, or add directly to AE timeline!');
 
         } catch (err) {
             ui.logDebug(`Stem Split Error: ${err.message}`);
@@ -615,7 +638,6 @@
         const key = stemType.toLowerCase();
         let stemPath = stems ? stems[key] : null;
         if (!stemPath && stems && key === 'voice') stemPath = stems.vocals;
-        if (!stemPath && stems && key === 'noise') stemPath = stems.sfx;
 
         if (!source || !stemPath) {
             ui.logDebug(`Cannot add ${stemType} stem: file not ready.`);
@@ -646,7 +668,7 @@
         }
 
         try {
-            ui.logDebug('Adding all 3 stems into After Effects timeline in sample sync...');
+            ui.logDebug('Adding Vocal & Music stems into After Effects timeline in sample sync...');
             const res = await aeBridge.importAllStems(stems, source.layerIndex, source.compId);
             if (!res.success) {
                 throw new Error(res.error || 'Failed to add stems to composition.');

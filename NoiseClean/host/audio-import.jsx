@@ -592,7 +592,7 @@ var NoiseCleanImport = (function() {
         }
 
         try {
-            app.beginUndoGroup("AudioPro: Split & Add 3 Stems to Timeline");
+            app.beginUndoGroup("AudioPro: Split & Add Vocal & Music to Timeline");
 
             var comp = null;
             if (app.project.activeItem && app.project.activeItem instanceof CompItem && (!compId || app.project.activeItem.id === compId)) {
@@ -622,9 +622,8 @@ var NoiseCleanImport = (function() {
             var parentFolder = (origLayer && origLayer.source && origLayer.source.parentFolder) ? origLayer.source.parentFolder : app.project.rootFolder;
             var stemsBin = getOrCreateStemsFolder(parentFolder);
 
-            // Import sequence: Noise on bottom, Music in middle, Voice on top
+            // Import sequence: Clean Music on bottom, Voice on top
             var stemList = [
-                { type: "Noise", path: stemsData.noise || stemsData.sfx },
                 { type: "Music", path: stemsData.music },
                 { type: "Voice", path: stemsData.voice || stemsData.vocals }
             ];

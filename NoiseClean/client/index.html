@@ -35,7 +35,7 @@
             <circle cx="6" cy="18" r="3"></circle>
             <circle cx="18" cy="16" r="3"></circle>
           </svg>
-          <span>3-Stem Splitter</span>
+          <span>Vocal & Music Splitter</span>
           <span class="tab-badge-ai">AI</span>
         </button>
       </nav>
@@ -130,15 +130,15 @@
       <div class="stem-action-card">
         <div class="stem-action-header">
           <div class="stem-action-titles">
-            <h3 class="stem-main-title">3-Stem Neural Separation</h3>
-            <p class="stem-main-sub">Decompose mix into Voice, Music & Noise</p>
+            <h3 class="stem-main-title">AI Vocal & Music Separation</h3>
+            <p class="stem-main-sub">Decompose mix into Vocal & Clean Music</p>
           </div>
         </div>
         <button type="button" id="split-stems-btn" class="split-stems-btn" disabled>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg>
-          <span id="split-btn-text">Separate into 3 Stems</span>
+          <span id="split-btn-text">Separate Vocal & Music</span>
         </button>
       </div>
 
@@ -162,7 +162,7 @@
         </div>
         <div class="progress-tip-row">
           <span class="tip-tag">AI DECOMPOSITION</span>
-          <span id="stem-progress-tip">Isolating speech formants, melodic soundtrack & background noise...</span>
+          <span id="stem-progress-tip">Isolating speech dialogue and extracting clean background music...</span>
         </div>
       </div>
 
@@ -191,12 +191,12 @@
             </div>
           </div>
           <div class="transport-bottom-row">
-            <button type="button" id="add-all-stems-btn" class="btn-add-all-stems" title="Add all 3 stems into active composition">
+            <button type="button" id="add-all-stems-btn" class="btn-add-all-stems" title="Add Vocal & Music stems to active composition">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-              <span>+ Add All 3 Stems to Comp</span>
+              <span>Add Vocal & Music to Comp</span>
             </button>
           </div>
         </div>
@@ -239,7 +239,7 @@
               </div>
               <div class="stem-info">
                 <div class="stem-name">Music</div>
-                <div class="stem-desc">BGM, Melodies & Soundtrack</div>
+                <div class="stem-desc">BGM & Soundtrack (Vocals & Noise Removed)</div>
               </div>
             </div>
             <div class="stem-meter" data-stem="music">
@@ -249,29 +249,6 @@
               <button type="button" class="btn-stem-solo" data-stem="music" title="Solo Music">S</button>
               <button type="button" class="btn-stem-mute" data-stem="music" title="Mute Music">M</button>
               <button type="button" class="btn-stem-add" data-stem="music" title="Add Music to Timeline">+ Comp</button>
-            </div>
-          </div>
-
-          <!-- 3. Noise Stem -->
-          <div class="stem-card stem-card-noise" data-stem="noise">
-            <div class="stem-meta">
-              <div class="stem-badge stem-badge-peach">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
-                </svg>
-              </div>
-              <div class="stem-info">
-                <div class="stem-name">Noise</div>
-                <div class="stem-desc">Room Tone, HVAC & Hiss</div>
-              </div>
-            </div>
-            <div class="stem-meter" data-stem="noise">
-              <span class="m-bar"></span><span class="m-bar"></span><span class="m-bar"></span>
-            </div>
-            <div class="stem-controls">
-              <button type="button" class="btn-stem-solo" data-stem="noise" title="Solo Noise">S</button>
-              <button type="button" class="btn-stem-mute" data-stem="noise" title="Mute Noise">M</button>
-              <button type="button" class="btn-stem-add" data-stem="noise" title="Add Noise to Timeline">+ Comp</button>
             </div>
           </div>
         </div>

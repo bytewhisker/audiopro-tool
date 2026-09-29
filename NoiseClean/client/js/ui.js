@@ -283,11 +283,11 @@ class UIRenderer {
             this.elements.splitStemsBtn.disabled = !hasSelection || isSplitting;
             if (this.elements.splitBtnText) {
                 if (isSplitting) {
-                    this.elements.splitBtnText.textContent = 'Deconstructing 3 Stems...';
+                    this.elements.splitBtnText.textContent = 'Separating Vocal & Music...';
                 } else if (stemsReady) {
-                    this.elements.splitBtnText.textContent = 'Re-separate 3 Stems';
+                    this.elements.splitBtnText.textContent = 'Re-separate Stems';
                 } else {
-                    this.elements.splitBtnText.textContent = 'Separate into 3 Stems';
+                    this.elements.splitBtnText.textContent = 'Separate Vocal & Music';
                 }
             }
         }
@@ -303,7 +303,7 @@ class UIRenderer {
                     this.elements.stemProgressPercent.textContent = `${stemsState.percent}%`;
                 }
                 if (this.elements.stemProgressMessage) {
-                    this.elements.stemProgressMessage.textContent = stemsState.message || 'Separating 3 audio stems...';
+                    this.elements.stemProgressMessage.textContent = stemsState.message || 'Separating vocal & music stems...';
                 }
             } else {
                 this.elements.stemProgressContainer.style.display = 'none';
@@ -338,7 +338,7 @@ class UIRenderer {
             }
 
             // Update per-stem Solo / Mute button highlights and VU meter animation
-            const stemKeys = ['voice', 'music', 'noise'];
+            const stemKeys = ['voice', 'music'];
             const curStates = stemsState.stemStates || {};
 
             // Check if any solo is active

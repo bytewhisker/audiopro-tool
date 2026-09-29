@@ -6,8 +6,8 @@
 class StemPlayer {
     constructor() {
         this.audioCtx = null;
-        this.stems = {}; // { vocals: { el, source, gain, solo, mute }, ... }
-        this.stemKeys = ['voice', 'music', 'noise'];
+        this.stems = {}; // { voice: { el, source, gain, solo, mute }, music: ... }
+        this.stemKeys = ['voice', 'music'];
         this.isPlaying = false;
         this.duration = 0;
         this.animFrameId = null;
@@ -299,18 +299,25 @@ class StemPlayer {
 
     destroyStems() {
         this.stopProgressTracking();
-        for (const key of this.stemKeys) {
+        const allKeys = ['voice', 'music', 'noise'];
+        for (const key of allKeys) {
             const item = this.stems[key];
             if (item) {
                 if (item.el) {
-                    item.el.pause();
-                    item.el.src = '';
+                    try {
+                        item.el.pause();
+                        item.el.removeAttribute('src');
+                        item.el.load();
+                    } catch (e) {}
+                    item.el = null;
                 }
                 if (item.gain) {
                     try { item.gain.disconnect(); } catch (e) {}
+                    item.gain = null;
                 }
                 if (item.source) {
                     try { item.source.disconnect(); } catch (e) {}
+                    item.source = null;
                 }
             }
         }
