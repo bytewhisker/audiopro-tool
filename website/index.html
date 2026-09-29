@@ -216,17 +216,19 @@
       </p>
     </div>
 
-    <!-- Unified Minimal Hero Showcase & Audio Comparison -->
+    <!-- Native Interactive Plugin UI & Simple Preview -->
     <div class="sup-container sup-showcase-clean" id="interactive-demo">
-      <div class="clean-showcase-stage gs-reveal">
-        <!-- 3D Extension Artwork -->
-        <div class="clean-artwork-wrapper">
-          <img src="media/hero_showcase.png" alt="AudioPro Tool 3D Interface" class="clean-artwork-image" loading="eager">
-          <div class="clean-artwork-glow"></div>
+      <div class="sup-plugin-stage-card gs-reveal">
+        <!-- Blue Ambient Stage Glow -->
+        <div class="ui-stage-glow"></div>
+
+        <!-- Official Brand Logo -->
+        <div class="ui-stage-brand">
+          <img src="media/logo_transparent.png" alt="AudioPro Tool" class="ui-stage-logo">
         </div>
 
-        <!-- Sleek Floating Audio Comparison Monitor -->
-        <div class="clean-audio-bar">
+        <!-- Interactive Plugin Glass Card (Replicates User Interface) -->
+        <div class="ui-glass-panel">
           <!-- Hidden Audio Elements -->
           <audio id="audio-enhanced" preload="auto">
             <source src="media/audio_enhanced.mp3" type="audio/mpeg">
@@ -235,52 +237,81 @@
             <source src="media/audio_original.mp3" type="audio/mpeg">
           </audio>
 
-          <!-- Play/Pause & Instant A/B Toggle -->
-          <div class="audio-bar-left">
-            <button class="sup-ctrl-btn" id="audio-play-pause-btn" aria-label="Play or Pause Audio">
-              <svg id="audio-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <svg id="audio-pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-
-            <div class="clean-segment-group" role="tablist">
-              <button class="clean-seg-btn active" id="btn-audio-clean" role="tab" aria-selected="true">
-                <span class="mode-dot green"></span>
-                <span>AudioPro Clean</span>
-              </button>
-              <button class="clean-seg-btn" id="btn-audio-raw" role="tab" aria-selected="false">
-                <span class="mode-dot red"></span>
-                <span>Raw Camera Noise</span>
-              </button>
+          <!-- Row 1: Voice Isolation -->
+          <div class="ui-panel-row" id="row-isolation">
+            <div class="ui-row-left">
+              <div class="ui-icon-box cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                  <line x1="12" y1="19" x2="12" y2="23"></line>
+                  <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+              </div>
+              <div class="ui-row-info">
+                <div class="ui-row-title">Voice Isolation</div>
+                <div class="ui-row-desc" id="ui-iso-desc">Active • Studio voice isolation • Real-time AI</div>
+              </div>
+            </div>
+            <div class="ui-row-right">
+              <label class="ui-switch" aria-label="Toggle Voice Isolation">
+                <input type="checkbox" id="ui-toggle-isolation" checked>
+                <span class="ui-slider"></span>
+              </label>
             </div>
           </div>
 
-          <!-- Timeline Scrubber -->
-          <div class="audio-bar-center">
-            <div class="sup-scrubber-track" id="audio-timeline-bar" role="slider" aria-label="Timeline progress">
-              <div class="sup-scrubber-fill" id="audio-timeline-progress"></div>
-              <div class="sup-snap-marker" style="left: 40%;" title="Finger Snap Moment (0:08)"></div>
-            </div>
-            <span class="sup-timecode" id="audio-time-display">00:00 / 00:20</span>
-          </div>
+          <div class="ui-panel-divider"></div>
 
-          <!-- Quick Jump & Mute -->
-          <div class="audio-bar-right">
-            <button class="minimal-snap-btn" id="audio-snap-jump-btn" title="Jump to finger snap at 0:08">
-              <span>Snap (0:08)</span>
-            </button>
-            <button class="sup-ctrl-btn" id="audio-mute-btn" aria-label="Mute or Unmute">
-              <svg id="audio-vol-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-            </button>
+          <!-- Row 2: Voice Restoration -->
+          <div class="ui-panel-row" id="row-restoration">
+            <div class="ui-row-left">
+              <div class="ui-icon-box blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="ui-row-info">
+                <div class="ui-row-title">Voice Restoration</div>
+                <div class="ui-row-desc" id="ui-resto-desc">Broadcast clarity & harmonic reconstruction</div>
+              </div>
+            </div>
+            <div class="ui-row-right">
+              <label class="ui-switch" aria-label="Toggle Voice Restoration">
+                <input type="checkbox" id="ui-toggle-restoration">
+                <span class="ui-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <!-- Frequency Spectrum Canvas -->
-        <div class="clean-spectrum-strip">
-          <canvas id="visualizer-canvas" height="34"></canvas>
+        <!-- Streamlined Simple Preview Audio Bar -->
+        <div class="ui-audio-bar">
+          <button class="ui-play-btn" id="audio-play-pause-btn" aria-label="Play Audio Preview">
+            <svg id="audio-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="audio-pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            <span id="ui-play-text">Listen Preview</span>
+          </button>
+
+          <div class="ui-status-pill clean-mode" id="ui-status-pill">
+            <span class="status-indicator-dot"></span>
+            <span class="status-indicator-text" id="ui-mode-text">AudioPro Clean</span>
+          </div>
+
+          <div class="ui-live-bars" id="ui-live-bars">
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+            <span class="live-bar"></span>
+          </div>
         </div>
       </div>
 
-      <!-- 4 Bento Feature Cards Beneath Clean Frame -->
+      <!-- 4 Balanced Bento Feature Cards -->
       <div class="sup-bento-subgrid">
         <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
@@ -300,48 +331,6 @@
             </div>
           </div>
         </div>
-
-        <div class="sup-bento-card gs-card">
-          <div class="card-inner-glow"></div>
-          <div class="bento-badge green">PRE-COMP INTELLIGENT</div>
-          <h3 class="bento-title">Native Recursive Comp Trace</h3>
-          <p class="bento-text">
-            No need to double click or open nested pre-comps. AudioPro Tool traces deep footage layers, resolves audio sources, and injects cleaned sync audio directly.
-          </p>
-          <div class="bento-tree-preview">
-            <span class="tree-chip parent">Main Sequence</span>
-            <span class="tree-chip child">↳ Pre-comp 1</span>
-            <span class="tree-chip resolved">↳ Noise Video.mp4 (Auto-Synced)</span>
-          </div>
-        </div>
-
-        <div class="sup-bento-card gs-card">
-          <div class="card-inner-glow"></div>
-          <div class="bento-badge purple">100% PRIVATE</div>
-          <h3 class="bento-title">Zero Cloud APIs or Telemetry</h3>
-          <p class="bento-text">
-            Safe for commercial NDAs, film productions, and sensitive dialogue. All neural inference runs entirely locally on CPU with zero internet needed.
-          </p>
-          <div class="bento-pill-stat">
-            <span class="stat-num">0 KB</span>
-            <span class="stat-lbl">Sent across network</span>
-          </div>
-        </div>
-
-        <div class="sup-bento-card gs-card">
-          <div class="card-inner-glow"></div>
-          <div class="bento-badge cyan">NON-DESTRUCTIVE</div>
-          <h3 class="bento-title">No Missing Footage Errors</h3>
-          <p class="bento-text">
-            Cleaned media is stored permanently in an <code>AudioPro_Cleaned</code> directory alongside your project. Reopen After Effects anytime without missing file warnings.
-          </p>
-          <div class="bento-pill-stat">
-            <span class="stat-num">100%</span>
-            <span class="stat-lbl">Persistent media links</span>
-          </div>
-        </div>
-      </div>
-    </div>
 
         <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
@@ -467,52 +456,87 @@
         <span class="tag-dot"></span>
         <span>ONE-TIME PURCHASE</span>
       </div>
-      <h2 class="sup-section-heading gs-reveal">Simple One-Time Lifetime Pricing</h2>
+      <h2 class="sup-section-heading gs-reveal">Simple, Transparent Pricing</h2>
       <p class="sup-section-subhead gs-reveal">
-        Zero monthly subscriptions. Pay $39 once on aescripts + aeplugins and own AudioPro Tool forever.
+        Pay once. No subscriptions, no cloud rendering credits, no recurring lock-in. Forever yours on aescripts + aeplugins.
       </p>
 
-      <div class="sup-pricing-grid two-col">
-        <!-- Tier 1: Single Creator (Featured Centerpiece) -->
-        <div class="sup-pricing-card featured gs-card">
-          <div class="pricing-card-glow featured-glow"></div>
-          <div class="featured-badge">MOST POPULAR</div>
-          <div class="pricing-card-header">
-            <span class="plan-name">Lifetime License</span>
-            <div class="plan-price">$39</div>
-            <span class="plan-term">One-time payment • Lifetime access</span>
+      <div class="sup-pricing-single-wrap gs-card">
+        <div class="pricing-card-glow featured-glow"></div>
+        <div class="pricing-inner-layout">
+          <!-- Left Column: Pricing & Core Value -->
+          <div class="pricing-col-main">
+            <div class="pricing-badge-row">
+              <span class="featured-badge">LIFETIME ACCESS</span>
+              <span class="platform-badge">AFTER EFFECTS EXTENSION</span>
+            </div>
+            <h3 class="pricing-main-title">Single Creator License</h3>
+            <p class="pricing-main-subtitle">
+              Complete offline neural voice isolation plugin for freelance editors, motion artists, and post-production creators.
+            </p>
+            <div class="pricing-amount-block">
+              <div class="pricing-amount-val">$39</div>
+              <div class="pricing-amount-meta">
+                <span class="meta-bold">USD • One-time payment</span>
+                <span class="meta-sub">Perpetual license • Lifetime minor updates</span>
+              </div>
+            </div>
+            <a href="https://aescripts.com" target="_blank" rel="noopener" class="pricing-cta-button">
+              <span>Get AudioPro Tool on aescripts — $39</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+            <div class="pricing-trust-guarantee">
+              <span>🛡️ 30-Day Money-Back Guarantee</span>
+              <span>⚡ Instant Download via aescripts manager</span>
+            </div>
           </div>
-          <p class="plan-desc">For freelance video editors, YouTubers, filmmakers, and motion designers.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-white">Buy on aescripts ($39)</a>
-          <ul class="plan-checklist">
-            <li>✓ 1 Workstation Lifetime Activation</li>
-            <li>✓ Native After Effects CEP Extension Panel</li>
-            <li>✓ Dual Neural Voice Isolation Engine</li>
-            <li>✓ Native Pre-Comp Deep Comp Trace</li>
-            <li>✓ Sample-Accurate 48kHz Sinc Synchronization</li>
-            <li>✓ 100% Offline & Private Processing</li>
-            <li>✓ Free Lifetime Minor Updates</li>
-          </ul>
+
+          <!-- Right Column: Full Feature Checklist -->
+          <div class="pricing-col-features">
+            <h4 class="features-heading">Everything Included:</h4>
+            <ul class="features-checklist">
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Native Adobe After Effects CEP Extension panel</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Dual Neural Engines (65x Real-Time Isolation + Studio Filter)</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Recursive pre-comp trace with auto-synchronized placement</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Sample-accurate 48kHz lossless broadcast WAV output</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>100% offline & private — zero telemetry or cloud APIs</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Non-destructive project saving with persistent media links</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Full commercial use rights for all client & film projects</span>
+              </li>
+              <li>
+                <svg class="chk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Windows 10/11 & macOS Universal (Apple Silicon & Intel)</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <!-- Tier 2: Studio Team Multi-Seat -->
-        <div class="sup-pricing-card gs-card">
-          <div class="pricing-card-glow"></div>
-          <div class="pricing-card-header">
-            <span class="plan-name">Studio Team</span>
-            <div class="plan-price">$79</div>
-            <span class="plan-term">One-time payment • 5 Seats</span>
-          </div>
-          <p class="plan-desc">For post-production houses, animation studios, and commercial creative agencies.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Get Studio Team ($79)</a>
-          <ul class="plan-checklist">
-            <li>✓ 5 Floating Workstation Seats</li>
-            <li>✓ Centralized License Deployment</li>
-            <li>✓ Full Commercial Client Rights</li>
-            <li>✓ Priority Developer Support</li>
-            <li>✓ Enterprise NDA Compliance Ready</li>
-            <li>✓ All Lifetime Features Included</li>
-          </ul>
+        <!-- Studio Team Banner Footer -->
+        <div class="pricing-studio-footer">
+          <span>Need multi-seat floating licenses for your agency or studio?</span>
+          <a href="https://aescripts.com" target="_blank" rel="noopener" class="studio-link">
+            Get Studio Team (5 Seats for $79) →
+          </a>
         </div>
       </div>
     </div>
@@ -737,10 +761,8 @@
     </div>
   </section>
 
-  <!-- Section 8: Final CTA with Horizon Spotlight -->
+  <!-- Section 8: Final CTA -->
   <section class="sup-final-cta-section">
-    <div class="sup-cta-spotlight"></div>
-
     <div class="sup-container">
       <div class="sup-cta-card gs-reveal">
         <h2 class="sup-cta-title">Upgrade Your Audio Workflow Today.</h2>
