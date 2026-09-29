@@ -8,20 +8,20 @@
    ========================================================================== */
 
 :root {
-  --sup-bg: #000000;
-  --sup-bg-subtle: #05070B;
-  --sup-card-bg: rgba(12, 14, 18, 0.75);
-  --sup-card-border: rgba(255, 255, 255, 0.08);
-  --sup-card-border-hover: rgba(255, 255, 255, 0.22);
-  --sup-card-inner-glow: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+  --sup-bg: #030303;
+  --sup-bg-subtle: #080808;
+  --sup-card-bg: rgba(10, 10, 10, 0.7);
+  --sup-card-border: rgba(255, 255, 255, 0.04);
+  --sup-card-border-hover: rgba(255, 255, 255, 0.12);
+  --sup-card-inner-glow: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
   
-  --sup-text-primary: #FFFFFF;
-  --sup-text-secondary: #9FA3AF;
-  --sup-text-dim: #555A66;
+  --sup-text-primary: #FAFAFA;
+  --sup-text-secondary: #888C96;
+  --sup-text-dim: #4A4D55;
 
   /* Official Brand Palette */
-  --sup-cyan: #00F0FF;
-  --sup-cyan-glow: rgba(0, 240, 255, 0.35);
+  --sup-cyan: #00E5FF;
+  --sup-cyan-glow: rgba(0, 229, 255, 0.15);
   --sup-blue: #0070F3;
   --sup-purple: #8B5CF6;
   --sup-yellow: #FFD166;
@@ -33,11 +33,11 @@
   --sup-font-mono: 'JetBrains Mono', monospace;
 
   --sup-radius-sm: 8px;
-  --sup-radius-md: 14px;
-  --sup-radius-lg: 20px;
+  --sup-radius-md: 16px;
+  --sup-radius-lg: 24px;
   --sup-radius-pill: 9999px;
 
-  --sup-transition: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --sup-transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after {
@@ -71,8 +71,8 @@ body.suprema-theme {
   transform: translateX(-50%);
   width: 900px;
   height: 600px;
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0%, rgba(0, 240, 255, 0.04) 35%, transparent 70%);
-  filter: blur(90px);
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(0, 229, 255, 0.01) 35%, transparent 70%);
+  filter: blur(120px);
   pointer-events: none;
   z-index: 0;
 }

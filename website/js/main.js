@@ -502,20 +502,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hero Stagger Entrance
     gsap.from('.gs-hero-elem', {
       opacity: 0,
-      y: 24,
-      duration: 0.9,
-      stagger: 0.12,
-      ease: 'power3.out'
+      y: 40,
+      filter: 'blur(12px)',
+      duration: 1.4,
+      stagger: 0.15,
+      ease: 'expo.out'
     });
 
     // Floating Cards Entrance
     gsap.from('.gs-float', {
       opacity: 0,
-      scale: 0.92,
-      duration: 1.1,
-      stagger: 0.15,
-      ease: 'power2.out',
-      delay: 0.3
+      scale: 0.95,
+      y: 20,
+      filter: 'blur(8px)',
+      duration: 1.5,
+      stagger: 0.2,
+      ease: 'expo.out',
+      delay: 0.4
     });
 
     // Scroll Reveals
@@ -527,9 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
           toggleActions: 'play none none none'
         },
         opacity: 0,
-        y: 28,
-        duration: 0.8,
-        ease: 'power2.out'
+        y: 40,
+        filter: 'blur(8px)',
+        duration: 1.4,
+        ease: 'expo.out'
       });
     });
 
@@ -538,10 +542,11 @@ document.addEventListener('DOMContentLoaded', () => {
       start: 'top 85%',
       onEnter: batch => gsap.from(batch, {
         opacity: 0,
-        y: 30,
-        stagger: 0.12,
-        duration: 0.75,
-        ease: 'power2.out',
+        y: 50,
+        filter: 'blur(10px)',
+        stagger: 0.15,
+        duration: 1.4,
+        ease: 'expo.out',
         overwrite: true
       })
     });
@@ -551,10 +556,11 @@ document.addEventListener('DOMContentLoaded', () => {
       start: 'top 85%',
       onEnter: batch => gsap.from(batch, {
         opacity: 0,
-        y: 25,
-        stagger: 0.14,
-        duration: 0.75,
-        ease: 'power2.out',
+        y: 40,
+        filter: 'blur(10px)',
+        stagger: 0.15,
+        duration: 1.4,
+        ease: 'expo.out',
         overwrite: true
       })
     });
