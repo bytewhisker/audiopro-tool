@@ -53,7 +53,7 @@
     "applicationSubCategory": "Audio Editing Extension for Adobe After Effects",
     "offers": {
       "@type": "Offer",
-      "price": "49.00",
+      "price": "39.00",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "seller": {
@@ -84,10 +84,9 @@
 
       <nav class="sup-nav-links">
         <a href="#interactive-demo" class="sup-nav-item">Demo</a>
-        <a href="#glance" class="sup-nav-item">At a Glance</a>
-        <a href="#features" class="sup-nav-item">AI Engines</a>
-        <a href="#pricing" class="sup-nav-item">Pricing</a>
+        <a href="#features" class="sup-nav-item">Features</a>
         <a href="#workflow" class="sup-nav-item">Workflow</a>
+        <a href="#pricing" class="sup-nav-item">Pricing</a>
         <a href="#faq" class="sup-nav-item">FAQ</a>
       </nav>
 
@@ -111,7 +110,7 @@
           <span class="mini-label">REAL-TIME FACTOR</span>
         </div>
         <div class="float-stat">65x</div>
-        <div class="float-sub">RNNoise Neural Engine</div>
+        <div class="float-sub">AudioPro Neural Core™</div>
         <div class="mini-bar-track">
           <div class="mini-bar-fill" style="width: 88%;"></div>
         </div>
@@ -138,7 +137,7 @@
           <span class="mini-label">NOISE ATTENUATION</span>
         </div>
         <div class="float-stat">-52 <small class="unit">dB</small></div>
-        <div class="float-sub">DeepFilterNet 3 WASM</div>
+        <div class="float-sub">Dual-Stage Voice Filter</div>
         <div class="mini-spectrum-preview">
           <span class="spec-bar" style="height: 40%;"></span>
           <span class="spec-bar" style="height: 70%;"></span>
@@ -196,8 +195,8 @@
       <div class="ticker-logos">
         <div class="ticker-item">ADOBE AFTER EFFECTS</div>
         <div class="ticker-item">AESCRIPTS + AEPLUGINS</div>
-        <div class="ticker-item">DEEPFILTERNET 3</div>
-        <div class="ticker-item">RNNOISE RECURRENT</div>
+        <div class="ticker-item">PROPRIETARY NEURAL CORE</div>
+        <div class="ticker-item">STUDIO CLARITY ENGINE</div>
         <div class="ticker-item">APPLE SILICON & INTEL</div>
         <div class="ticker-item">WINDOWS 10 / 11</div>
       </div>
@@ -221,134 +220,26 @@
 
     <div class="sup-container text-center">
       <div class="sup-section-tag gs-reveal">
-        <span class="tag-dot cyan"></span>
-        <span>INTERACTIVE WORKFLOW SIMULATOR</span>
+        <span class="tag-dot"></span>
+        <span>INTERACTIVE DEMO</span>
       </div>
       <h2 class="sup-section-heading gs-reveal">Showcasing the AudioPro Interface</h2>
       <p class="sup-section-subhead gs-reveal">
-        Experience the native After Effects panel. Flip the neural switches, test the 65x inference engine, and hear the real-time noise cutoff.
+        Listen to real footage cleaned directly inside After Effects. 100% offline neural isolation with zero cloud latency.
       </p>
     </div>
 
-    <!-- Main Extension UI Showcase & Audio Simulator Frame -->
-    <div class="sup-container sup-main-frame-wrapper" id="interactive-demo">
-      <div class="sup-device-frame gs-reveal">
-        <!-- Top Window Header Bar (After Effects Workspace Style) -->
-        <div class="sup-frame-topbar">
-          <div class="window-controls">
-            <span class="w-dot red"></span>
-            <span class="w-dot yellow"></span>
-            <span class="w-dot green"></span>
-          </div>
-          <div class="window-tab-title">
-            <span>Adobe After Effects — AudioPro Tool Extension Panel (CC 2019 – 2026+)</span>
-          </div>
-          <div class="window-right-badge">
-            <span class="pulse-live"></span>
-            <span>65X NEURAL ENGINE READY</span>
-          </div>
+    <!-- Unified Minimal Hero Showcase & Audio Comparison -->
+    <div class="sup-container sup-showcase-clean" id="interactive-demo">
+      <div class="clean-showcase-stage gs-reveal">
+        <!-- 3D Extension Artwork -->
+        <div class="clean-artwork-wrapper">
+          <img src="media/hero_showcase.png" alt="AudioPro Tool 3D Interface" class="clean-artwork-image" loading="eager">
+          <div class="clean-artwork-glow"></div>
         </div>
 
-        <!-- Hero UI Showcase Stage (Featuring 3D Artwork + Live Interactive AE Widget) -->
-        <div class="sup-ui-showcase-stage">
-          <!-- 3D Render Artwork Visual -->
-          <div class="showcase-artwork-container">
-            <img src="media/hero_showcase.png" alt="AudioPro Tool 3D Extension Interface" class="showcase-artwork-img" loading="eager">
-            <div class="artwork-ambient-sheen"></div>
-            <div class="artwork-interactive-hint">
-              <span class="pulse-dot"></span>
-              <span>Interactive Extension Simulator — Try The Toggles Below</span>
-            </div>
-          </div>
-
-          <!-- Interactive Live Extension Control Widget -->
-          <div class="ae-interactive-widget" id="ae-widget">
-            <div class="widget-header">
-              <div class="widget-comp-tag">
-                <span class="comp-icon">🎬</span>
-                <span class="comp-name">Active Comp: <strong>Interview_Master_Sequence</strong></span>
-              </div>
-              <div class="widget-clip-info">
-                <span class="clip-name">Footage: <strong>Noise Video.mp4</strong></span>
-                <span class="clip-spec">48,000 Hz • 32-bit Float</span>
-              </div>
-            </div>
-
-            <!-- Toggles Card (Matching the official UI design) -->
-            <div class="widget-controls-card">
-              <!-- Feature 1: Voice Isolation -->
-              <div class="widget-toggle-row" id="row-isolation">
-                <div class="widget-icon icon-blue">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                    <line x1="12" y1="19" x2="12" y2="23"/>
-                    <line x1="8" y1="23" x2="16" y2="23"/>
-                  </svg>
-                </div>
-                <div class="widget-info">
-                  <div class="widget-title-line">
-                    <span class="widget-title">Voice Isolation</span>
-                    <span class="widget-status-badge active" id="badge-iso-status">ACTIVE</span>
-                  </div>
-                  <span class="widget-desc" id="desc-isolation">Active • Studio voice isolation • merged_media_fixed.mp4</span>
-                </div>
-                <label class="ae-switch" title="Toggle Voice Isolation">
-                  <input type="checkbox" id="toggle-isolation" checked>
-                  <span class="ae-slider"></span>
-                </label>
-              </div>
-
-              <div class="widget-divider"></div>
-
-              <!-- Feature 2: Voice Restoration -->
-              <div class="widget-toggle-row" id="row-restoration">
-                <div class="widget-icon icon-emerald">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                  </svg>
-                </div>
-                <div class="widget-info">
-                  <div class="widget-title-line">
-                    <span class="widget-title">Voice Restoration</span>
-                    <span class="widget-status-badge" id="badge-resto-status">STANDBY</span>
-                  </div>
-                  <span class="widget-desc" id="desc-restoration">Broadcast clarity & harmonic reconstruction</span>
-                </div>
-                <label class="ae-switch" title="Toggle Voice Restoration">
-                  <input type="checkbox" id="toggle-restoration">
-                  <span class="ae-slider"></span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Real-Time Processing Speed Meter (Animated by GSAP on toggle) -->
-            <div class="widget-processing-row" id="widget-processing-bar">
-              <div class="proc-header">
-                <div class="proc-left">
-                  <div class="mini-eq-bars" id="mini-eq">
-                    <span></span><span></span><span></span><span></span><span></span>
-                  </div>
-                  <span class="proc-message" id="proc-status-text">⚡ RNNoise Recurrent Model (65x speed): Processed in 0.35s</span>
-                </div>
-                <span class="proc-speed-tag">65x REAL-TIME</span>
-              </div>
-              <div class="proc-track">
-                <div class="proc-fill" id="proc-fill-bar" style="width: 100%;"></div>
-              </div>
-              <div class="proc-footer">
-                <span class="proc-sync-status">✓ Non-destructive audio layer auto-synced into After Effects timeline</span>
-                <button class="proc-rerun-btn" id="btn-reprocess" title="Simulate 65x Neural Pass">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                  Re-process (0.35s)
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Integrated Live Audio A/B Player & Frequency Visualizer -->
-        <div class="sup-audio-player-bar">
+        <!-- Sleek Floating Audio Comparison Monitor -->
+        <div class="clean-audio-bar">
           <!-- Hidden Audio Elements -->
           <audio id="audio-enhanced" preload="auto">
             <source src="media/audio_enhanced.mp3" type="audio/mpeg">
@@ -357,28 +248,27 @@
             <source src="media/audio_original.mp3" type="audio/mpeg">
           </audio>
 
-          <!-- Controls Left: Play/Pause and Segmented A/B Switch -->
-          <div class="controls-left">
+          <!-- Play/Pause & Instant A/B Toggle -->
+          <div class="audio-bar-left">
             <button class="sup-ctrl-btn" id="audio-play-pause-btn" aria-label="Play or Pause Audio">
               <svg id="audio-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               <svg id="audio-pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
 
-            <!-- Instant A/B Audio Switcher -->
-            <div class="minimal-segment-group" role="tablist">
-              <button class="segment-btn" id="btn-audio-raw" role="tab" aria-selected="false">
-                <span class="mode-dot red"></span>
-                <span>Before (Raw Noise)</span>
-              </button>
-              <button class="segment-btn active" id="btn-audio-clean" role="tab" aria-selected="true">
+            <div class="clean-segment-group" role="tablist">
+              <button class="clean-seg-btn active" id="btn-audio-clean" role="tab" aria-selected="true">
                 <span class="mode-dot green"></span>
-                <span>After (AudioPro Clean)</span>
+                <span>AudioPro Clean</span>
+              </button>
+              <button class="clean-seg-btn" id="btn-audio-raw" role="tab" aria-selected="false">
+                <span class="mode-dot red"></span>
+                <span>Raw Camera Noise</span>
               </button>
             </div>
           </div>
 
-          <!-- Controls Center: Interactive Scrubber -->
-          <div class="controls-center">
+          <!-- Timeline Scrubber -->
+          <div class="audio-bar-center">
             <div class="sup-scrubber-track" id="audio-timeline-bar" role="slider" aria-label="Timeline progress">
               <div class="sup-scrubber-fill" id="audio-timeline-progress"></div>
               <div class="sup-snap-marker" style="left: 40%;" title="Finger Snap Moment (0:08)"></div>
@@ -386,9 +276,9 @@
             <span class="sup-timecode" id="audio-time-display">00:00 / 00:20</span>
           </div>
 
-          <!-- Controls Right: Quick Snap Jump & Mute -->
-          <div class="controls-right">
-            <button class="minimal-snap-btn" id="audio-snap-jump-btn" title="Jump to finger snap at 0:08 to test noise cut">
+          <!-- Quick Jump & Mute -->
+          <div class="audio-bar-right">
+            <button class="minimal-snap-btn" id="audio-snap-jump-btn" title="Jump to finger snap at 0:08">
               <span>Snap (0:08)</span>
             </button>
             <button class="sup-ctrl-btn" id="audio-mute-btn" aria-label="Mute or Unmute">
@@ -397,32 +287,74 @@
           </div>
         </div>
 
-        <!-- Real-Time Hardware Spectrum Analyzer Canvas -->
-        <div class="minimal-spectrum-strip">
-          <canvas id="visualizer-canvas" height="38"></canvas>
+        <!-- Frequency Spectrum Canvas -->
+        <div class="clean-spectrum-strip">
+          <canvas id="visualizer-canvas" height="34"></canvas>
         </div>
       </div>
 
-      <!-- 4 Bento Feature Cards Beneath Device Frame -->
+      <!-- 4 Bento Feature Cards Beneath Clean Frame -->
       <div class="sup-bento-subgrid">
         <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
-          <div class="bento-badge yellow">DUAL ENGINES</div>
-          <h3 class="bento-title">RNNoise & DeepFilterNet 3</h3>
+          <div class="bento-badge cyan">DUAL NEURAL ENGINES</div>
+          <h3 class="bento-title">Next-Gen Voice Separation</h3>
           <p class="bento-text">
-            Choose between ultra-fast 65x recurrent networks for rapid interview turnaround or high-definition deep filtering for severe room reverb cancellation.
+            Switch seamlessly between ultra-fast 65x recurrent speech separation for rapid turnaround or high-definition deep acoustic filtering for severe room reverb cancellation.
           </p>
           <div class="bento-mini-meter">
             <div class="meter-row">
-              <span>Fast Engine (RNNoise):</span>
+              <span>Fast Isolation Model:</span>
               <strong>65x Real-Time</strong>
             </div>
             <div class="meter-row">
-              <span>Studio Engine (DFNet3):</span>
-              <strong>50+ dB Cut</strong>
+              <span>Studio Reconstruction:</span>
+              <strong>-52 dB Floor</strong>
             </div>
           </div>
         </div>
+
+        <div class="sup-bento-card gs-card">
+          <div class="card-inner-glow"></div>
+          <div class="bento-badge green">PRE-COMP INTELLIGENT</div>
+          <h3 class="bento-title">Native Recursive Comp Trace</h3>
+          <p class="bento-text">
+            No need to double click or open nested pre-comps. AudioPro Tool traces deep footage layers, resolves audio sources, and injects cleaned sync audio directly.
+          </p>
+          <div class="bento-tree-preview">
+            <span class="tree-chip parent">Main Sequence</span>
+            <span class="tree-chip child">↳ Pre-comp 1</span>
+            <span class="tree-chip resolved">↳ Noise Video.mp4 (Auto-Synced)</span>
+          </div>
+        </div>
+
+        <div class="sup-bento-card gs-card">
+          <div class="card-inner-glow"></div>
+          <div class="bento-badge purple">100% PRIVATE</div>
+          <h3 class="bento-title">Zero Cloud APIs or Telemetry</h3>
+          <p class="bento-text">
+            Safe for commercial NDAs, film productions, and sensitive dialogue. All neural inference runs entirely locally on CPU with zero internet needed.
+          </p>
+          <div class="bento-pill-stat">
+            <span class="stat-num">0 KB</span>
+            <span class="stat-lbl">Sent across network</span>
+          </div>
+        </div>
+
+        <div class="sup-bento-card gs-card">
+          <div class="card-inner-glow"></div>
+          <div class="bento-badge cyan">NON-DESTRUCTIVE</div>
+          <h3 class="bento-title">No Missing Footage Errors</h3>
+          <p class="bento-text">
+            Cleaned media is stored permanently in an <code>AudioPro_Cleaned</code> directory alongside your project. Reopen After Effects anytime without missing file warnings.
+          </p>
+          <div class="bento-pill-stat">
+            <span class="stat-num">100%</span>
+            <span class="stat-lbl">Persistent media links</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
         <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
@@ -480,7 +412,7 @@
   <section id="features" class="sup-potential-section">
     <div class="sup-container text-center">
       <div class="sup-section-tag gs-reveal">
-        <span class="tag-dot yellow"></span>
+        <span class="tag-dot"></span>
         <span>BENCHMARKS</span>
       </div>
       <h2 class="sup-section-heading gs-reveal">Unlock Your Audio's Potential</h2>
@@ -488,20 +420,34 @@
         Engineered to outperform cumbersome external workflows and sluggish web tools.
       </p>
 
-      <!-- 3-Column Feature Icons -->
+      <!-- 3-Column Feature Icons (Clean Minimal SVGs - No Emojis) -->
       <div class="sup-features-three-col">
         <div class="feature-col-item gs-col">
-          <div class="feature-col-icon">⚡</div>
+          <div class="feature-col-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
           <h4 class="feature-col-title">Lightning Speed</h4>
           <p class="feature-col-desc">Process a 5-minute dialogue clip in ~4 seconds without leaving your After Effects composition.</p>
         </div>
         <div class="feature-col-item gs-col">
-          <div class="feature-col-icon">🎯</div>
+          <div class="feature-col-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </div>
           <h4 class="feature-col-title">Zero Sample Drift</h4>
           <p class="feature-col-desc">High-quality bandlimited Sinc interpolation ensures perfect frame synchronization from start to finish.</p>
         </div>
         <div class="feature-col-item gs-col">
-          <div class="feature-col-icon">🛡️</div>
+          <div class="feature-col-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
           <h4 class="feature-col-title">Non-Destructive</h4>
           <p class="feature-col-desc">Original camera audio and footage remain 100% intact. Cleaned tracks are loaded into new sync layers.</p>
         </div>
@@ -531,75 +477,54 @@
   <section id="pricing" class="sup-pricing-section">
     <div class="sup-container text-center">
       <div class="sup-section-tag gs-reveal">
-        <span class="tag-dot green"></span>
+        <span class="tag-dot"></span>
         <span>ONE-TIME PURCHASE</span>
       </div>
-      <h2 class="sup-section-heading gs-reveal">Perpetual Lifetime Pricing</h2>
+      <h2 class="sup-section-heading gs-reveal">Simple One-Time Lifetime Pricing</h2>
       <p class="sup-section-subhead gs-reveal">
-        Zero monthly subscriptions. Pay once on aescripts + aeplugins and own AudioPro Tool forever.
+        Zero monthly subscriptions. Pay $39 once on aescripts + aeplugins and own AudioPro Tool forever.
       </p>
 
-      <div class="sup-pricing-grid">
-        <!-- Tier 1: Single Creator -->
-        <div class="sup-pricing-card gs-card">
-          <div class="pricing-card-glow"></div>
+      <div class="sup-pricing-grid two-col">
+        <!-- Tier 1: Single Creator (Featured Centerpiece) -->
+        <div class="sup-pricing-card featured gs-card">
+          <div class="pricing-card-glow featured-glow"></div>
+          <div class="featured-badge">MOST POPULAR</div>
           <div class="pricing-card-header">
-            <span class="plan-name">Creator License</span>
-            <div class="plan-price">$49</div>
-            <span class="plan-term">One-time payment • Lifetime</span>
+            <span class="plan-name">Lifetime License</span>
+            <div class="plan-price">$39</div>
+            <span class="plan-term">One-time payment • Lifetime access</span>
           </div>
-          <p class="plan-desc">For freelance video editors, YouTubers, and independent motion designers.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Buy on aescripts ($49)</a>
+          <p class="plan-desc">For freelance video editors, YouTubers, filmmakers, and motion designers.</p>
+          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-white">Buy on aescripts ($39)</a>
           <ul class="plan-checklist">
-            <li>✓ 1 Workstation Activation</li>
-            <li>✓ Native After Effects CEP Panel</li>
-            <li>✓ Dual AI Engines (RNNoise + DeepFilterNet 3)</li>
-            <li>✓ Native Pre-Comp Deep Trace</li>
-            <li>✓ Sample-Accurate 48kHz Sinc Sync</li>
+            <li>✓ 1 Workstation Lifetime Activation</li>
+            <li>✓ Native After Effects CEP Extension Panel</li>
+            <li>✓ Dual Neural Voice Isolation Engine</li>
+            <li>✓ Native Pre-Comp Deep Comp Trace</li>
+            <li>✓ Sample-Accurate 48kHz Sinc Synchronization</li>
             <li>✓ 100% Offline & Private Processing</li>
             <li>✓ Free Lifetime Minor Updates</li>
           </ul>
         </div>
 
-        <!-- Tier 2: Commercial Pro (Featured) -->
-        <div class="sup-pricing-card featured gs-card">
-          <div class="pricing-card-glow featured-glow"></div>
-          <div class="featured-badge">MOST POPULAR</div>
-          <div class="pricing-card-header">
-            <span class="plan-name">Commercial Pro</span>
-            <div class="plan-price">$79</div>
-            <span class="plan-term">One-time payment • Lifetime</span>
-          </div>
-          <p class="plan-desc">For professional commercial editors, agency animators, and high-volume productions.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-white">Get Commercial Pro ($79)</a>
-          <ul class="plan-checklist">
-            <li>✓ 2 Workstations (Desktop + Laptop)</li>
-            <li>✓ Full Commercial Client Rights</li>
-            <li>✓ Priority Neural Execution Pipeline</li>
-            <li>✓ Advanced Reverb & Slapback Control</li>
-            <li>✓ Native Pre-Comp Deep Trace</li>
-            <li>✓ Sample-Accurate 48kHz Sinc Sync</li>
-            <li>✓ Priority Developer Support</li>
-          </ul>
-        </div>
-
-        <!-- Tier 3: Studio Team Multi-Seat -->
+        <!-- Tier 2: Studio Team Multi-Seat -->
         <div class="sup-pricing-card gs-card">
           <div class="pricing-card-glow"></div>
           <div class="pricing-card-header">
-            <span class="plan-name">Studio Multi-Seat</span>
-            <div class="plan-price">$149</div>
+            <span class="plan-name">Studio Team</span>
+            <div class="plan-price">$79</div>
             <span class="plan-term">One-time payment • 5 Seats</span>
           </div>
           <p class="plan-desc">For post-production houses, animation studios, and commercial creative agencies.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Get Studio Team ($149)</a>
+          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Get Studio Team ($79)</a>
           <ul class="plan-checklist">
             <li>✓ 5 Floating Workstation Seats</li>
             <li>✓ Centralized License Deployment</li>
-            <li>✓ Full Commercial Rights</li>
-            <li>✓ Direct Developer Technical Support</li>
+            <li>✓ Full Commercial Client Rights</li>
+            <li>✓ Priority Developer Support</li>
             <li>✓ Enterprise NDA Compliance Ready</li>
-            <li>✓ All Pro Features Included</li>
+            <li>✓ All Lifetime Features Included</li>
           </ul>
         </div>
       </div>
@@ -788,7 +713,7 @@
             <span class="sup-faq-sign">+</span>
           </button>
           <div class="sup-faq-pane">
-            <p>Zero external runtimes needed. All engines (FFmpeg, RNNoise binary, and DeepFilterNet WebAssembly) are pre-bundled inside the extension package.</p>
+            <p>Zero external runtimes needed. All neural processing engines and media utilities are 100% pre-bundled inside the extension package.</p>
           </div>
         </div>
 

@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger high-speed 65x GSAP progress animation
     if (isClean && procFillBar && window.gsap) {
       if (procStatusText) {
-        procStatusText.textContent = '⚡ RNNoise Recurrent Model (65x speed): Processing...';
+        procStatusText.textContent = 'Processing neural audio isolation...';
       }
       gsap.fromTo(procFillBar, 
         { width: '0%' }, 
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ease: 'power2.out',
           onComplete: () => {
             if (procStatusText) {
-              procStatusText.textContent = '⚡ RNNoise Recurrent Model (65x speed): Processed in 0.35s';
+              procStatusText.textContent = 'AudioPro Neural Core (65x speed): Processed in 0.35s';
             }
           }
         }
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (descRestoration) descRestoration.textContent = 'Active • 48kHz Harmonic overtone reconstruction';
           if (window.gsap && procFillBar) {
             gsap.fromTo(procFillBar, { width: '0%' }, { width: '100%', duration: 0.45, ease: 'power2.out' });
-            if (procStatusText) procStatusText.textContent = '✨ DeepFilterNet 3: Harmonic reconstruction completed in 0.45s';
+            if (procStatusText) procStatusText.textContent = 'Harmonic voice reconstruction active';
           }
         } else {
           badgeRestoStatus.classList.remove('active');
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnReprocess.addEventListener('click', () => {
       initAudioContext();
       if (window.gsap && procFillBar) {
-        if (procStatusText) procStatusText.textContent = '⚡ Recalculating neural weights (65x speed)...';
+        if (procStatusText) procStatusText.textContent = 'Recalculating neural weights (65x speed)...';
         gsap.fromTo(procFillBar, 
           { width: '0%' }, 
           { 
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
             duration: 0.35, 
             ease: 'power2.out',
             onComplete: () => {
-              if (procStatusText) procStatusText.textContent = '⚡ RNNoise Recurrent Model (65x speed): Processed in 0.35s';
+              if (procStatusText) procStatusText.textContent = 'AudioPro Neural Core (65x speed): Processed in 0.35s';
             }
           }
         );
