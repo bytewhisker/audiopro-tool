@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    AudioPro Tool - AI Audio Optimization CEP Extension
+    Configured according to official aescripts Author Wiki CEP guidelines:
+    - Future-proof host version ranges [16.0, 99.9] preventing silent unload on AE updates
+    - Mixed-context Node.js execution enabled for child_process and filesystem orchestration
+    - Clean host declaration targeting Adobe After Effects (AEFT) and Premiere Pro (PPRO)
+    - Responsive panel dimension constraints supporting narrow docked workspaces (min 280px)
+-->
+<ExtensionManifest Version="10.0"
+                   ExtensionBundleId="com.audiopro.panel"
+                   ExtensionBundleVersion="1.0.0"
+                   ExtensionBundleName="AudioPro Tool"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ExtensionList>
+        <Extension Id="com.audiopro.panel" Version="1.0.0" />
+        <Extension Id="com.noiseclean.panel" Version="1.0.0" />
+    </ExtensionList>
+
+    <ExecutionEnvironment>
+        <HostList>
+            <Host Name="AEFT" Version="[16.0,99.9]" />
+            <Host Name="PPRO" Version="[14.0,99.9]" />
+        </HostList>
+
+        <LocaleList>
+            <Locale Code="All" />
+        </LocaleList>
+
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="9.0" />
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+
+    <DispatchInfoList>
+        <Extension Id="com.audiopro.panel">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./client/index.html</MainPath>
+                    <ScriptPath>./host/NoiseClean.jsx</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--enable-nodejs</Parameter>
+                        <Parameter>--mixed-context</Parameter>
+                        <Parameter>--disable-features=CalculateNativeWinOcclusion</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>AudioPro Tool</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>320</Height>
+                            <Width>320</Width>
+                        </Size>
+                        <MinSize>
+                            <Height>280</Height>
+                            <Width>280</Width>
+                        </MinSize>
+                        <MaxSize>
+                            <Height>1400</Height>
+                            <Width>900</Width>
+                        </MaxSize>
+                    </Geometry>
+                    <Icons>
+                        <Icon Type="Normal">./client/assets/icons/icon-normal.png</Icon>
+                        <Icon Type="RollOver">./client/assets/icons/icon-rollover.png</Icon>
+                        <Icon Type="DarkNormal">./client/assets/icons/icon-dark.png</Icon>
+                        <Icon Type="DarkRollOver">./client/assets/icons/icon-dark-rollover.png</Icon>
+                    </Icons>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+
+        <Extension Id="com.noiseclean.panel">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./client/index.html</MainPath>
+                    <ScriptPath>./host/NoiseClean.jsx</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--enable-nodejs</Parameter>
+                        <Parameter>--mixed-context</Parameter>
+                        <Parameter>--disable-features=CalculateNativeWinOcclusion</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>AudioPro Tool</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>320</Height>
+                            <Width>320</Width>
+                        </Size>
+                        <MinSize>
+                            <Height>280</Height>
+                            <Width>280</Width>
+                        </MinSize>
+                        <MaxSize>
+                            <Height>1400</Height>
+                            <Width>900</Width>
+                        </MaxSize>
+                    </Geometry>
+                    <Icons>
+                        <Icon Type="Normal">./client/assets/icons/icon-normal.png</Icon>
+                        <Icon Type="RollOver">./client/assets/icons/icon-rollover.png</Icon>
+                        <Icon Type="DarkNormal">./client/assets/icons/icon-dark.png</Icon>
+                        <Icon Type="DarkRollOver">./client/assets/icons/icon-dark-rollover.png</Icon>
+                    </Icons>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>

@@ -1,0 +1,26 @@
+{
+  "name": "noiseclean-cep",
+  "version": "1.0.0",
+  "description": "Professional AI Noise Reduction CEP Extension for Adobe After Effects",
+  "main": "node/main.js",
+  "scripts": {
+    "test": "node test_orchestration.js",
+    "build:rnnoise:win": "cmd /c \"NoiseClean\\engines\\rnnoise\\src\\build.bat\"",
+    "package": "node scripts/package/package-zxp.js",
+    "install:dev": "node scripts/build/install-dev.js"
+  },
+  "keywords": [
+    "after-effects",
+    "cep",
+    "noise-reduction",
+    "ai",
+    "rnnoise",
+    "deepfilternet",
+    "audio",
+    "speech-enhancement",
+    "aescripts"
+  ],
+  "author": "AudioPro Tool",
+  "license": "Commercial",
+  "dependencies": {}
+}

@@ -1,0 +1,139 @@
+/* ==========================================================================
+   AudioPro Tool - Professional Dark Interface Theme
+   Acoustically & visually tailored to AudioPro Tool's Electric Neon Branding
+   ========================================================================== */
+
+:root {
+  /* Exact Logo-Sampled Obsidian Palette */
+  --bg-app: #080a10;
+  --bg-card: #0f121a;
+  --bg-card-hover: #151924;
+  --bg-card-active: #182236;
+  --bg-input: #0b0e15;
+  
+  /* Logo Neon Accents */
+  --accent-cyan: #2babf6;
+  --accent-cyan-bright: #00d4ff;
+  --accent-blue-neon: #0955d7;
+  --accent-blue-deep: #003db3;
+  
+  /* Borders & Dividers */
+  --border-subtle: rgba(43, 171, 246, 0.12);
+  --border-card: rgba(43, 171, 246, 0.18);
+  --border-card-hover: rgba(43, 171, 246, 0.35);
+  --border-accent: rgba(0, 212, 255, 0.4);
+
+  /* Typography */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #5e6c84;
+  --text-inverse: #ffffff;
+
+  /* Glows */
+  --glow-cyan: 0 0 16px rgba(43, 171, 246, 0.45);
+  --glow-blue: 0 0 16px rgba(9, 85, 215, 0.45);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  /* Geometry & Animation */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+  --transition-smooth: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-size: 11.5px;
+  line-height: 1.45;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(43, 171, 246, 0.2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(43, 171, 246, 0.35);
+}
+
+/* App Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  gap: 12px;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Header */
+.panel-header {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 6px;
+}
+
+.header-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 0 6px 0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.header-logo {
+  height: 52px;
+  max-width: 260px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px rgba(43, 171, 246, 0.45)) drop-shadow(0 0 6px rgba(0, 212, 255, 0.3));
+  image-rendering: -webkit-optimize-contrast;
+  pointer-events: none;
+  user-select: none;
+}
+
+.header-flare-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(43, 171, 246, 0.8) 35%, rgba(9, 85, 215, 0.8) 65%, transparent 100%);
+  margin-top: 4px;
+  box-shadow: 0 0 10px rgba(43, 171, 246, 0.45);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}

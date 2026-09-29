@@ -1,0 +1,32 @@
+# Build and Distribution Packages
+dist/
+build/
+*.zip
+
+# Dependencies
+node_modules/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Logs & Temporary Media
+*.log
+npm-debug.log*
+yarn-debug.log*
+temp/
+tmp/
+AudioPro_Cleaned/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

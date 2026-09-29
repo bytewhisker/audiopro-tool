@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>AudioPro Tool</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="panel-header">
+      <div class="header-top-row">
+        <div class="logo-container">
+          <img src="assets/images/audiopro-logo.png" alt="AudioPro Tool" class="header-logo">
+        </div>
+      </div>
+      <div class="header-flare-line"></div>
+    </header>
+
+    <!-- Pro Audio Controls Section -->
+    <section class="section controls-section">
+      <div class="pro-card">
+        <!-- Feature 1: Voice Isolation -->
+        <div class="feature-row">
+          <div class="feature-icon feature-icon-blue">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">Voice Isolation</div>
+            <div class="feature-subtitle" id="toggle-sub">Studio background noise & echo removal</div>
+          </div>
+          <label class="pro-switch switch-blue">
+            <input type="checkbox" id="noise-toggle" disabled>
+            <span class="pro-slider"></span>
+          </label>
+        </div>
+
+        <div class="feature-divider"></div>
+
+        <!-- Feature 2: Voice Restoration -->
+        <div class="feature-row">
+          <div class="feature-icon feature-icon-emerald">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">Voice Restoration</div>
+            <div class="feature-subtitle" id="resemble-sub">Broadcast clarity & harmonic reconstruction</div>
+          </div>
+          <label class="pro-switch switch-emerald">
+            <input type="checkbox" id="resemble-toggle">
+            <span class="pro-slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Indicator (visible during processing) -->
+    <div id="progress-container" class="progress-container" style="display: none;">
+      <div class="progress-status-row">
+        <div class="progress-left-info">
+          <div class="mini-equalizer" aria-hidden="true" title="Processing audio">
+            <span class="eq-bar eq-bar-1"></span>
+            <span class="eq-bar eq-bar-2"></span>
+            <span class="eq-bar eq-bar-3"></span>
+            <span class="eq-bar eq-bar-4"></span>
+            <span class="eq-bar eq-bar-5"></span>
+          </div>
+          <span id="progress-message">Restoring studio voice clarity...</span>
+        </div>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+      <div class="progress-tip-row">
+        <span id="progress-tip-tag" class="tip-tag">AUDIO INSIGHT</span>
+        <span id="progress-tip-text" class="tip-text">Reconstructing harmonic overtones for broadcast clarity...</span>
+      </div>
+    </div>
+
+    <!-- Error Notice -->
+    <div id="error-notice" class="error-notice" style="display: none;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span id="error-text">Failed to process audio.</span>
+    </div>
+  </div>
+
+  <!-- CEP Scripts -->
+  <script src="js/CSInterface.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/ae-bridge.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+/* ==========================================================================
+   AudioPro Tool - UI Components Stylesheet (Studio Pro Interface)
+   Color-matched to AudioPro Tool Official Neon Brand Palette
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Master Pro Feature Card
+   -------------------------------------------------------------------------- */
+.pro-card {
+  background: linear-gradient(180deg, var(--bg-card), #0b0e16);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.pro-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(43, 171, 246, 0.6) 40%, rgba(9, 85, 215, 0.6) 70%, transparent 100%);
+  box-shadow: 0 0 10px rgba(43, 171, 246, 0.4);
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: all var(--transition-smooth);
+}
+
+.feature-icon-blue {
+  background: rgba(9, 85, 215, 0.16);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(43, 171, 246, 0.28);
+  box-shadow: 0 0 10px rgba(9, 85, 215, 0.25);
+}
+
+.feature-icon-emerald {
+  background: rgba(0, 212, 255, 0.14);
+  color: var(--accent-cyan-bright);
+  border: 1px solid rgba(0, 212, 255, 0.32);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.22);
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.1px;
+}
+
+.feature-subtitle {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 1.5px;
+  line-height: 1.35;
+}
+
+.feature-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 2px 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Modern Pro Toggle Switch
+   -------------------------------------------------------------------------- */
+.pro-switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.pro-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.pro-slider {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-smooth);
+}
+
+.pro-slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+  transition: transform var(--transition-smooth);
+}
+
+/* Hover effect */
+.pro-switch:hover input:not(:disabled) + .pro-slider {
+  background-color: rgba(43, 171, 246, 0.16);
+  border-color: rgba(43, 171, 246, 0.35);
+}
+
+/* Checked State - Blue (Voice Isolation) */
+.switch-blue input:checked + .pro-slider {
+  background: linear-gradient(135deg, var(--accent-blue-neon), var(--accent-cyan));
+  border-color: var(--accent-cyan);
+  box-shadow: var(--glow-blue);
+}
+
+/* Checked State - Cyan Glow (Voice Restoration) */
+.switch-emerald input:checked + .pro-slider {
+  background: linear-gradient(135deg, var(--accent-cyan-bright), var(--accent-blue-neon));
+  border-color: var(--accent-cyan-bright);
+  box-shadow: var(--glow-cyan);
+}
+
+/* Checked Knob Animation */
+.pro-switch input:checked + .pro-slider:before {
+  transform: translateX(16px);
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Disabled State */
+.pro-switch input:disabled + .pro-slider {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   4. Progress Capsule & Status Readout
+   -------------------------------------------------------------------------- */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(15, 18, 26, 0.95);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 16px rgba(43, 171, 246, 0.12);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-blue-neon), var(--accent-cyan), var(--accent-cyan-bright));
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.55);
+  border-radius: var(--radius-full);
+  transition: width 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: progress-shimmer 1.8s infinite linear;
+}
+
+@keyframes progress-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.progress-left-info {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  flex: 1;
+  padding-right: 8px;
+}
+
+/* Mini Animated Studio Equalizer */
+.mini-equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+.eq-bar {
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-cyan-bright), var(--accent-blue-neon));
+  border-radius: 1px;
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.6);
+  animation: eq-bounce 0.8s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+.eq-bar-1 { height: 40%; animation-duration: 0.65s; animation-delay: 0.1s; }
+.eq-bar-2 { height: 85%; animation-duration: 0.8s; animation-delay: 0.25s; }
+.eq-bar-3 { height: 55%; animation-duration: 0.5s; animation-delay: 0.05s; }
+.eq-bar-4 { height: 100%; animation-duration: 0.9s; animation-delay: 0.3s; }
+.eq-bar-5 { height: 50%; animation-duration: 0.7s; animation-delay: 0.15s; }
+
+@keyframes eq-bounce {
+  0% { transform: scaleY(0.25); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(0.4); opacity: 0.75; }
+}
+
+#progress-message {
+  color: var(--text-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#progress-percent {
+  color: var(--accent-cyan-bright);
+  font-family: monospace;
+  font-weight: 700;
+  flex-shrink: 0;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+/* Rotating Pro Audio Tip & Insight Box */
+.progress-tip-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 2px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(43, 171, 246, 0.12);
+  overflow: hidden;
+}
+
+.tip-tag {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--accent-cyan-bright);
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  padding: 1.5px 5.5px;
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(0, 212, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.tip-text {
+  font-size: 9.5px;
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  line-height: 1.35;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tip-text.fade-out {
+  opacity: 0;
+  transform: translateY(2px);
+}
+
+/* --------------------------------------------------------------------------
+   5. Error Notice
+   -------------------------------------------------------------------------- */
+.error-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 10px;
+  color: #fca5a5;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.error-notice svg {
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+/* Responsive constraints for docked narrow & wide panels */
+@media (max-width: 300px) {
+  .app-container {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .pro-card {
+    padding: 10px 10px;
+  }
+  .header-logo {
+    height: 40px;
+    max-width: 190px;
+  }
+  .feature-subtitle {
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 440px) {
+  .header-logo {
+    height: 56px;
+    max-width: 270px;
+  }
+}
