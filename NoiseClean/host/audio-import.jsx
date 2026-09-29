@@ -437,6 +437,9 @@ var NoiseCleanImport = (function() {
             }
         }
 
+        return false;
+    }
+
     /**
      * Gets or creates a project bin folder for audio stems.
      */
