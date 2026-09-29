@@ -1,5 +1,5 @@
 /**
- * AudioPro Tool — Minimalist Showcase Script
+ * AudioPro Tool — Cognira Aesthetic Showcase Script
  * Features:
  * - Native After Effects Extension UI Simulation (Voice Isolation & Restoration Toggles)
  * - Real-Time A/B Audio Switcher (Instantly listen to Clean vs Raw Audio)
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusPill = document.getElementById('ui-status-pill');
   const modeText = document.getElementById('ui-mode-text');
   const liveBars = document.getElementById('ui-live-bars');
+  const btnHeroListen = document.getElementById('btn-hero-listen');
 
   // State
   let currentMode = 'clean'; // 'clean' or 'raw'
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (modeText) modeText.textContent = 'AudioPro Clean';
     } else {
-      if (isoDesc) isoDesc.textContent = 'Bypassed • Raw Camera Noise (HVAC Drone & Room Reverb)';
+      if (isoDesc) isoDesc.textContent = 'Bypassed • Raw Camera Noise (HVAC Drone & Reverb)';
       if (statusPill) {
         statusPill.classList.remove('clean-mode');
         statusPill.classList.add('raw-mode');
@@ -228,8 +229,22 @@ document.addEventListener('DOMContentLoaded', () => {
     playPauseBtn.addEventListener('click', toggleAudioPlay);
   }
 
+  if (btnHeroListen) {
+    btnHeroListen.addEventListener('click', (e) => {
+      e.preventDefault();
+      initAudioContext();
+      if (!isPlaying) {
+        startPlayback();
+      }
+      const demo = document.getElementById('interactive-demo');
+      if (demo) {
+        demo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
   // Subtle Card Hover Spotlight
-  const cards = document.querySelectorAll('.sup-bento-card, .sup-pricing-single-wrap, .testimonial-card');
+  const cards = document.querySelectorAll('.cog-feature-card, .cog-step-card, .cog-pricing-card, .testimonial-card');
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -237,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const y = e.clientY - rect.top;
       const glow = card.querySelector('.card-inner-glow, .pricing-card-glow');
       if (glow) {
-        glow.style.background = `radial-gradient(circle 220px at ${x}px ${y}px, rgba(0, 240, 255, 0.1) 0%, transparent 100%)`;
+        glow.style.background = `radial-gradient(circle 240px at ${x}px ${y}px, rgba(0, 212, 255, 0.12) 0%, transparent 100%)`;
       }
     });
 
@@ -250,9 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2-Column FAQ Accordion
-  const faqItems = document.querySelectorAll('.sup-faq-item');
+  const faqItems = document.querySelectorAll('.cog-faq-item');
   faqItems.forEach(item => {
-    const btn = item.querySelector('.sup-faq-btn');
+    const btn = item.querySelector('.cog-faq-btn');
     if (btn) {
       btn.addEventListener('click', () => {
         const isActive = item.classList.contains('active');
@@ -290,19 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.from('.gs-hero-elem', {
       opacity: 0,
       y: 18,
-      duration: 0.7,
+      duration: 0.65,
       stagger: 0.08,
       ease: 'power2.out'
-    });
-
-    // Floating Metric Cards
-    gsap.from('.gs-float', {
-      opacity: 0,
-      y: 12,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: 'power2.out',
-      delay: 0.2
     });
 
     // Scroll Reveals
@@ -315,32 +320,19 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         opacity: 0,
         y: 16,
-        duration: 0.6,
+        duration: 0.55,
         ease: 'power2.out'
       });
     });
 
-    // Bento & Pricing Cards Stagger
+    // Bento & Step Cards Stagger
     ScrollTrigger.batch('.gs-card', {
       start: 'top 88%',
       onEnter: batch => gsap.from(batch, {
         opacity: 0,
         y: 16,
         stagger: 0.08,
-        duration: 0.55,
-        ease: 'power2.out',
-        overwrite: true
-      })
-    });
-
-    // Three Column Features Stagger
-    ScrollTrigger.batch('.gs-col', {
-      start: 'top 88%',
-      onEnter: batch => gsap.from(batch, {
-        opacity: 0,
-        y: 16,
-        stagger: 0.08,
-        duration: 0.55,
+        duration: 0.5,
         ease: 'power2.out',
         overwrite: true
       })
@@ -356,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         onEnter: () => {
           gsap.to(counter, {
             innerText: target,
-            duration: 1.2,
+            duration: 1.0,
             snap: { innerText: 1 },
             ease: 'power2.out'
           });
