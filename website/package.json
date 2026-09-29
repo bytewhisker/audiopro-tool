@@ -1,0 +1,17 @@
+{
+  "name": "audiopro-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive showcase and marketing website for AudioPro Tool for Adobe After Effects",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "after-effects",
+    "audio-tool",
+    "voice-isolation",
+    "speech-enhancement",
+    "ai"
+  ],
+  "author": "ByteWhisker"
+}

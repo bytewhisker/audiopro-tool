@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>AudioPro Tool — 1-Click AI Voice Isolation & Studio Restoration for After Effects</title>
+  <meta name="title" content="AudioPro Tool — 1-Click AI Voice Isolation & Studio Restoration for After Effects">
+  <meta name="description" content="Studio-grade AI noise reduction, voice isolation, and acoustic reverb elimination directly inside Adobe After Effects. 100% offline, zero cloud uploads, sample-accurate sync, and native Pre-comp support.">
+  <meta name="keywords" content="AudioPro Tool, After Effects audio plugin, AI noise removal, speech enhancement, After Effects audio cleanup, Adobe Podcast alternative offline, aescripts audio tool, voice isolation, remove background noise After Effects">
+  <meta name="author" content="ByteWhisker">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://audiopro-tool.vercel.app/">
+  <meta property="og:title" content="AudioPro Tool — 1-Click AI Audio Isolation for After Effects">
+  <meta property="og:description" content="Turn noisy, echoey dialogue into broadcast-quality audio with one click. 100% offline local neural networks. Zero subscriptions.">
+  <meta property="og:image" content="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://audiopro-tool.vercel.app/">
+  <meta property="twitter:title" content="AudioPro Tool — 1-Click AI Audio Isolation for After Effects">
+  <meta property="twitter:description" content="Turn noisy, echoey dialogue into broadcast-quality audio with one click. 100% offline local neural networks.">
+  <meta property="twitter:image" content="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="media/logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AudioPro Tool",
+    "operatingSystem": "Windows 10, Windows 11, macOS Catalina 10.15+, macOS Sequoia 15+",
+    "applicationCategory": "MultimediaApplication",
+    "applicationSubCategory": "Audio Editing Extension for Adobe After Effects",
+    "offers": {
+      "@type": "Offer",
+      "price": "49.00",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "description": "Professional 100% offline AI speech enhancement, noise reduction, and room reverb cancellation extension for Adobe After Effects.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.98",
+      "ratingCount": "142"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Ambient Background Glows -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <img src="media/logo.png" alt="AudioPro Tool Logo" class="brand-img">
+        <div class="brand-text">
+          <span class="brand-title">AudioPro<span class="accent-text">Tool</span></span>
+          <span class="brand-sub">FOR AFTER EFFECTS</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#interactive-demo" class="nav-link">Interactive Demo</a>
+        <a href="#dual-engine" class="nav-link">Dual AI Engines</a>
+        <a href="#pre-comp" class="nav-link">Pre-Comp Native</a>
+        <a href="#comparison" class="nav-link">Comparison</a>
+        <a href="#workflow" class="nav-link">Workflow</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://aescripts.com" target="_blank" class="btn btn-secondary-nav">aescripts + aeplugins</a>
+        <a href="#interactive-demo" class="btn btn-primary-nav">
+          <span class="btn-glow"></span>
+          Try Demo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-content">
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span>Adobe After Effects CC 2019 – 2026+ Native Extension</span>
+      </div>
+
+      <h1 class="hero-title">
+        Turn Terrible Noise into <br>
+        <span class="gradient-text">Studio-Grade Dialogue.</span><br>
+        <span class="hero-subline">1-Click. 100% Offline.</span>
+      </h1>
+
+      <p class="hero-description">
+        No cloud uploads. No subscriptions. AudioPro Tool brings state-of-the-art dual neural networks directly into After Effects. Clean background chatter, HVAC drone, and acoustic room echo on raw clips and <strong>nested Pre-comps</strong> with sample-accurate sync.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#interactive-demo" class="btn btn-hero-primary">
+          <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Experience The Audio Switch
+        </a>
+        <a href="#workflow" class="btn btn-hero-secondary">
+          How It Works
+          <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">🔒</div>
+          <div class="trust-info">
+            <strong>100% Offline & Private</strong>
+            <span>Zero audio leaves your PC</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">⚡</div>
+          <div class="trust-info">
+            <strong>60x Real-Time Speed</strong>
+            <span>5-minute track cleaned in ~4s</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🎯</div>
+          <div class="trust-info">
+            <strong>Sample-Accurate Sync</strong>
+            <span>48kHz Sinc resampled, 0 drift</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">📦</div>
+          <div class="trust-info">
+            <strong>Pre-Comp Intelligent</strong>
+            <span>No opening pre-comps required</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive A/B Comparison Player Showcase -->
+  <section id="interactive-demo" class="demo-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge-tag">INTERACTIVE SHOWCASE</div>
+        <h2 class="section-title">Hear The Difference In Real-Time</h2>
+        <p class="section-subtitle">
+          Hit play and toggle between <strong>Raw Noisy Audio</strong> and <strong>AudioPro Tool Enhanced</strong> while the video is playing. Notice how the cafe crowd, clattering cups, and room echo vanish instantly!
+        </p>
+      </div>
+
+      <!-- Player Frame -->
+      <div class="player-wrapper">
+        <div class="player-container" id="player-container">
+          <!-- Video Elements (Dual Synchronized for Instant 0ms Switch) -->
+          <div class="video-viewport">
+            <video id="video-enhanced" playsinline preload="auto" poster="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+              <source src="media/noise_video_enhanced.mp4" type="video/mp4">
+            </video>
+            <video id="video-original" playsinline preload="auto" muted poster="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transition: opacity 0.15s ease;">
+              <source src="media/noise_video_original.mp4" type="video/mp4">
+            </video>
+
+            <!-- Video Status Indicator Overlay -->
+            <div class="mode-indicator" id="mode-indicator">
+              <div class="indicator-badge enhanced-badge" id="badge-enhanced">
+                <span class="live-dot green"></span>
+                <span>AUDIOPRO TOOL ENHANCED (ACTIVE)</span>
+              </div>
+              <div class="indicator-badge original-badge hidden" id="badge-original">
+                <span class="live-dot red"></span>
+                <span>RAW CAMERA AUDIO: NOISY CAFE (ACTIVE)</span>
+              </div>
+            </div>
+
+            <!-- Big Center Play Button Overlay (when paused) -->
+            <button class="big-play-btn" id="big-play-btn" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+
+            <!-- Quick Jump Bookmark: Snap Moment -->
+            <button class="snap-jump-btn" id="snap-jump-btn" title="Jump to the finger snap transition at 0:08">
+              <span>⚡ Jump to Snap (0:08)</span>
+            </button>
+          </div>
+
+          <!-- Interactive A/B Control Bar -->
+          <div class="ab-switch-dashboard">
+            <div class="ab-toggle-group">
+              <button class="ab-btn" id="btn-mode-raw" data-mode="raw">
+                <span class="mode-icon">📻</span>
+                <span class="mode-label">
+                  <strong>Original Raw Audio</strong>
+                  <small>Loud Cafe, Echo & Reverb</small>
+                </span>
+              </button>
+
+              <div class="toggle-center">
+                <label class="switch-toggle" for="ab-switch-input">
+                  <input type="checkbox" id="ab-switch-input" checked>
+                  <span class="slider-round"></span>
+                </label>
+                <span class="switch-caption">LIVE TOGGLE</span>
+              </div>
+
+              <button class="ab-btn active" id="btn-mode-enhanced" data-mode="enhanced">
+                <span class="mode-icon">✨</span>
+                <span class="mode-label">
+                  <strong>AudioPro Enhanced</strong>
+                  <small>Studio Broadcast Voice</small>
+                </span>
+              </button>
+            </div>
+
+            <!-- Timeline & Controls -->
+            <div class="player-controls">
+              <button class="ctrl-btn" id="play-pause-btn" aria-label="Play/Pause">
+                <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+
+              <span class="time-display" id="time-display">00:00 / 00:20</span>
+
+              <div class="timeline-bar" id="timeline-bar">
+                <div class="timeline-progress" id="timeline-progress"></div>
+                <div class="snap-marker" style="left: 40%;" title="Finger Snap Moment (0:08)"></div>
+              </div>
+
+              <!-- Volume & Mute -->
+              <button class="ctrl-btn" id="mute-btn" aria-label="Mute/Unmute">
+                <svg id="vol-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+              </button>
+            </div>
+
+            <!-- Real-time Spectral Visualizer Canvas -->
+            <div class="visualizer-container">
+              <div class="visualizer-header">
+                <span class="vis-label">REAL-TIME SPECTRAL FREQUENCY MONITOR</span>
+                <span class="vis-status" id="vis-status">MONITORING: AUDIOPRO ENHANCED</span>
+              </div>
+              <canvas id="visualizer-canvas" height="80"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Row -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-val">-52 <small>dB</small></span>
+            <span class="metric-lbl">Broadband Noise Elimination</span>
+            <p>Cafe background rumble, clattering silverware, and espresso steam eliminated cleanly.</p>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">0 <small>ms</small></span>
+            <span class="metric-lbl">Cloud Roundtrip Latency</span>
+            <p>100% on-device neural inference. Never wait for remote server queues or uploads.</p>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">48 <small>kHz</small></span>
+            <span class="metric-lbl">High-Fidelity Sample Rate</span>
+            <p>Cleaned audio resampled with bandlimited Sinc interpolation for zero phase drift.</p>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">100%</span>
+            <span class="metric-lbl">Non-Destructive Safety</span>
+            <p>Original footage is never overwritten. All cleaned media saved safely in project bins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dual AI Engines Section -->
+  <section id="dual-engine" class="engine-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge-tag">CUTTING-EDGE ARCHITECTURE</div>
+        <h2 class="section-title">Two Specialized AI Engines in One Tool</h2>
+        <p class="section-subtitle">
+          Whether you need lightning-fast turnarounds for long interviews or pristine broadcast enhancement for commercial video, AudioPro Tool includes both.
+        </p>
+      </div>
+
+      <div class="engine-grid">
+        <!-- Engine 1 -->
+        <div class="engine-card">
+          <div class="engine-badge fast">LIGHTNING FAST</div>
+          <div class="engine-icon">⚡</div>
+          <h3 class="engine-name">RNNoise Recurrent Network</h3>
+          <div class="engine-specs">
+            <div class="spec-row">
+              <span>Processing Speed:</span>
+              <strong>60x – 70x Real-Time</strong>
+            </div>
+            <div class="spec-row">
+              <span>Inference Memory:</span>
+              <strong>< 25 MB RAM</strong>
+            </div>
+            <div class="spec-row">
+              <span>Specialization:</span>
+              <strong>Speech Isolation, HVAC & Traffic</strong>
+            </div>
+          </div>
+          <p class="engine-desc">
+            An ultra-optimized C recurrent neural network designed for instant dialogue cleanup. Cleans a 10-minute podcast episode in under 9 seconds directly on CPU.
+          </p>
+          <ul class="engine-bullets">
+            <li>✓ Ultra-low CPU overhead</li>
+            <li>✓ Ideal for long dialogue takes & multicam edits</li>
+            <li>✓ Instant 1-click execution</li>
+          </ul>
+        </div>
+
+        <!-- Engine 2 -->
+        <div class="engine-card featured">
+          <div class="engine-badge studio">STUDIO MASTERING</div>
+          <div class="engine-icon">🧠</div>
+          <h3 class="engine-name">DeepFilterNet 3 Deep Neural Filter</h3>
+          <div class="engine-specs">
+            <div class="spec-row">
+              <span>Noise Suppression:</span>
+              <strong>Up to 50+ dB Attenuation</strong>
+            </div>
+            <div class="spec-row">
+              <span>Full Bandwidth:</span>
+              <strong>Full 48 kHz Preservation</strong>
+            </div>
+            <div class="spec-row">
+              <span>Specialization:</span>
+              <strong>Acoustic Echo, Reverb & Crowds</strong>
+            </div>
+          </div>
+          <p class="engine-desc">
+            Deep spectral filtering neural network compiled to WebAssembly. Reconstructs stripped voice harmonics and removes room resonance while keeping natural vocal warmth.
+          </p>
+          <ul class="engine-bullets">
+            <li>✓ Preserves intimate vocal chest warmth</li>
+            <li>✓ Eliminates harsh concrete wall acoustic slapback</li>
+            <li>✓ Equal to or outperforms cloud AI tools</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pre-Comp Intelligent Section -->
+  <section id="pre-comp" class="precomp-section">
+    <div class="container precomp-container">
+      <div class="precomp-text">
+        <div class="badge-tag">EXCLUSIVE TO AUDIOPRO TOOL</div>
+        <h2 class="section-title">Deep Pre-Comp Intelligence</h2>
+        <p class="section-lead">
+          Never waste time double-clicking into nested pre-comps just to clean an audio track.
+        </p>
+        <p class="precomp-desc">
+          AudioPro Tool features an automated recursive ExtendScript analyzer. Select any <strong>Pre-comp layer</strong> in your main timeline, hit Voice Isolation, and the engine automatically traces down into the nested comp hierarchy, locates the raw source footage, cleans the audio, and places the sample-synchronized result right where you need it.
+        </p>
+
+        <div class="feature-checklist">
+          <div class="check-item">
+            <span class="check-icon">✓</span>
+            <div>
+              <strong>Multi-Level Recursive Search:</strong>
+              <span>Finds footage even inside pre-comps nested 5 levels deep.</span>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">✓</span>
+            <div>
+              <strong>Sample-Accurate Time Alignment:</strong>
+              <span>Respects pre-comp in-points, out-points, and time stretch.</span>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">✓</span>
+            <div>
+              <strong>Permanent Media Links:</strong>
+              <span>Cleaned files are placed in <code>AudioPro_Cleaned</code> next to project files so you never see "Missing Footage" errors.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="precomp-visual">
+        <div class="comp-tree-card">
+          <div class="comp-tree-header">
+            <span class="comp-dot red"></span>
+            <span class="comp-dot yellow"></span>
+            <span class="comp-dot green"></span>
+            <span class="comp-title">After Effects Hierarchy Bridge</span>
+          </div>
+          <div class="comp-tree-body">
+            <div class="tree-node parent">
+              <span class="tree-icon">🎬</span>
+              <span>Main Sequence Comp</span>
+              <span class="badge-active">Selected Layer</span>
+            </div>
+            <div class="tree-line"></div>
+            <div class="tree-node child">
+              <span class="tree-icon">📦</span>
+              <span>Pre-comp 1 (Interview B-Roll)</span>
+              <span class="badge-resolved">Auto-Detected</span>
+            </div>
+            <div class="tree-line"></div>
+            <div class="tree-node leaf">
+              <span class="tree-icon">🔊</span>
+              <span>Noise Video.mp4 (Raw Footage Audio)</span>
+              <span class="badge-cleaned">Cleaned & Restored</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Comparison Table -->
+  <section id="comparison" class="comparison-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge-tag">INDUSTRY BENCHMARK</div>
+        <h2 class="section-title">Why Editors Choose AudioPro Tool</h2>
+        <p class="section-subtitle">
+          See how AudioPro Tool compares to cloud subscriptions and legacy external sound repair suites.
+        </p>
+      </div>
+
+      <div class="table-responsive">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Features</th>
+              <th class="highlight-col">AudioPro Tool</th>
+              <th>Adobe Podcast AI</th>
+              <th>iZotope RX 11</th>
+              <th>Premiere Essential Sound</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Runs Natively Inside After Effects</strong></td>
+              <td class="highlight-col"><span class="badge-yes">✓ Native Panel</span></td>
+              <td><span class="badge-no">✗ Web Browser Only</span></td>
+              <td><span class="badge-mid">Standalone / External</span></td>
+              <td><span class="badge-no">✗ Premiere Only</span></td>
+            </tr>
+            <tr>
+              <td><strong>100% Offline (No Internet Required)</strong></td>
+              <td class="highlight-col"><span class="badge-yes">✓ 100% Offline</span></td>
+              <td><span class="badge-no">✗ Cloud Upload Required</span></td>
+              <td><span class="badge-yes">✓ Offline</span></td>
+              <td><span class="badge-yes">✓ Offline</span></td>
+            </tr>
+            <tr>
+              <td><strong>Pricing Model</strong></td>
+              <td class="highlight-col"><span class="badge-yes">One-Time ($49)</span></td>
+              <td><span class="badge-no">Monthly Sub ($10/mo)</span></td>
+              <td><span class="badge-no">Expensive ($399+)</span></td>
+              <td><span class="badge-mid">CC Subscription</span></td>
+            </tr>
+            <tr>
+              <td><strong>Direct Pre-Comp Support</strong></td>
+              <td class="highlight-col"><span class="badge-yes">✓ Native Deep Trace</span></td>
+              <td><span class="badge-no">✗ Manual Export Needed</span></td>
+              <td><span class="badge-no">✗ Manual Export Needed</span></td>
+              <td><span class="badge-no">✗ Not in AE</span></td>
+            </tr>
+            <tr>
+              <td><strong>Privacy & Client Data Security</strong></td>
+              <td class="highlight-col"><span class="badge-yes">✓ Zero Data Shared</span></td>
+              <td><span class="badge-no">✗ Audio Sent to Cloud</span></td>
+              <td><span class="badge-yes">✓ Local Processing</span></td>
+              <td><span class="badge-yes">✓ Local Processing</span></td>
+            </tr>
+            <tr>
+              <td><strong>Processing Speed</strong></td>
+              <td class="highlight-col"><span class="badge-yes">60x–70x Real-Time</span></td>
+              <td><span class="badge-mid">Server Queue Dependent</span></td>
+              <td><span class="badge-mid">Slow (Spectral Compute)</span></td>
+              <td><span class="badge-yes">Real-Time DSP</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Step Workflow -->
+  <section id="workflow" class="workflow-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge-tag">EFFORTLESS INTEGRATION</div>
+        <h2 class="section-title">The 3-Step After Effects Workflow</h2>
+        <p class="section-subtitle">
+          No roundtripping to external applications. No tedious export/import rituals.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Select Any Layer</h3>
+          <p class="step-desc">
+            Highlight any footage layer, standalone audio file (WAV/MP3/AAC), or nested Pre-comp right in your After Effects composition.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3 class="step-title">Click Voice Isolation</h3>
+          <p class="step-desc">
+            Flip the glowing toggle inside the AudioPro Tool panel. The local neural engines immediately strip noise, echo, and chatter in seconds.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Auto-Synced Output</h3>
+          <p class="step-desc">
+            The pristine 48kHz audio is imported into your project bin and automatically placed in your timeline with sample-accurate sync.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specifications & Compatibility -->
+  <section class="specs-section">
+    <div class="container">
+      <div class="specs-card">
+        <div class="specs-col">
+          <h3>Host Compatibility</h3>
+          <ul>
+            <li><strong>Adobe After Effects:</strong> CC 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026+</li>
+            <li><strong>Installation:</strong> aescripts manager app, ZXP Installer, or UXP</li>
+          </ul>
+        </div>
+        <div class="specs-col">
+          <h3>Operating Systems</h3>
+          <ul>
+            <li><strong>Windows:</strong> Windows 10 & 11 (64-bit)</li>
+            <li><strong>macOS:</strong> macOS 10.15 Catalina through macOS 15+ Sequoia (Native Apple Silicon M1/M2/M3/M4 & Intel)</li>
+          </ul>
+        </div>
+        <div class="specs-col">
+          <h3>Supported Media</h3>
+          <ul>
+            <li><strong>Video:</strong> MP4, MOV, MKV, AVI, WebM, ProRes, DNxHD</li>
+            <li><strong>Audio:</strong> WAV, MP3, AAC, M4A, AIFF, FLAC, OGG</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge-tag">QUESTIONS & ANSWERS</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Does AudioPro Tool upload my footage or audio to the cloud?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Absolutely not.</strong> AudioPro Tool runs 100% offline using bundled neural networks running natively on your workstation. Zero data, audio, or metadata is ever uploaded or transmitted across the internet. It is safe for NDAs and sensitive commercial client work.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Will cleaned files disappear or show "Missing Footage" if I reopen my project later?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>No.</strong> Unlike tools that dump temporary files into Windows Temp or macOS cache that get wiped on restart, AudioPro Tool automatically saves your cleaned media into a dedicated <code>AudioPro_Cleaned</code> directory right alongside your original project files or documents. Your After Effects project will remain fully linked permanently.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Do I need Python, CUDA, or command-line developer tools installed?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Zero external setup required.</strong> AudioPro Tool is an all-in-one self-contained package. Everything — including FFmpeg, RNNoise C runtime, and DeepFilterNet WebAssembly neural engines — is packaged inside the extension.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does AudioPro Tool handle Pre-comps?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>AudioPro Tool features an automatic deep footage resolver. When you select a Pre-comp, it recursively analyzes the comp's internal layers, finds the source audio or video footage, extracts and enhances the audio, and attaches the cleaned audio track to your main timeline without forcing you to manually dig into nested layers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner-section">
+    <div class="container text-center">
+      <div class="cta-banner-card">
+        <h2 class="cta-title">Upgrade Your Audio Workflow Today</h2>
+        <p class="cta-subtitle">
+          Join thousands of motion designers and video editors who produce pristine voiceovers and dialogue directly inside After Effects.
+        </p>
+        <div class="cta-btn-group">
+          <a href="https://aescripts.com" target="_blank" class="btn btn-hero-primary">
+            Get AudioPro Tool on aescripts
+          </a>
+          <a href="#interactive-demo" class="btn btn-hero-secondary">
+            Replay Interactive Demo
+          </a>
+        </div>
+        <p class="cta-guarantee">30-Day Money-Back Guarantee • Compatible with AE CC 2019–2026+</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <div class="brand-logo">
+          <img src="media/logo.png" alt="AudioPro Tool" class="brand-img-sm">
+          <span class="brand-title">AudioPro<span class="accent-text">Tool</span></span>
+        </div>
+        <p class="footer-desc">Professional 1-Click AI Audio Isolation & Voice Restoration for Adobe After Effects.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#interactive-demo">Demo</a>
+        <a href="#dual-engine">Dual AI Engines</a>
+        <a href="#pre-comp">Pre-Comp Native</a>
+        <a href="#comparison">Comparison</a>
+        <a href="https://aescripts.com" target="_blank">aescripts + aeplugins</a>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <p>© 2026 Mahadi (ByteWhisker). All rights reserved. Adobe and After Effects are registered trademarks of Adobe Inc.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>
