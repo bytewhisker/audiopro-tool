@@ -1,11 +1,11 @@
 /**
- * AudioPro Tool — Suprema Interactive Showcase Script
+ * AudioPro Tool — Minimalist Showcase Script with GSAP & ScrollTrigger
  * Features:
  * - Dual Synchronized Video A/B Switcher (0ms instant crossfade)
- * - Real-Time Web Audio API Spectral Visualizer
- * - Timeline Scrubber with Snap Marker (0:08)
- * - Interactive Mousemove Card Spotlight Effect (Suprema/Framer Signature)
- * - Suprema 2-Column FAQ Accordion
+ * - Minimal Hardware-Style Spectrum Monitor Strip
+ * - GSAP Scroll-Triggered Reveals & Animated Number Counters
+ * - Mousemove Subtle Card Spotlight Sheen
+ * - 2-Column FAQ Accordion
  * - Keyboard Shortcuts (Space, A, B, S, M)
  */
 
@@ -23,13 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const timelineProgress = document.getElementById('timeline-progress');
   const snapJumpBtn = document.getElementById('snap-jump-btn');
 
-  // A/B Switch Elements
-  const abSwitchInput = document.getElementById('ab-switch-input');
+  // A/B Segment Buttons
   const btnModeRaw = document.getElementById('btn-mode-raw');
   const btnModeEnhanced = document.getElementById('btn-mode-enhanced');
   const badgeEnhanced = document.getElementById('badge-enhanced');
   const badgeOriginal = document.getElementById('badge-original');
-  const visStatus = document.getElementById('vis-status');
   const canvas = document.getElementById('visualizer-canvas');
   const canvasCtx = canvas.getContext('2d');
 
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       audioCtx = new AudioContext();
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 128;
-      analyser.smoothingTimeConstant = 0.82;
+      analyser.smoothingTimeConstant = 0.85;
 
       // Connect video elements
       sourceEnhanced = audioCtx.createMediaElementSource(videoEnhanced);
@@ -73,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
       sourceEnhanced.connect(gainEnhanced);
       sourceOriginal.connect(gainOriginal);
 
-      // Connect gains to analyser and destination
       gainEnhanced.connect(analyser);
       gainOriginal.connect(analyser);
       analyser.connect(audioCtx.destination);
@@ -112,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gainEnhanced.gain.linearRampToValueAtTime(0, now + 0.04);
       }
     } else {
-      // Direct media element fallback
       if (currentMode === 'enhanced') {
         videoEnhanced.muted = isMuted;
         videoOriginal.muted = true;
@@ -128,30 +124,28 @@ document.addEventListener('DOMContentLoaded', () => {
     currentMode = mode;
     const isEnhanced = (mode === 'enhanced');
 
-    abSwitchInput.checked = isEnhanced;
-
     if (isEnhanced) {
       btnModeEnhanced.classList.add('active');
       btnModeRaw.classList.remove('active');
+      btnModeEnhanced.setAttribute('aria-selected', 'true');
+      btnModeRaw.setAttribute('aria-selected', 'false');
       badgeEnhanced.classList.remove('hidden');
       badgeOriginal.classList.add('hidden');
-      visStatus.textContent = 'MONITORING: AUDIOPRO ENHANCED (VOCALS ISOLATED)';
-      visStatus.style.color = 'var(--sup-cyan)';
       videoOriginal.style.opacity = '0';
     } else {
       btnModeRaw.classList.add('active');
       btnModeEnhanced.classList.remove('active');
+      btnModeRaw.setAttribute('aria-selected', 'true');
+      btnModeEnhanced.setAttribute('aria-selected', 'false');
       badgeOriginal.classList.remove('hidden');
       badgeEnhanced.classList.add('hidden');
-      visStatus.textContent = 'MONITORING: RAW CAMERA AUDIO (NOISY CAFE + REVERB)';
-      visStatus.style.color = '#FB7185';
       videoOriginal.style.opacity = '1';
     }
 
     updateAudioRouting();
   }
 
-  // Event Listeners for A/B buttons
+  // Listeners for minimal segmented buttons
   btnModeRaw.addEventListener('click', () => {
     initAudioContext();
     setMode('raw');
@@ -160,11 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
   btnModeEnhanced.addEventListener('click', () => {
     initAudioContext();
     setMode('enhanced');
-  });
-
-  abSwitchInput.addEventListener('change', (e) => {
-    initAudioContext();
-    setMode(e.target.checked ? 'enhanced' : 'raw');
   });
 
   // Play / Pause Synchronized Videos
@@ -221,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
   });
 
-  // Loop together seamlessly
   videoEnhanced.addEventListener('ended', () => {
     videoEnhanced.currentTime = 0;
     videoOriginal.currentTime = 0;
@@ -267,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     muteBtn.style.opacity = isMuted ? '0.5' : '1';
   });
 
-  // Real-Time Visualizer Animation
+  // Real-Time Minimal Spectrum Visualizer
   function startVisualizer() {
     if (!analyser) return;
     const bufferLength = analyser.frequencyBinCount;
@@ -281,31 +269,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const height = canvas.height;
       canvasCtx.clearRect(0, 0, width, height);
 
-      const barCount = 42;
-      const barWidth = (width / barCount) - 4;
-      let x = 2;
+      const barCount = 48;
+      const barWidth = (width / barCount) - 2;
+      let x = 1;
 
       for (let i = 0; i < barCount; i++) {
         const index = Math.floor(i * (bufferLength / barCount) * 0.75);
         const value = isPlaying ? dataArray[index] : 0;
-        const barHeight = (value / 255) * height * 0.88;
+        const barHeight = (value / 255) * height * 0.85;
         const isEnh = (currentMode === 'enhanced');
 
-        const gradient = canvasCtx.createLinearGradient(0, height, 0, height - barHeight);
-        if (isEnh) {
-          gradient.addColorStop(0, '#00F5D4');
-          gradient.addColorStop(1, '#FFFFFF');
-        } else {
-          gradient.addColorStop(0, '#F43F5E');
-          gradient.addColorStop(1, '#FFD166');
-        }
+        canvasCtx.fillStyle = isEnh ? '#00F0FF' : '#FF3B30';
+        canvasCtx.fillRect(x, height - Math.max(barHeight, 2), barWidth, Math.max(barHeight, 2));
 
-        canvasCtx.fillStyle = gradient;
-        canvasCtx.beginPath();
-        canvasCtx.roundRect(x, height - Math.max(barHeight, 3), barWidth, Math.max(barHeight, 3), [2, 2, 0, 0]);
-        canvasCtx.fill();
-
-        x += barWidth + 4;
+        x += barWidth + 2;
       }
     }
 
@@ -319,34 +296,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const height = canvas.height;
       canvasCtx.clearRect(0, 0, width, height);
 
-      const barCount = 42;
-      const barWidth = (width / barCount) - 4;
-      let x = 2;
+      const barCount = 48;
+      const barWidth = (width / barCount) - 2;
+      let x = 1;
 
       for (let i = 0; i < barCount; i++) {
-        let barHeight = 4;
+        let barHeight = 2;
         if (isPlaying) {
           const factor = (currentMode === 'enhanced') ? 0.6 : 0.95;
-          barHeight = (Math.sin(Date.now() / 150 + i * 0.4) * 0.5 + 0.5) * height * factor * 0.75;
+          barHeight = (Math.sin(Date.now() / 160 + i * 0.4) * 0.5 + 0.5) * height * factor * 0.8;
         }
 
-        canvasCtx.fillStyle = (currentMode === 'enhanced') ? '#00F5D4' : '#F43F5E';
-        canvasCtx.fillRect(x, height - Math.max(barHeight, 3), barWidth, Math.max(barHeight, 3));
-        x += barWidth + 4;
+        canvasCtx.fillStyle = (currentMode === 'enhanced') ? '#00F0FF' : '#FF3B30';
+        canvasCtx.fillRect(x, height - Math.max(barHeight, 2), barWidth, Math.max(barHeight, 2));
+        x += barWidth + 2;
       }
     }
     drawFallback();
   }
 
-  // Suprema Card Mouse Spotlight Effect
+  // Card Mouse Spotlight Sheen
   const cards = document.querySelectorAll('.sup-bento-card, .sup-pricing-card, .testimonial-card');
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
       const glow = card.querySelector('.card-inner-glow, .pricing-card-glow');
       if (glow) {
         glow.style.background = `radial-gradient(circle 180px at ${x}px ${y}px, rgba(255, 255, 255, 0.12) 0%, transparent 100%)`;
@@ -361,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Suprema 2-Column FAQ Accordion
+  // 2-Column FAQ Accordion
   const faqItems = document.querySelectorAll('.sup-faq-item');
   faqItems.forEach(item => {
     const btn = item.querySelector('.sup-faq-btn');
@@ -393,4 +368,89 @@ document.addEventListener('DOMContentLoaded', () => {
       muteBtn.click();
     }
   });
+
+  // ==========================================================================
+  // GSAP 3 & ScrollTrigger Animations
+  // ==========================================================================
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero Stagger Entrance
+    gsap.from('.gs-hero-elem', {
+      opacity: 0,
+      y: 24,
+      duration: 0.9,
+      stagger: 0.12,
+      ease: 'power3.out'
+    });
+
+    // Floating Cards Entrance
+    gsap.from('.gs-float', {
+      opacity: 0,
+      scale: 0.92,
+      duration: 1.1,
+      stagger: 0.15,
+      ease: 'power2.out',
+      delay: 0.3
+    });
+
+    // Scroll Reveals
+    gsap.utils.toArray('.gs-reveal').forEach(elem => {
+      gsap.from(elem, {
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        y: 28,
+        duration: 0.8,
+        ease: 'power2.out'
+      });
+    });
+
+    // Bento & Pricing Cards Stagger
+    ScrollTrigger.batch('.gs-card', {
+      start: 'top 85%',
+      onEnter: batch => gsap.from(batch, {
+        opacity: 0,
+        y: 30,
+        stagger: 0.12,
+        duration: 0.75,
+        ease: 'power2.out',
+        overwrite: true
+      })
+    });
+
+    // Three Column Features Stagger
+    ScrollTrigger.batch('.gs-col', {
+      start: 'top 85%',
+      onEnter: batch => gsap.from(batch, {
+        opacity: 0,
+        y: 25,
+        stagger: 0.14,
+        duration: 0.75,
+        ease: 'power2.out',
+        overwrite: true
+      })
+    });
+
+    // Animated Metric Counters
+    const counters = document.querySelectorAll('.counter');
+    counters.forEach(counter => {
+      const target = +counter.getAttribute('data-target');
+      ScrollTrigger.create({
+        trigger: counter,
+        start: 'top 90%',
+        onEnter: () => {
+          gsap.to(counter, {
+            innerText: target,
+            duration: 1.8,
+            snap: { innerText: 1 },
+            ease: 'power2.out'
+          });
+        }
+      });
+    });
+  }
 });

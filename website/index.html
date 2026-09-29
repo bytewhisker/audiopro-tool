@@ -4,32 +4,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <!-- Primary Meta Tags -->
-  <title>AudioPro Tool — 1-Click AI Voice Isolation for After Effects</title>
-  <meta name="title" content="AudioPro Tool — 1-Click AI Voice Isolation for After Effects">
-  <meta name="description" content="Turn noisy, echoey dialogue into broadcast-grade audio with one click directly inside Adobe After Effects. 100% offline local neural networks. Zero subscriptions.">
+  <!-- Primary SEO Meta Tags -->
+  <title>AudioPro Tool — 1-Click AI Audio Isolation & Voice Restoration for After Effects</title>
+  <meta name="title" content="AudioPro Tool — 1-Click AI Audio Isolation & Voice Restoration for After Effects">
+  <meta name="description" content="1-click AI audio noise isolation, voice restoration, and room reverb cancellation for Adobe After Effects CC 2019-2026+. 100% offline, sample-accurate sync, and native Pre-comp support. One-time purchase on aescripts.">
   <meta name="keywords" content="AudioPro Tool, After Effects audio plugin, AI noise removal, speech enhancement, After Effects audio cleanup, Adobe Podcast alternative offline, aescripts audio tool, voice isolation, remove background noise After Effects">
   <meta name="author" content="ByteWhisker">
   <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://audiopro.vercel.app/">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://website-pi-flame-66.vercel.app/">
+  <meta property="og:url" content="https://audiopro.vercel.app/">
   <meta property="og:title" content="AudioPro Tool — 1-Click AI Audio Isolation for After Effects">
-  <meta property="og:description" content="Turn noisy, echoey dialogue into broadcast-quality audio with one click. 100% offline local neural networks.">
-  <meta property="og:image" content="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+  <meta property="og:description" content="Turn noisy, echoey dialogue into broadcast-quality audio with one click. 100% offline local neural networks. One-time purchase.">
+  <meta property="og:image" content="media/thumbnails/audiopro_thumbnail_2.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://website-pi-flame-66.vercel.app/">
+  <meta name="twitter:url" content="https://audiopro.vercel.app/">
   <meta name="twitter:title" content="AudioPro Tool — 1-Click AI Audio Isolation for After Effects">
   <meta name="twitter:description" content="Turn noisy, echoey dialogue into broadcast-quality audio with one click. 100% offline local neural networks.">
-  <meta name="twitter:image" content="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+  <meta name="twitter:image" content="media/thumbnails/audiopro_thumbnail_2.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="media/logo.png">
 
-  <!-- Suprema Font Stack: Inter Tight & Inter -->
+  <!-- Typography: Inter Tight & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,7 +38,11 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Structured Data JSON-LD -->
+  <!-- GSAP 3 & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Structured Data JSON-LD for Software Application -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,7 +55,11 @@
       "@type": "Offer",
       "price": "49.00",
       "priceCurrency": "USD",
-      "availability": "https://schema.org/InStock"
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "aescripts + aeplugins"
+      }
     },
     "description": "Professional 100% offline AI speech enhancement, noise reduction, and room reverb cancellation extension for Adobe After Effects.",
     "aggregateRating": {
@@ -63,21 +72,20 @@
 </head>
 <body class="suprema-theme">
 
-  <!-- Subtle Ambient Glows -->
+  <!-- Ambient Glow -->
   <div class="sup-ambient-glow top-center"></div>
 
-  <!-- Navigation Bar -->
+  <!-- Navigation Bar: LOGO ONLY (No text next to it) -->
   <header class="sup-header">
     <div class="sup-nav-container">
-      <a href="#" class="sup-brand">
-        <img src="media/logo.png" alt="AudioPro Tool" class="sup-logo-icon">
-        <span class="sup-brand-name">AudioPro<span class="dot-accent">.</span></span>
+      <a href="#" class="sup-brand" aria-label="AudioPro Tool Home">
+        <img src="media/logo.png" alt="AudioPro Tool" class="sup-nav-logo">
       </a>
 
       <nav class="sup-nav-links">
         <a href="#interactive-demo" class="sup-nav-item">Demo</a>
         <a href="#glance" class="sup-nav-item">At a Glance</a>
-        <a href="#features" class="sup-nav-item">Features</a>
+        <a href="#features" class="sup-nav-item">AI Engines</a>
         <a href="#pricing" class="sup-nav-item">Pricing</a>
         <a href="#workflow" class="sup-nav-item">Workflow</a>
         <a href="#faq" class="sup-nav-item">FAQ</a>
@@ -90,15 +98,14 @@
     </div>
   </header>
 
-  <!-- Hero Section with Suprema Floating Mockup Cluster -->
+  <!-- Hero Section -->
   <section class="sup-hero-section">
-    <!-- Top Horizon Flare for Hero -->
+    <!-- Top Horizon Flare -->
     <div class="sup-top-flare"></div>
 
-    <!-- Floating Cards Cluster (Suprema Signature Layout) -->
+    <!-- Floating Cards Cluster -->
     <div class="sup-hero-floating-cluster">
-      <!-- Left Card 1: Speed Gauge -->
-      <div class="sup-float-card card-left-1">
+      <div class="sup-float-card card-left-1 gs-float">
         <div class="float-card-header">
           <span class="mini-dot green"></span>
           <span class="mini-label">REAL-TIME FACTOR</span>
@@ -110,24 +117,22 @@
         </div>
       </div>
 
-      <!-- Left Card 2: Pre-Comp Resolver -->
-      <div class="sup-float-card card-left-2">
+      <div class="sup-float-card card-left-2 gs-float">
         <div class="float-card-header">
           <span class="mini-dot cyan"></span>
           <span class="mini-label">PRE-COMP TRACE</span>
         </div>
         <div class="float-node">
-          <span>📦 Pre-comp 1</span>
+          <span>Pre-comp 1</span>
           <span class="status-tag">LOCKED</span>
         </div>
         <div class="float-node sub">
-          <span>🔊 Noise Video.mp4</span>
+          <span>Noise Video.mp4</span>
           <span class="status-tag active">CLEANED</span>
         </div>
       </div>
 
-      <!-- Right Card 1: Noise Attenuation -->
-      <div class="sup-float-card card-right-1">
+      <div class="sup-float-card card-right-1 gs-float">
         <div class="float-card-header">
           <span class="mini-dot purple"></span>
           <span class="mini-label">NOISE ATTENUATION</span>
@@ -144,8 +149,7 @@
         </div>
       </div>
 
-      <!-- Right Card 2: 100% Offline Badge -->
-      <div class="sup-float-card card-right-2">
+      <div class="sup-float-card card-right-2 gs-float">
         <div class="float-card-header">
           <span class="mini-dot gold"></span>
           <span class="mini-label">DATA PRIVACY</span>
@@ -157,37 +161,37 @@
 
     <!-- Center Hero Content -->
     <div class="sup-container hero-center-content">
-      <div class="sup-pill-badge">
-        <span class="sparkle-icon">✨</span>
+      <div class="sup-pill-badge gs-hero-elem">
+        <span class="pulse-dot"></span>
         <span>After Effects CC 2019 – 2026+ Native Extension</span>
       </div>
 
-      <h1 class="sup-hero-title">
+      <h1 class="sup-hero-title gs-hero-elem">
         Isolate and restore voice <br>
         <span class="sup-title-gradient">from noise to studio.</span>
       </h1>
 
-      <p class="sup-hero-description">
+      <p class="sup-hero-description gs-hero-elem">
         AudioPro Tool brings state-of-the-art dual neural networks directly to your timeline. Strip cafe chatter, HVAC drone, and acoustic echo with sample-accurate synchronization.
       </p>
 
-      <div class="sup-hero-buttons">
+      <div class="sup-hero-buttons gs-hero-elem">
         <a href="#interactive-demo" class="sup-btn-hero-primary">
           <svg class="sup-icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           Experience Live Demo
         </a>
-        <a href="#glance" class="sup-btn-hero-secondary">
-          Explore Features
+        <a href="#pricing" class="sup-btn-hero-secondary">
+          View One-Time Pricing
         </a>
       </div>
 
-      <div class="sup-hero-trust-text">
-        <span>No Cloud APIs • No Subscriptions • Sample-Accurate 48kHz</span>
+      <div class="sup-hero-trust-text gs-hero-elem">
+        <span>100% Offline • No Subscriptions • Sample-Accurate 48kHz</span>
       </div>
     </div>
 
-    <!-- Partner / Software Compatibility Row -->
-    <div class="sup-container sup-logo-ticker">
+    <!-- Partner Compatibility Row -->
+    <div class="sup-container sup-logo-ticker gs-hero-elem">
       <span class="ticker-label">INTEGRATED NATIVELY WITH PROFESSIONAL WORKFLOWS</span>
       <div class="ticker-logos">
         <div class="ticker-item">ADOBE AFTER EFFECTS</div>
@@ -200,9 +204,9 @@
     </div>
   </section>
 
-  <!-- Section 2: "Suprema at a Glance" — The Signature Horizon Beam Showcase -->
+  <!-- Section 2: "AudioPro at a Glance" — Horizon Beam Showcase -->
   <section id="glance" class="sup-showcase-section">
-    <!-- The Dramatic Suprema Horizon Beam Flare -->
+    <!-- Horizon Beam Flare -->
     <div class="sup-horizon-wrapper">
       <div class="sup-center-orb">
         <div class="orb-inner">
@@ -211,25 +215,24 @@
           </svg>
         </div>
       </div>
-      <!-- Intense Horizontal Lens Flare Line -->
       <div class="sup-horizon-beam"></div>
       <div class="sup-horizon-radial-sheen"></div>
     </div>
 
     <div class="sup-container text-center">
-      <div class="sup-section-tag">
+      <div class="sup-section-tag gs-reveal">
         <span class="tag-dot yellow"></span>
         <span>AT A GLANCE</span>
       </div>
-      <h2 class="sup-section-heading">AudioPro at a Glance</h2>
-      <p class="sup-section-subhead">
-        A quick glimpse into how AudioPro Tool transforms dialogue directly in your composition.
+      <h2 class="sup-section-heading gs-reveal">AudioPro at a Glance</h2>
+      <p class="sup-section-subhead gs-reveal">
+        A quick glimpse into how AudioPro Tool cleans audio directly in your composition.
       </p>
     </div>
 
-    <!-- Main Showcase Video Device Frame (The Centerpiece) -->
+    <!-- Main Device Frame (Ultra-Clean, Minimal Preview Panel) -->
     <div class="sup-container sup-main-frame-wrapper" id="interactive-demo">
-      <div class="sup-device-frame">
+      <div class="sup-device-frame gs-reveal">
         <!-- Top Window Header Bar -->
         <div class="sup-frame-topbar">
           <div class="window-controls">
@@ -238,8 +241,7 @@
             <span class="w-dot green"></span>
           </div>
           <div class="window-tab-title">
-            <span class="tab-icon">🎬</span>
-            <span>AudioPro Tool — Live A/B Comparison Monitor (1080p 24fps)</span>
+            <span>AudioPro Tool — Live A/B Monitor (1080p 24fps)</span>
           </div>
           <div class="window-right-badge">
             <span class="pulse-live"></span>
@@ -249,22 +251,22 @@
 
         <!-- Synchronized Dual-Video Player Viewport -->
         <div class="sup-player-viewport">
-          <video id="video-enhanced" playsinline preload="auto" poster="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+          <video id="video-enhanced" playsinline preload="auto" poster="media/thumbnails/audiopro_thumbnail_2.png">
             <source src="media/noise_video_enhanced.mp4" type="video/mp4">
           </video>
-          <video id="video-original" playsinline preload="auto" muted poster="media/thumbnails/01_Promo_BeforeAfter_Split_1920x1080.jpg">
+          <video id="video-original" playsinline preload="auto" muted poster="media/thumbnails/audiopro_thumbnail_2.png">
             <source src="media/noise_video_original.mp4" type="video/mp4">
           </video>
 
-          <!-- Floating Status Badge -->
+          <!-- Minimal Status Pill Indicator -->
           <div class="sup-player-badge-overlay">
-            <div class="status-indicator enhanced active" id="badge-enhanced">
+            <div class="minimal-status-pill enhanced active" id="badge-enhanced">
               <span class="dot-green"></span>
-              <span>AUDIOPRO ENHANCED (ACTIVE)</span>
+              <span>AudioPro Clean</span>
             </div>
-            <div class="status-indicator original hidden" id="badge-original">
+            <div class="minimal-status-pill raw hidden" id="badge-original">
               <span class="dot-red"></span>
-              <span>RAW CAMERA AUDIO: NOISY CAFE (ACTIVE)</span>
+              <span>Raw Camera Audio</span>
             </div>
           </div>
 
@@ -272,78 +274,52 @@
           <button class="sup-big-play-btn" id="big-play-btn" aria-label="Play Demo">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </button>
-
-          <!-- Snap Jump Bookmark Button -->
-          <button class="sup-snap-bookmark-btn" id="snap-jump-btn" title="Jump to finger snap at 0:08">
-            <span class="snap-bolt">⚡</span>
-            <span>Hear The Snap (0:08)</span>
-          </button>
         </div>
 
-        <!-- Suprema Style Bottom Control Dashboard -->
-        <div class="sup-player-controls-panel">
-          <!-- A/B Switch Interactive Buttons -->
-          <div class="sup-switch-dock">
-            <button class="sup-mode-btn" id="btn-mode-raw" data-mode="raw">
-              <span class="btn-emoji">📻</span>
-              <span class="btn-texts">
-                <strong>Original Raw Audio</strong>
-                <small>Loud Cafe, Clatter & Reverb</small>
-              </span>
-            </button>
-
-            <!-- Suprema Glowing Switch Toggle -->
-            <div class="sup-toggle-unit">
-              <label class="sup-switch-toggle" for="ab-switch-input">
-                <input type="checkbox" id="ab-switch-input" checked>
-                <span class="sup-slider-round"></span>
-              </label>
-              <span class="sup-switch-label">LIVE A/B SWITCH</span>
-            </div>
-
-            <button class="sup-mode-btn active" id="btn-mode-enhanced" data-mode="enhanced">
-              <span class="btn-emoji">✨</span>
-              <span class="btn-texts">
-                <strong>AudioPro Enhanced</strong>
-                <small>Broadcast Vocal Studio Quality</small>
-              </span>
-            </button>
-          </div>
-
-          <!-- Video Playback Scrubbing Bar -->
-          <div class="sup-timeline-row">
+        <!-- Minimalist, Professional Player Controls Panel (NO EMOJIS, ZERO CLUTTER) -->
+        <div class="sup-minimal-controls">
+          <div class="controls-left">
             <button class="sup-ctrl-btn" id="play-pause-btn" aria-label="Play/Pause">
               <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               <svg id="pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
 
-            <span class="sup-timecode" id="time-display">00:00 / 00:20</span>
+            <!-- Minimal Segmented A/B Switch -->
+            <div class="minimal-segment-group" role="tablist">
+              <button class="segment-btn" id="btn-mode-raw" role="tab" aria-selected="false">Raw Audio</button>
+              <button class="segment-btn active" id="btn-mode-enhanced" role="tab" aria-selected="true">AudioPro Enhanced</button>
+            </div>
+          </div>
 
+          <!-- Center Timeline Scrubber -->
+          <div class="controls-center">
             <div class="sup-scrubber-track" id="timeline-bar">
               <div class="sup-scrubber-fill" id="timeline-progress"></div>
               <div class="sup-snap-marker" style="left: 40%;" title="Finger Snap Moment (0:08)"></div>
             </div>
+            <span class="sup-timecode" id="time-display">00:00 / 00:20</span>
+          </div>
 
+          <!-- Right Controls: Quick Snap Jump & Volume -->
+          <div class="controls-right">
+            <button class="minimal-snap-btn" id="snap-jump-btn" title="Jump to finger snap at 0:08">
+              <span>Snap (0:08)</span>
+            </button>
             <button class="sup-ctrl-btn" id="mute-btn" aria-label="Mute/Unmute">
               <svg id="vol-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
             </button>
           </div>
+        </div>
 
-          <!-- Live Web Audio API Frequency Spectrum -->
-          <div class="sup-spectrum-box">
-            <div class="spectrum-meta">
-              <span class="spec-title">REAL-TIME SPECTRAL FREQUENCY MONITOR</span>
-              <span class="spec-active-channel" id="vis-status">MONITORING: AUDIOPRO ENHANCED</span>
-            </div>
-            <canvas id="visualizer-canvas" height="75"></canvas>
-          </div>
+        <!-- Sleek Integrated Frequency Canvas -->
+        <div class="minimal-spectrum-strip">
+          <canvas id="visualizer-canvas" height="34"></canvas>
         </div>
       </div>
 
-      <!-- 4 Bento Feature Cards Beneath Main Device Frame (Suprema 2x2 Layout) -->
+      <!-- 4 Bento Feature Cards Beneath Device Frame -->
       <div class="sup-bento-subgrid">
-        <!-- Card 1: Dual Neural Networks -->
-        <div class="sup-bento-card">
+        <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
           <div class="bento-badge yellow">DUAL ENGINES</div>
           <h3 class="bento-title">RNNoise & DeepFilterNet 3</h3>
@@ -362,8 +338,7 @@
           </div>
         </div>
 
-        <!-- Card 2: Pre-Comp Intelligence -->
-        <div class="sup-bento-card">
+        <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
           <div class="bento-badge green">PRE-COMP INTELLIGENT</div>
           <h3 class="bento-title">Native Recursive Comp Trace</h3>
@@ -371,19 +346,18 @@
             No need to double click or open nested pre-comps. AudioPro Tool traces deep footage layers, resolves audio sources, and injects cleaned sync audio directly.
           </p>
           <div class="bento-tree-preview">
-            <span class="tree-chip parent">🎬 Main Sequence</span>
-            <span class="tree-chip child">↳ 📦 Pre-comp 1</span>
-            <span class="tree-chip resolved">↳ 🔊 Noise Video.mp4 (Synced)</span>
+            <span class="tree-chip parent">Main Sequence</span>
+            <span class="tree-chip child">↳ Pre-comp 1</span>
+            <span class="tree-chip resolved">↳ Noise Video.mp4 (Auto-Synced)</span>
           </div>
         </div>
 
-        <!-- Card 3: 100% Offline Privacy -->
-        <div class="sup-bento-card">
+        <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
           <div class="bento-badge purple">100% PRIVATE</div>
           <h3 class="bento-title">Zero Cloud APIs or Telemetry</h3>
           <p class="bento-text">
-            Safe for commercial NDAs, film productions, and sensitive dialogue. All neural inference runs entirely locally on CPU/GPU with zero internet needed.
+            Safe for commercial NDAs, film productions, and sensitive dialogue. All neural inference runs entirely locally on CPU with zero internet needed.
           </p>
           <div class="bento-pill-stat">
             <span class="stat-num">0 KB</span>
@@ -391,8 +365,7 @@
           </div>
         </div>
 
-        <!-- Card 4: Permanent Project Storage -->
-        <div class="sup-bento-card">
+        <div class="sup-bento-card gs-card">
           <div class="card-inner-glow"></div>
           <div class="bento-badge cyan">NON-DESTRUCTIVE</div>
           <h3 class="bento-title">No Missing Footage Errors</h3>
@@ -408,31 +381,40 @@
     </div>
   </section>
 
+  <!-- Product Visual Feature Banner (Showcasing Official Graphic) -->
+  <section class="sup-visual-showcase-section">
+    <div class="sup-container">
+      <div class="sup-feature-banner gs-reveal">
+        <img src="media/thumbnails/audiopro_thumbnail_1.png" alt="AudioPro Tool Waveform Isolation Feature" class="sup-feature-img">
+      </div>
+    </div>
+  </section>
+
   <!-- Section 3: "Unlock Your Audio's Potential" (Suprema Metric Banner) -->
   <section id="features" class="sup-potential-section">
     <div class="sup-container text-center">
-      <div class="sup-section-tag">
+      <div class="sup-section-tag gs-reveal">
         <span class="tag-dot yellow"></span>
         <span>BENCHMARKS</span>
       </div>
-      <h2 class="sup-section-heading">Unlock Your Audio's Potential</h2>
-      <p class="sup-section-subhead">
+      <h2 class="sup-section-heading gs-reveal">Unlock Your Audio's Potential</h2>
+      <p class="sup-section-subhead gs-reveal">
         Engineered to outperform cumbersome external workflows and sluggish web tools.
       </p>
 
       <!-- 3-Column Feature Icons -->
       <div class="sup-features-three-col">
-        <div class="feature-col-item">
+        <div class="feature-col-item gs-col">
           <div class="feature-col-icon">⚡</div>
           <h4 class="feature-col-title">Lightning Speed</h4>
           <p class="feature-col-desc">Process a 5-minute dialogue clip in ~4 seconds without leaving your After Effects composition.</p>
         </div>
-        <div class="feature-col-item">
+        <div class="feature-col-item gs-col">
           <div class="feature-col-icon">🎯</div>
           <h4 class="feature-col-title">Zero Sample Drift</h4>
           <p class="feature-col-desc">High-quality bandlimited Sinc interpolation ensures perfect frame synchronization from start to finish.</p>
         </div>
-        <div class="feature-col-item">
+        <div class="feature-col-item gs-col">
           <div class="feature-col-icon">🛡️</div>
           <h4 class="feature-col-title">Non-Destructive</h4>
           <p class="feature-col-desc">Original camera audio and footage remain 100% intact. Cleaned tracks are loaded into new sync layers.</p>
@@ -440,105 +422,108 @@
       </div>
 
       <!-- Suprema Big Numbers Metric Row -->
-      <div class="sup-metrics-bar">
+      <div class="sup-metrics-bar gs-reveal">
         <div class="metric-segment">
-          <div class="metric-huge">65<small class="metric-suffix">X</small></div>
+          <div class="metric-huge"><span class="counter" data-target="65">0</span><small class="metric-suffix">X</small></div>
           <div class="metric-caption">Faster Than Real-Time</div>
         </div>
         <div class="metric-divider"></div>
         <div class="metric-segment">
-          <div class="metric-huge">-52<small class="metric-suffix">dB</small></div>
+          <div class="metric-huge">-<span class="counter" data-target="52">0</span><small class="metric-suffix">dB</small></div>
           <div class="metric-caption">Acoustic Noise Reduction</div>
         </div>
         <div class="metric-divider"></div>
         <div class="metric-segment">
-          <div class="metric-huge">100<small class="metric-suffix">%</small></div>
+          <div class="metric-huge"><span class="counter" data-target="100">0</span><small class="metric-suffix">%</small></div>
           <div class="metric-caption">Offline Local Privacy</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 4: Affordable Pricing Plans (Suprema 3-Tier Card Layout) -->
+  <!-- Section 4: 100% ONE-TIME PURCHASE PRICING (NO FREE TIERS) -->
   <section id="pricing" class="sup-pricing-section">
     <div class="sup-container text-center">
-      <div class="sup-section-tag">
+      <div class="sup-section-tag gs-reveal">
         <span class="tag-dot green"></span>
-        <span>PRICING</span>
+        <span>ONE-TIME PURCHASE</span>
       </div>
-      <h2 class="sup-section-heading">Affordable, One-Time Pricing</h2>
-      <p class="sup-section-subhead">
-        No monthly recurring charges. Own your After Effects AI tool for life.
+      <h2 class="sup-section-heading gs-reveal">Perpetual Lifetime Pricing</h2>
+      <p class="sup-section-subhead gs-reveal">
+        Zero monthly subscriptions. Pay once on aescripts + aeplugins and own AudioPro Tool forever.
       </p>
 
       <div class="sup-pricing-grid">
-        <!-- Plan 1: Free Trial / Demo -->
-        <div class="sup-pricing-card">
+        <!-- Tier 1: Single Creator -->
+        <div class="sup-pricing-card gs-card">
           <div class="pricing-card-glow"></div>
           <div class="pricing-card-header">
-            <span class="plan-name">Demo Edition</span>
-            <div class="plan-price">$0</div>
-            <span class="plan-term">Interactive Web Preview</span>
-          </div>
-          <p class="plan-desc">Experience real-time audio isolation on your browser before installing.</p>
-          <a href="#interactive-demo" class="sup-btn-pricing-outline">Try Web Demo</a>
-          <ul class="plan-checklist">
-            <li>✓ Full 20-Second A/B Comparison</li>
-            <li>✓ Real-Time Spectral Monitor</li>
-            <li>✓ Zero Install Required</li>
-            <li>✗ After Effects Extension</li>
-          </ul>
-        </div>
-
-        <!-- Plan 2: Pro Lifetime (Featured with Suprema Highlight Sheen) -->
-        <div class="sup-pricing-card featured">
-          <div class="pricing-card-glow featured-glow"></div>
-          <div class="featured-badge">MOST POPULAR</div>
-          <div class="pricing-card-header">
-            <span class="plan-name">Pro License</span>
+            <span class="plan-name">Creator License</span>
             <div class="plan-price">$49</div>
             <span class="plan-term">One-time payment • Lifetime</span>
           </div>
-          <p class="plan-desc">Complete offline AI audio restoration extension for solo creators and video editors.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-white">Get AudioPro Tool</a>
+          <p class="plan-desc">For freelance video editors, YouTubers, and independent motion designers.</p>
+          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Buy on aescripts ($49)</a>
           <ul class="plan-checklist">
+            <li>✓ 1 Workstation Activation</li>
             <li>✓ Native After Effects CEP Panel</li>
             <li>✓ Dual AI Engines (RNNoise + DeepFilterNet 3)</li>
             <li>✓ Native Pre-Comp Deep Trace</li>
             <li>✓ Sample-Accurate 48kHz Sinc Sync</li>
             <li>✓ 100% Offline & Private Processing</li>
-            <li>✓ AE CC 2019 – 2026+ Compatibility</li>
             <li>✓ Free Lifetime Minor Updates</li>
           </ul>
         </div>
 
-        <!-- Plan 3: Studio Team -->
-        <div class="sup-pricing-card">
+        <!-- Tier 2: Commercial Pro (Featured) -->
+        <div class="sup-pricing-card featured gs-card">
+          <div class="pricing-card-glow featured-glow"></div>
+          <div class="featured-badge">MOST POPULAR</div>
+          <div class="pricing-card-header">
+            <span class="plan-name">Commercial Pro</span>
+            <div class="plan-price">$79</div>
+            <span class="plan-term">One-time payment • Lifetime</span>
+          </div>
+          <p class="plan-desc">For professional commercial editors, agency animators, and high-volume productions.</p>
+          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-white">Get Commercial Pro ($79)</a>
+          <ul class="plan-checklist">
+            <li>✓ 2 Workstations (Desktop + Laptop)</li>
+            <li>✓ Full Commercial Client Rights</li>
+            <li>✓ Priority Neural Execution Pipeline</li>
+            <li>✓ Advanced Reverb & Slapback Control</li>
+            <li>✓ Native Pre-Comp Deep Trace</li>
+            <li>✓ Sample-Accurate 48kHz Sinc Sync</li>
+            <li>✓ Priority Developer Support</li>
+          </ul>
+        </div>
+
+        <!-- Tier 3: Studio Team Multi-Seat -->
+        <div class="sup-pricing-card gs-card">
           <div class="pricing-card-glow"></div>
           <div class="pricing-card-header">
             <span class="plan-name">Studio Multi-Seat</span>
             <div class="plan-price">$149</div>
-            <span class="plan-term">Up to 5 workstations</span>
+            <span class="plan-term">One-time payment • 5 Seats</span>
           </div>
           <p class="plan-desc">For post-production houses, animation studios, and commercial creative agencies.</p>
-          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Get Studio License</a>
+          <a href="https://aescripts.com" target="_blank" class="sup-btn-pricing-outline">Get Studio Team ($149)</a>
           <ul class="plan-checklist">
-            <li>✓ Includes 5 Floating Workstation Seats</li>
+            <li>✓ 5 Floating Workstation Seats</li>
             <li>✓ Centralized License Deployment</li>
-            <li>✓ Priority Developer Technical Support</li>
-            <li>✓ All Pro Features Included</li>
+            <li>✓ Full Commercial Rights</li>
+            <li>✓ Direct Developer Technical Support</li>
             <li>✓ Enterprise NDA Compliance Ready</li>
+            <li>✓ All Pro Features Included</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 5: Alternating Bento Deep-Dives -->
-  <section class="sup-deepdive-section">
+  <!-- Section 5: Alternating Deep-Dives -->
+  <section id="workflow" class="sup-deepdive-section">
     <div class="sup-container">
-      <!-- Row 1: Workflow Comparison -->
-      <div class="sup-deepdive-row">
+      <div class="sup-deepdive-row gs-reveal">
         <div class="deepdive-text">
           <div class="sup-section-tag">
             <span class="tag-dot yellow"></span>
@@ -584,8 +569,7 @@
         </div>
       </div>
 
-      <!-- Row 2: Powerful Pre-Comp Navigation -->
-      <div class="sup-deepdive-row reverse">
+      <div class="sup-deepdive-row reverse gs-reveal">
         <div class="deepdive-text">
           <div class="sup-section-tag">
             <span class="tag-dot purple"></span>
@@ -610,10 +594,10 @@
             </div>
             <div class="visual-body">
               <div class="tree-graphic">
-                <div class="tg-item lvl-1">🎬 Master Comp (Selected)</div>
-                <div class="tg-item lvl-2">↳ 📦 Interview Pre-Comp</div>
-                <div class="tg-item lvl-3">↳ 📦 Sub-Comp Cut 02</div>
-                <div class="tg-item lvl-4">↳ 🔊 Noise Video.mp4 [Auto-Resolved]</div>
+                <div class="tg-item lvl-1">Master Comp (Selected)</div>
+                <div class="tg-item lvl-2">↳ Interview Pre-Comp</div>
+                <div class="tg-item lvl-3">↳ Sub-Comp Cut 02</div>
+                <div class="tg-item lvl-4">↳ Noise Video.mp4 [Auto-Resolved]</div>
               </div>
             </div>
           </div>
@@ -622,18 +606,18 @@
     </div>
   </section>
 
-  <!-- Section 6: User Testimonials ("What Our Users Say") -->
+  <!-- Section 6: User Testimonials -->
   <section class="sup-testimonials-section">
     <div class="sup-container text-center">
-      <div class="sup-section-tag">
+      <div class="sup-section-tag gs-reveal">
         <span class="tag-dot red"></span>
         <span>TESTIMONIALS</span>
       </div>
-      <h2 class="sup-section-heading">What Our Users Say</h2>
-      <p class="sup-section-subhead">Loved by motion designers, video editors, and audio engineers.</p>
+      <h2 class="sup-section-heading gs-reveal">What Our Users Say</h2>
+      <p class="sup-section-subhead gs-reveal">Loved by motion designers, video editors, and audio engineers.</p>
 
       <div class="sup-testimonials-grid">
-        <div class="testimonial-card">
+        <div class="testimonial-card gs-card">
           <p class="testimonial-quote">"Being able to clean noisy dialogue right inside After Effects without opening a web browser or Adobe Audition saves me hours on every vlog edit."</p>
           <div class="testimonial-author">
             <div class="author-avatar">JD</div>
@@ -644,7 +628,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card gs-card">
           <p class="testimonial-quote">"The pre-comp support is magic. I used to hate when clients sent me nested pre-comps with bad audio. Now I just click one toggle and it's fixed."</p>
           <div class="testimonial-author">
             <div class="author-avatar">SK</div>
@@ -655,7 +639,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card gs-card">
           <p class="testimonial-quote">"Offline privacy was the dealbreaker for our studio. We work under strict NDAs, so cloud tools were out of the question. AudioPro Tool delivered 100%."</p>
           <div class="testimonial-author">
             <div class="author-avatar">MR</div>
@@ -666,7 +650,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card gs-card">
           <p class="testimonial-quote">"The 48kHz audio quality is astonishing. The voice retains its natural low-end chest warmth instead of sounding like a robotic telephone."</p>
           <div class="testimonial-author">
             <div class="author-avatar">EL</div>
@@ -680,19 +664,19 @@
     </div>
   </section>
 
-  <!-- Section 7: Frequently Asked Questions (Suprema 2-Col Accordion) -->
+  <!-- Section 7: Frequently Asked Questions -->
   <section id="faq" class="sup-faq-section">
     <div class="sup-container">
       <div class="text-center">
-        <div class="sup-section-tag">
+        <div class="sup-section-tag gs-reveal">
           <span class="tag-dot yellow"></span>
           <span>FAQ</span>
         </div>
-        <h2 class="sup-section-heading">Frequently Asked Questions</h2>
+        <h2 class="sup-section-heading gs-reveal">Frequently Asked Questions</h2>
       </div>
 
       <div class="sup-faq-grid">
-        <div class="sup-faq-item">
+        <div class="sup-faq-item gs-card">
           <button class="sup-faq-btn">
             <span>Does AudioPro Tool upload audio to the cloud?</span>
             <span class="sup-faq-sign">+</span>
@@ -702,7 +686,7 @@
           </div>
         </div>
 
-        <div class="sup-faq-item">
+        <div class="sup-faq-item gs-card">
           <button class="sup-faq-btn">
             <span>Will I get "Missing Footage" errors when reopening?</span>
             <span class="sup-faq-sign">+</span>
@@ -712,7 +696,7 @@
           </div>
         </div>
 
-        <div class="sup-faq-item">
+        <div class="sup-faq-item gs-card">
           <button class="sup-faq-btn">
             <span>Do I need Python or CUDA installed?</span>
             <span class="sup-faq-sign">+</span>
@@ -722,7 +706,7 @@
           </div>
         </div>
 
-        <div class="sup-faq-item">
+        <div class="sup-faq-item gs-card">
           <button class="sup-faq-btn">
             <span>How does it handle Pre-comps?</span>
             <span class="sup-faq-sign">+</span>
@@ -732,7 +716,7 @@
           </div>
         </div>
 
-        <div class="sup-faq-item">
+        <div class="sup-faq-item gs-card">
           <button class="sup-faq-btn">
             <span>Which versions of After Effects are supported?</span>
             <span class="sup-faq-sign">+</span>
@@ -742,7 +726,7 @@
           </div>
         </div>
 
-        <div class="sup-faq-item">
+        <div class="sup-faq-item gs-card">
           <button class="sup-faq-btn">
             <span>Is there a monthly subscription fee?</span>
             <span class="sup-faq-sign">+</span>
@@ -755,13 +739,12 @@
     </div>
   </section>
 
-  <!-- Section 8: Final CTA with Horizon Spotlight & Big Numbers -->
+  <!-- Section 8: Final CTA with Horizon Spotlight -->
   <section class="sup-final-cta-section">
-    <!-- Curved Spotlight Horizon Flare -->
     <div class="sup-cta-spotlight"></div>
 
     <div class="sup-container">
-      <div class="sup-cta-card">
+      <div class="sup-cta-card gs-reveal">
         <h2 class="sup-cta-title">Upgrade Your Audio Workflow Today.</h2>
         <p class="sup-cta-subtitle">
           Join thousands of motion designers and video editors producing broadcast-grade voice tracks directly in After Effects.
@@ -772,7 +755,6 @@
           <a href="#interactive-demo" class="sup-btn-ghost large">Replay Interactive Demo</a>
         </div>
 
-        <!-- 4 Stat Counters across bottom of card -->
         <div class="sup-cta-stats-row">
           <div class="cta-stat-unit">
             <div class="cta-val">100%</div>
@@ -795,14 +777,13 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Footer: Minimal Logo Only -->
   <footer class="sup-footer">
     <div class="sup-container sup-footer-content">
       <div class="sup-footer-brand">
-        <div class="sup-brand">
-          <img src="media/logo.png" alt="AudioPro Tool" class="sup-logo-icon">
-          <span class="sup-brand-name">AudioPro<span class="dot-accent">.</span></span>
-        </div>
+        <a href="#" class="sup-brand" aria-label="AudioPro Tool">
+          <img src="media/logo.png" alt="AudioPro Tool" class="sup-nav-logo footer">
+        </a>
         <p class="sup-footer-tagline">
           Professional 1-Click AI Audio Isolation & Voice Restoration for Adobe After Effects.
         </p>
