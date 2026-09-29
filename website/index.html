@@ -28,7 +28,7 @@
   <meta name="twitter:image" content="media/thumbnails/audiopro_thumbnail_2.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="media/logo.png">
+  <link rel="icon" type="image/png" href="media/logo_transparent.png">
 
   <!-- Typography: Inter Tight & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,7 +79,7 @@
   <header class="sup-header">
     <div class="sup-nav-container">
       <a href="#" class="sup-brand" aria-label="AudioPro Tool Home">
-        <img src="media/logo.png" alt="AudioPro Tool" class="sup-nav-logo">
+        <img src="media/logo_transparent.png" alt="AudioPro Tool" class="sup-nav-logo">
       </a>
 
       <nav class="sup-nav-links">
@@ -167,8 +167,8 @@
       </div>
 
       <h1 class="sup-hero-title gs-hero-elem">
-        Isolate and restore voice <br>
-        <span class="sup-title-gradient">from noise to studio.</span>
+        Isolate Voice from Noise.<br>
+        <span class="sup-title-gradient">Directly in After Effects.</span>
       </h1>
 
       <p class="sup-hero-description gs-hero-elem">
@@ -221,19 +221,19 @@
 
     <div class="sup-container text-center">
       <div class="sup-section-tag gs-reveal">
-        <span class="tag-dot yellow"></span>
-        <span>AT A GLANCE</span>
+        <span class="tag-dot cyan"></span>
+        <span>INTERACTIVE WORKFLOW SIMULATOR</span>
       </div>
-      <h2 class="sup-section-heading gs-reveal">AudioPro at a Glance</h2>
+      <h2 class="sup-section-heading gs-reveal">Showcasing the AudioPro Interface</h2>
       <p class="sup-section-subhead gs-reveal">
-        A quick glimpse into how AudioPro Tool cleans audio directly in your composition.
+        Experience the native After Effects panel. Flip the neural switches, test the 65x inference engine, and hear the real-time noise cutoff.
       </p>
     </div>
 
-    <!-- Main Device Frame (Ultra-Clean, Minimal Preview Panel) -->
+    <!-- Main Extension UI Showcase & Audio Simulator Frame -->
     <div class="sup-container sup-main-frame-wrapper" id="interactive-demo">
       <div class="sup-device-frame gs-reveal">
-        <!-- Top Window Header Bar -->
+        <!-- Top Window Header Bar (After Effects Workspace Style) -->
         <div class="sup-frame-topbar">
           <div class="window-controls">
             <span class="w-dot red"></span>
@@ -241,79 +241,165 @@
             <span class="w-dot green"></span>
           </div>
           <div class="window-tab-title">
-            <span>AudioPro Tool — Live A/B Monitor (1080p 24fps)</span>
+            <span>Adobe After Effects — AudioPro Tool Extension Panel (CC 2019 – 2026+)</span>
           </div>
           <div class="window-right-badge">
             <span class="pulse-live"></span>
-            <span>SAMPLE-ACCURATE SYNC</span>
+            <span>65X NEURAL ENGINE READY</span>
           </div>
         </div>
 
-        <!-- Synchronized Dual-Video Player Viewport -->
-        <div class="sup-player-viewport">
-          <video id="video-enhanced" playsinline preload="auto" poster="media/thumbnails/audiopro_thumbnail_2.png">
-            <source src="media/noise_video_enhanced.mp4" type="video/mp4">
-          </video>
-          <video id="video-original" playsinline preload="auto" muted poster="media/thumbnails/audiopro_thumbnail_2.png">
-            <source src="media/noise_video_original.mp4" type="video/mp4">
-          </video>
-
-          <!-- Minimal Status Pill Indicator -->
-          <div class="sup-player-badge-overlay">
-            <div class="minimal-status-pill enhanced active" id="badge-enhanced">
-              <span class="dot-green"></span>
-              <span>AudioPro Clean</span>
-            </div>
-            <div class="minimal-status-pill raw hidden" id="badge-original">
-              <span class="dot-red"></span>
-              <span>Raw Camera Audio</span>
+        <!-- Hero UI Showcase Stage (Featuring 3D Artwork + Live Interactive AE Widget) -->
+        <div class="sup-ui-showcase-stage">
+          <!-- 3D Render Artwork Visual -->
+          <div class="showcase-artwork-container">
+            <img src="media/hero_showcase.png" alt="AudioPro Tool 3D Extension Interface" class="showcase-artwork-img" loading="eager">
+            <div class="artwork-ambient-sheen"></div>
+            <div class="artwork-interactive-hint">
+              <span class="pulse-dot"></span>
+              <span>Interactive Extension Simulator — Try The Toggles Below</span>
             </div>
           </div>
 
-          <!-- Big Play Button Overlay -->
-          <button class="sup-big-play-btn" id="big-play-btn" aria-label="Play Demo">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <!-- Interactive Live Extension Control Widget -->
+          <div class="ae-interactive-widget" id="ae-widget">
+            <div class="widget-header">
+              <div class="widget-comp-tag">
+                <span class="comp-icon">🎬</span>
+                <span class="comp-name">Active Comp: <strong>Interview_Master_Sequence</strong></span>
+              </div>
+              <div class="widget-clip-info">
+                <span class="clip-name">Footage: <strong>Noise Video.mp4</strong></span>
+                <span class="clip-spec">48,000 Hz • 32-bit Float</span>
+              </div>
+            </div>
+
+            <!-- Toggles Card (Matching the official UI design) -->
+            <div class="widget-controls-card">
+              <!-- Feature 1: Voice Isolation -->
+              <div class="widget-toggle-row" id="row-isolation">
+                <div class="widget-icon icon-blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                </div>
+                <div class="widget-info">
+                  <div class="widget-title-line">
+                    <span class="widget-title">Voice Isolation</span>
+                    <span class="widget-status-badge active" id="badge-iso-status">ACTIVE</span>
+                  </div>
+                  <span class="widget-desc" id="desc-isolation">Active • Studio voice isolation • merged_media_fixed.mp4</span>
+                </div>
+                <label class="ae-switch" title="Toggle Voice Isolation">
+                  <input type="checkbox" id="toggle-isolation" checked>
+                  <span class="ae-slider"></span>
+                </label>
+              </div>
+
+              <div class="widget-divider"></div>
+
+              <!-- Feature 2: Voice Restoration -->
+              <div class="widget-toggle-row" id="row-restoration">
+                <div class="widget-icon icon-emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                </div>
+                <div class="widget-info">
+                  <div class="widget-title-line">
+                    <span class="widget-title">Voice Restoration</span>
+                    <span class="widget-status-badge" id="badge-resto-status">STANDBY</span>
+                  </div>
+                  <span class="widget-desc" id="desc-restoration">Broadcast clarity & harmonic reconstruction</span>
+                </div>
+                <label class="ae-switch" title="Toggle Voice Restoration">
+                  <input type="checkbox" id="toggle-restoration">
+                  <span class="ae-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Real-Time Processing Speed Meter (Animated by GSAP on toggle) -->
+            <div class="widget-processing-row" id="widget-processing-bar">
+              <div class="proc-header">
+                <div class="proc-left">
+                  <div class="mini-eq-bars" id="mini-eq">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="proc-message" id="proc-status-text">⚡ RNNoise Recurrent Model (65x speed): Processed in 0.35s</span>
+                </div>
+                <span class="proc-speed-tag">65x REAL-TIME</span>
+              </div>
+              <div class="proc-track">
+                <div class="proc-fill" id="proc-fill-bar" style="width: 100%;"></div>
+              </div>
+              <div class="proc-footer">
+                <span class="proc-sync-status">✓ Non-destructive audio layer auto-synced into After Effects timeline</span>
+                <button class="proc-rerun-btn" id="btn-reprocess" title="Simulate 65x Neural Pass">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  Re-process (0.35s)
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Minimalist, Professional Player Controls Panel (NO EMOJIS, ZERO CLUTTER) -->
-        <div class="sup-minimal-controls">
+        <!-- Integrated Live Audio A/B Player & Frequency Visualizer -->
+        <div class="sup-audio-player-bar">
+          <!-- Hidden Audio Elements -->
+          <audio id="audio-enhanced" preload="auto">
+            <source src="media/audio_enhanced.mp3" type="audio/mpeg">
+          </audio>
+          <audio id="audio-original" preload="auto">
+            <source src="media/audio_original.mp3" type="audio/mpeg">
+          </audio>
+
+          <!-- Controls Left: Play/Pause and Segmented A/B Switch -->
           <div class="controls-left">
-            <button class="sup-ctrl-btn" id="play-pause-btn" aria-label="Play/Pause">
-              <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <svg id="pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            <button class="sup-ctrl-btn" id="audio-play-pause-btn" aria-label="Play or Pause Audio">
+              <svg id="audio-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="audio-pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
 
-            <!-- Minimal Segmented A/B Switch -->
+            <!-- Instant A/B Audio Switcher -->
             <div class="minimal-segment-group" role="tablist">
-              <button class="segment-btn" id="btn-mode-raw" role="tab" aria-selected="false">Raw Audio</button>
-              <button class="segment-btn active" id="btn-mode-enhanced" role="tab" aria-selected="true">AudioPro Enhanced</button>
+              <button class="segment-btn" id="btn-audio-raw" role="tab" aria-selected="false">
+                <span class="mode-dot red"></span>
+                <span>Before (Raw Noise)</span>
+              </button>
+              <button class="segment-btn active" id="btn-audio-clean" role="tab" aria-selected="true">
+                <span class="mode-dot green"></span>
+                <span>After (AudioPro Clean)</span>
+              </button>
             </div>
           </div>
 
-          <!-- Center Timeline Scrubber -->
+          <!-- Controls Center: Interactive Scrubber -->
           <div class="controls-center">
-            <div class="sup-scrubber-track" id="timeline-bar">
-              <div class="sup-scrubber-fill" id="timeline-progress"></div>
+            <div class="sup-scrubber-track" id="audio-timeline-bar" role="slider" aria-label="Timeline progress">
+              <div class="sup-scrubber-fill" id="audio-timeline-progress"></div>
               <div class="sup-snap-marker" style="left: 40%;" title="Finger Snap Moment (0:08)"></div>
             </div>
-            <span class="sup-timecode" id="time-display">00:00 / 00:20</span>
+            <span class="sup-timecode" id="audio-time-display">00:00 / 00:20</span>
           </div>
 
-          <!-- Right Controls: Quick Snap Jump & Volume -->
+          <!-- Controls Right: Quick Snap Jump & Mute -->
           <div class="controls-right">
-            <button class="minimal-snap-btn" id="snap-jump-btn" title="Jump to finger snap at 0:08">
+            <button class="minimal-snap-btn" id="audio-snap-jump-btn" title="Jump to finger snap at 0:08 to test noise cut">
               <span>Snap (0:08)</span>
             </button>
-            <button class="sup-ctrl-btn" id="mute-btn" aria-label="Mute/Unmute">
-              <svg id="vol-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            <button class="sup-ctrl-btn" id="audio-mute-btn" aria-label="Mute or Unmute">
+              <svg id="audio-vol-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
             </button>
           </div>
         </div>
 
-        <!-- Sleek Integrated Frequency Canvas -->
+        <!-- Real-Time Hardware Spectrum Analyzer Canvas -->
         <div class="minimal-spectrum-strip">
-          <canvas id="visualizer-canvas" height="34"></canvas>
+          <canvas id="visualizer-canvas" height="38"></canvas>
         </div>
       </div>
 
@@ -782,7 +868,7 @@
     <div class="sup-container sup-footer-content">
       <div class="sup-footer-brand">
         <a href="#" class="sup-brand" aria-label="AudioPro Tool">
-          <img src="media/logo.png" alt="AudioPro Tool" class="sup-nav-logo footer">
+          <img src="media/logo_transparent.png" alt="AudioPro Tool" class="sup-nav-logo footer">
         </a>
         <p class="sup-footer-tagline">
           Professional 1-Click AI Audio Isolation & Voice Restoration for Adobe After Effects.

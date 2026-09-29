@@ -1,38 +1,46 @@
 /**
  * AudioPro Tool — Minimalist Showcase Script with GSAP & ScrollTrigger
  * Features:
- * - Dual Synchronized Video A/B Switcher (0ms instant crossfade)
- * - Minimal Hardware-Style Spectrum Monitor Strip
+ * - Interactive After Effects Extension Simulator with GSAP Animations
+ * - Dual Synchronized Audio A/B Crossfader (0ms instant click-free transition)
+ * - Hardware Frequency Spectrum Monitor with live FFT Analyzer
+ * - Responsive 65x Real-Time Neural Inference Simulation
  * - GSAP Scroll-Triggered Reveals & Animated Number Counters
  * - Mousemove Subtle Card Spotlight Sheen
  * - 2-Column FAQ Accordion
- * - Keyboard Shortcuts (Space, A, B, S, M)
+ * - Keyboard Shortcuts (Space, 1/A, 2/B, S, M)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Video & Controls Elements
-  const videoEnhanced = document.getElementById('video-enhanced');
-  const videoOriginal = document.getElementById('video-original');
-  const playPauseBtn = document.getElementById('play-pause-btn');
-  const bigPlayBtn = document.getElementById('big-play-btn');
-  const playIcon = document.getElementById('play-icon');
-  const pauseIcon = document.getElementById('pause-icon');
-  const muteBtn = document.getElementById('mute-btn');
-  const timeDisplay = document.getElementById('time-display');
-  const timelineBar = document.getElementById('timeline-bar');
-  const timelineProgress = document.getElementById('timeline-progress');
-  const snapJumpBtn = document.getElementById('snap-jump-btn');
-
-  // A/B Segment Buttons
-  const btnModeRaw = document.getElementById('btn-mode-raw');
-  const btnModeEnhanced = document.getElementById('btn-mode-enhanced');
-  const badgeEnhanced = document.getElementById('badge-enhanced');
-  const badgeOriginal = document.getElementById('badge-original');
+  // Audio & Controls Elements
+  const audioEnhanced = document.getElementById('audio-enhanced');
+  const audioOriginal = document.getElementById('audio-original');
+  const audioPlayPauseBtn = document.getElementById('audio-play-pause-btn');
+  const audioPlayIcon = document.getElementById('audio-play-icon');
+  const audioPauseIcon = document.getElementById('audio-pause-icon');
+  const btnAudioRaw = document.getElementById('btn-audio-raw');
+  const btnAudioClean = document.getElementById('btn-audio-clean');
+  const audioTimelineBar = document.getElementById('audio-timeline-bar');
+  const audioTimelineProgress = document.getElementById('audio-timeline-progress');
+  const audioTimeDisplay = document.getElementById('audio-time-display');
+  const audioSnapJumpBtn = document.getElementById('audio-snap-jump-btn');
+  const audioMuteBtn = document.getElementById('audio-mute-btn');
   const canvas = document.getElementById('visualizer-canvas');
-  const canvasCtx = canvas.getContext('2d');
+  const canvasCtx = canvas ? canvas.getContext('2d') : null;
+
+  // Interactive After Effects Extension Widget Elements
+  const toggleIsolation = document.getElementById('toggle-isolation');
+  const badgeIsoStatus = document.getElementById('badge-iso-status');
+  const descIsolation = document.getElementById('desc-isolation');
+  const toggleRestoration = document.getElementById('toggle-restoration');
+  const badgeRestoStatus = document.getElementById('badge-resto-status');
+  const descRestoration = document.getElementById('desc-restoration');
+  const procFillBar = document.getElementById('proc-fill-bar');
+  const procStatusText = document.getElementById('proc-status-text');
+  const btnReprocess = document.getElementById('btn-reprocess');
 
   // State
-  let currentMode = 'enhanced'; // 'enhanced' or 'raw'
+  let currentMode = 'clean'; // 'clean' or 'raw'
   let isPlaying = false;
   let isMuted = false;
   let audioCtx = null;
@@ -45,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Resize canvas display buffer
   function resizeCanvas() {
+    if (!canvas) return;
     canvas.width = canvas.clientWidth * window.devicePixelRatio;
     canvas.height = canvas.clientHeight * window.devicePixelRatio;
   }
@@ -61,19 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
       analyser.fftSize = 128;
       analyser.smoothingTimeConstant = 0.85;
 
-      // Connect video elements
-      sourceEnhanced = audioCtx.createMediaElementSource(videoEnhanced);
-      sourceOriginal = audioCtx.createMediaElementSource(videoOriginal);
+      if (audioEnhanced && audioOriginal) {
+        sourceEnhanced = audioCtx.createMediaElementSource(audioEnhanced);
+        sourceOriginal = audioCtx.createMediaElementSource(audioOriginal);
 
-      gainEnhanced = audioCtx.createGain();
-      gainOriginal = audioCtx.createGain();
+        gainEnhanced = audioCtx.createGain();
+        gainOriginal = audioCtx.createGain();
 
-      sourceEnhanced.connect(gainEnhanced);
-      sourceOriginal.connect(gainOriginal);
+        sourceEnhanced.connect(gainEnhanced);
+        sourceOriginal.connect(gainOriginal);
 
-      gainEnhanced.connect(analyser);
-      gainOriginal.connect(analyser);
-      analyser.connect(audioCtx.destination);
+        gainEnhanced.connect(analyser);
+        gainOriginal.connect(analyser);
+        analyser.connect(audioCtx.destination);
+      }
 
       updateAudioRouting();
       startVisualizer();
@@ -83,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Update audio levels based on active mode
+  // Update audio routing and levels
   function updateAudioRouting() {
     if (audioCtx && audioCtx.state === 'suspended') {
       audioCtx.resume();
@@ -91,131 +101,236 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (gainEnhanced && gainOriginal) {
       const now = audioCtx.currentTime;
-      if (currentMode === 'enhanced') {
+      if (currentMode === 'clean') {
         gainEnhanced.gain.cancelScheduledValues(now);
         gainEnhanced.gain.setValueAtTime(gainEnhanced.gain.value, now);
-        gainEnhanced.gain.linearRampToValueAtTime(isMuted ? 0 : 1.0, now + 0.04);
+        gainEnhanced.gain.linearRampToValueAtTime(isMuted ? 0 : 1.0, now + 0.03);
 
         gainOriginal.gain.cancelScheduledValues(now);
         gainOriginal.gain.setValueAtTime(gainOriginal.gain.value, now);
-        gainOriginal.gain.linearRampToValueAtTime(0, now + 0.04);
+        gainOriginal.gain.linearRampToValueAtTime(0, now + 0.03);
       } else {
         gainOriginal.gain.cancelScheduledValues(now);
         gainOriginal.gain.setValueAtTime(gainOriginal.gain.value, now);
-        gainOriginal.gain.linearRampToValueAtTime(isMuted ? 0 : 1.0, now + 0.04);
+        gainOriginal.gain.linearRampToValueAtTime(isMuted ? 0 : 1.0, now + 0.03);
 
         gainEnhanced.gain.cancelScheduledValues(now);
         gainEnhanced.gain.setValueAtTime(gainEnhanced.gain.value, now);
-        gainEnhanced.gain.linearRampToValueAtTime(0, now + 0.04);
+        gainEnhanced.gain.linearRampToValueAtTime(0, now + 0.03);
       }
-    } else {
-      if (currentMode === 'enhanced') {
-        videoEnhanced.muted = isMuted;
-        videoOriginal.muted = true;
+    } else if (audioEnhanced && audioOriginal) {
+      if (currentMode === 'clean') {
+        audioEnhanced.muted = isMuted;
+        audioOriginal.muted = true;
       } else {
-        videoOriginal.muted = isMuted;
-        videoEnhanced.muted = true;
+        audioOriginal.muted = isMuted;
+        audioEnhanced.muted = true;
       }
     }
   }
 
-  // Switch Mode (A/B)
-  function setMode(mode) {
+  // Switch Mode (Clean vs Raw)
+  function setAudioMode(mode, fromToggle = false) {
     currentMode = mode;
-    const isEnhanced = (mode === 'enhanced');
+    const isClean = (mode === 'clean');
 
-    if (isEnhanced) {
-      btnModeEnhanced.classList.add('active');
-      btnModeRaw.classList.remove('active');
-      btnModeEnhanced.setAttribute('aria-selected', 'true');
-      btnModeRaw.setAttribute('aria-selected', 'false');
-      badgeEnhanced.classList.remove('hidden');
-      badgeOriginal.classList.add('hidden');
-      videoOriginal.style.opacity = '0';
-    } else {
-      btnModeRaw.classList.add('active');
-      btnModeEnhanced.classList.remove('active');
-      btnModeRaw.setAttribute('aria-selected', 'true');
-      btnModeEnhanced.setAttribute('aria-selected', 'false');
-      badgeOriginal.classList.remove('hidden');
-      badgeEnhanced.classList.add('hidden');
-      videoOriginal.style.opacity = '1';
+    if (btnAudioClean && btnAudioRaw) {
+      if (isClean) {
+        btnAudioClean.classList.add('active');
+        btnAudioRaw.classList.remove('active');
+        btnAudioClean.setAttribute('aria-selected', 'true');
+        btnAudioRaw.setAttribute('aria-selected', 'false');
+      } else {
+        btnAudioRaw.classList.add('active');
+        btnAudioClean.classList.remove('active');
+        btnAudioRaw.setAttribute('aria-selected', 'true');
+        btnAudioClean.setAttribute('aria-selected', 'false');
+      }
+    }
+
+    // Synchronize the AE Widget Toggle
+    if (!fromToggle && toggleIsolation) {
+      toggleIsolation.checked = isClean;
+      updateWidgetStatus(isClean);
     }
 
     updateAudioRouting();
   }
 
-  // Listeners for minimal segmented buttons
-  btnModeRaw.addEventListener('click', () => {
-    initAudioContext();
-    setMode('raw');
-  });
+  // Update AE Widget Status and trigger GSAP Speed Simulation
+  function updateWidgetStatus(isClean) {
+    if (badgeIsoStatus) {
+      if (isClean) {
+        badgeIsoStatus.textContent = 'ACTIVE';
+        badgeIsoStatus.classList.add('active');
+        if (descIsolation) descIsolation.textContent = 'Active • Studio voice isolation • merged_media_fixed.mp4';
+      } else {
+        badgeIsoStatus.textContent = 'BYPASS';
+        badgeIsoStatus.classList.remove('active');
+        if (descIsolation) descIsolation.textContent = 'Bypassed • Raw timeline audio pass-through';
+      }
+    }
 
-  btnModeEnhanced.addEventListener('click', () => {
-    initAudioContext();
-    setMode('enhanced');
-  });
+    // Trigger high-speed 65x GSAP progress animation
+    if (isClean && procFillBar && window.gsap) {
+      if (procStatusText) {
+        procStatusText.textContent = '⚡ RNNoise Recurrent Model (65x speed): Processing...';
+      }
+      gsap.fromTo(procFillBar, 
+        { width: '0%' }, 
+        { 
+          width: '100%', 
+          duration: 0.35, 
+          ease: 'power2.out',
+          onComplete: () => {
+            if (procStatusText) {
+              procStatusText.textContent = '⚡ RNNoise Recurrent Model (65x speed): Processed in 0.35s';
+            }
+          }
+        }
+      );
+    } else if (!isClean && procFillBar) {
+      procFillBar.style.width = '0%';
+      if (procStatusText) {
+        procStatusText.textContent = 'Audio processing bypassed (Raw camera audio active)';
+      }
+    }
+  }
 
-  // Play / Pause Synchronized Videos
-  function togglePlay() {
+  // Toggle Isolation Switch Listener
+  if (toggleIsolation) {
+    toggleIsolation.addEventListener('change', () => {
+      initAudioContext();
+      setAudioMode(toggleIsolation.checked ? 'clean' : 'raw', true);
+      updateWidgetStatus(toggleIsolation.checked);
+    });
+  }
+
+  // Toggle Voice Restoration Switch Listener
+  if (toggleRestoration) {
+    toggleRestoration.addEventListener('change', () => {
+      initAudioContext();
+      const isActive = toggleRestoration.checked;
+      if (badgeRestoStatus) {
+        badgeRestoStatus.textContent = isActive ? 'ACTIVE' : 'STANDBY';
+        if (isActive) {
+          badgeRestoStatus.classList.add('active');
+          if (descRestoration) descRestoration.textContent = 'Active • 48kHz Harmonic overtone reconstruction';
+          if (window.gsap && procFillBar) {
+            gsap.fromTo(procFillBar, { width: '0%' }, { width: '100%', duration: 0.45, ease: 'power2.out' });
+            if (procStatusText) procStatusText.textContent = '✨ DeepFilterNet 3: Harmonic reconstruction completed in 0.45s';
+          }
+        } else {
+          badgeRestoStatus.classList.remove('active');
+          if (descRestoration) descRestoration.textContent = 'Broadcast clarity & harmonic reconstruction';
+        }
+      }
+    });
+  }
+
+  // Re-process Button Listener
+  if (btnReprocess) {
+    btnReprocess.addEventListener('click', () => {
+      initAudioContext();
+      if (window.gsap && procFillBar) {
+        if (procStatusText) procStatusText.textContent = '⚡ Recalculating neural weights (65x speed)...';
+        gsap.fromTo(procFillBar, 
+          { width: '0%' }, 
+          { 
+            width: '100%', 
+            duration: 0.35, 
+            ease: 'power2.out',
+            onComplete: () => {
+              if (procStatusText) procStatusText.textContent = '⚡ RNNoise Recurrent Model (65x speed): Processed in 0.35s';
+            }
+          }
+        );
+      }
+    });
+  }
+
+  // Segment Buttons Listeners
+  if (btnAudioRaw) {
+    btnAudioRaw.addEventListener('click', () => {
+      initAudioContext();
+      setAudioMode('raw');
+    });
+  }
+
+  if (btnAudioClean) {
+    btnAudioClean.addEventListener('click', () => {
+      initAudioContext();
+      setAudioMode('clean');
+    });
+  }
+
+  // Play / Pause Synchronized Audio
+  function toggleAudioPlay() {
     initAudioContext();
 
-    if (videoEnhanced.paused) {
-      videoOriginal.currentTime = videoEnhanced.currentTime;
-      Promise.all([videoEnhanced.play(), videoOriginal.play()]).then(() => {
+    if (!audioEnhanced || !audioOriginal) return;
+
+    if (audioEnhanced.paused) {
+      audioOriginal.currentTime = audioEnhanced.currentTime;
+      Promise.all([audioEnhanced.play(), audioOriginal.play()]).then(() => {
         isPlaying = true;
-        updatePlayState();
+        updateAudioPlayState();
       }).catch(err => {
         console.warn('Playback error:', err);
       });
     } else {
-      videoEnhanced.pause();
-      videoOriginal.pause();
+      audioEnhanced.pause();
+      audioOriginal.pause();
       isPlaying = false;
-      updatePlayState();
+      updateAudioPlayState();
     }
   }
 
-  function updatePlayState() {
+  function updateAudioPlayState() {
+    if (!audioPlayIcon || !audioPauseIcon) return;
     if (isPlaying) {
-      playIcon.classList.add('hidden');
-      pauseIcon.classList.remove('hidden');
-      bigPlayBtn.classList.add('hidden');
+      audioPlayIcon.classList.add('hidden');
+      audioPauseIcon.classList.remove('hidden');
     } else {
-      playIcon.classList.remove('hidden');
-      pauseIcon.classList.add('hidden');
-      bigPlayBtn.classList.remove('hidden');
+      audioPlayIcon.classList.remove('hidden');
+      audioPauseIcon.classList.add('hidden');
     }
   }
 
-  playPauseBtn.addEventListener('click', togglePlay);
-  bigPlayBtn.addEventListener('click', togglePlay);
-  videoEnhanced.addEventListener('click', togglePlay);
+  if (audioPlayPauseBtn) {
+    audioPlayPauseBtn.addEventListener('click', toggleAudioPlay);
+  }
 
-  // Time Updates and Continuous Synchronization Check
-  videoEnhanced.addEventListener('timeupdate', () => {
-    const cur = videoEnhanced.currentTime;
-    const dur = videoEnhanced.duration || 20.0;
+  // Time Updates and Continuous Synchronization
+  if (audioEnhanced) {
+    audioEnhanced.addEventListener('timeupdate', () => {
+      const cur = audioEnhanced.currentTime;
+      const dur = audioEnhanced.duration || 20.0;
 
-    // Keep secondary video tightly synced within 0.04s
-    if (Math.abs(videoOriginal.currentTime - cur) > 0.04) {
-      videoOriginal.currentTime = cur;
-    }
+      // Keep secondary audio tightly synced within 0.03s
+      if (audioOriginal && Math.abs(audioOriginal.currentTime - cur) > 0.03) {
+        audioOriginal.currentTime = cur;
+      }
 
-    // Update progress bar
-    const pct = (cur / dur) * 100;
-    timelineProgress.style.width = `${pct}%`;
+      // Update progress bar
+      if (audioTimelineProgress) {
+        const pct = (cur / dur) * 100;
+        audioTimelineProgress.style.width = `${pct}%`;
+      }
 
-    // Format time
-    timeDisplay.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
-  });
+      // Format timecode
+      if (audioTimeDisplay) {
+        audioTimeDisplay.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
+      }
+    });
 
-  videoEnhanced.addEventListener('ended', () => {
-    videoEnhanced.currentTime = 0;
-    videoOriginal.currentTime = 0;
-    videoEnhanced.play();
-    videoOriginal.play();
-  });
+    audioEnhanced.addEventListener('ended', () => {
+      audioEnhanced.currentTime = 0;
+      if (audioOriginal) audioOriginal.currentTime = 0;
+      audioEnhanced.play();
+      if (audioOriginal) audioOriginal.play();
+    });
+  }
 
   function formatTime(sec) {
     const m = Math.floor(sec / 60);
@@ -224,40 +339,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Scrubber / Seek
-  timelineBar.addEventListener('click', (e) => {
-    initAudioContext();
-    const rect = timelineBar.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
-    const targetTime = pos * (videoEnhanced.duration || 20);
+  if (audioTimelineBar && audioEnhanced) {
+    audioTimelineBar.addEventListener('click', (e) => {
+      initAudioContext();
+      const rect = audioTimelineBar.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      const targetTime = pos * (audioEnhanced.duration || 20);
 
-    videoEnhanced.currentTime = targetTime;
-    videoOriginal.currentTime = targetTime;
-  });
+      audioEnhanced.currentTime = targetTime;
+      if (audioOriginal) audioOriginal.currentTime = targetTime;
+    });
+  }
 
   // Snap Bookmark Jump (0:08)
-  snapJumpBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    initAudioContext();
-    videoEnhanced.currentTime = 7.5;
-    videoOriginal.currentTime = 7.5;
-    if (videoEnhanced.paused) {
-      videoEnhanced.play();
-      videoOriginal.play();
-      isPlaying = true;
-      updatePlayState();
-    }
-  });
+  if (audioSnapJumpBtn && audioEnhanced) {
+    audioSnapJumpBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      initAudioContext();
+      audioEnhanced.currentTime = 7.5;
+      if (audioOriginal) audioOriginal.currentTime = 7.5;
+      if (audioEnhanced.paused) {
+        audioEnhanced.play();
+        if (audioOriginal) audioOriginal.play();
+        isPlaying = true;
+        updateAudioPlayState();
+      }
+    });
+  }
 
   // Mute / Unmute
-  muteBtn.addEventListener('click', () => {
-    isMuted = !isMuted;
-    updateAudioRouting();
-    muteBtn.style.opacity = isMuted ? '0.5' : '1';
-  });
+  if (audioMuteBtn) {
+    audioMuteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      updateAudioRouting();
+      audioMuteBtn.style.opacity = isMuted ? '0.45' : '1';
+    });
+  }
 
   // Real-Time Minimal Spectrum Visualizer
   function startVisualizer() {
-    if (!analyser) return;
+    if (!analyser || !canvas || !canvasCtx) return;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
@@ -277,9 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const index = Math.floor(i * (bufferLength / barCount) * 0.75);
         const value = isPlaying ? dataArray[index] : 0;
         const barHeight = (value / 255) * height * 0.85;
-        const isEnh = (currentMode === 'enhanced');
+        const isClean = (currentMode === 'clean');
 
-        canvasCtx.fillStyle = isEnh ? '#00F0FF' : '#FF3B30';
+        canvasCtx.fillStyle = isClean ? '#00F0FF' : '#FF3B30';
         canvasCtx.fillRect(x, height - Math.max(barHeight, 2), barWidth, Math.max(barHeight, 2));
 
         x += barWidth + 2;
@@ -290,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startFallbackVisualizer() {
+    if (!canvas || !canvasCtx) return;
     function drawFallback() {
       animFrameId = requestAnimationFrame(drawFallback);
       const width = canvas.width;
@@ -303,11 +425,11 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < barCount; i++) {
         let barHeight = 2;
         if (isPlaying) {
-          const factor = (currentMode === 'enhanced') ? 0.6 : 0.95;
+          const factor = (currentMode === 'clean') ? 0.6 : 0.95;
           barHeight = (Math.sin(Date.now() / 160 + i * 0.4) * 0.5 + 0.5) * height * factor * 0.8;
         }
 
-        canvasCtx.fillStyle = (currentMode === 'enhanced') ? '#00F0FF' : '#FF3B30';
+        canvasCtx.fillStyle = (currentMode === 'clean') ? '#00F0FF' : '#FF3B30';
         canvasCtx.fillRect(x, height - Math.max(barHeight, 2), barWidth, Math.max(barHeight, 2));
         x += barWidth + 2;
       }
@@ -340,13 +462,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const faqItems = document.querySelectorAll('.sup-faq-item');
   faqItems.forEach(item => {
     const btn = item.querySelector('.sup-faq-btn');
-    btn.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      faqItems.forEach(i => i.classList.remove('active'));
-      if (!isActive) {
-        item.classList.add('active');
-      }
-    });
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(i => i.classList.remove('active'));
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    }
   });
 
   // Keyboard Shortcuts
@@ -355,17 +479,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (e.code === 'Space') {
       e.preventDefault();
-      togglePlay();
+      toggleAudioPlay();
     } else if (e.key === 'a' || e.key === 'A' || e.key === '1') {
       initAudioContext();
-      setMode('raw');
+      setAudioMode('raw');
     } else if (e.key === 'b' || e.key === 'B' || e.key === '2') {
       initAudioContext();
-      setMode('enhanced');
+      setAudioMode('clean');
     } else if (e.key === 's' || e.key === 'S') {
-      snapJumpBtn.click();
+      if (audioSnapJumpBtn) audioSnapJumpBtn.click();
     } else if (e.key === 'm' || e.key === 'M') {
-      muteBtn.click();
+      if (audioMuteBtn) audioMuteBtn.click();
     }
   });
 
