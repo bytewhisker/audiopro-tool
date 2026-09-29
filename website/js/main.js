@@ -1,12 +1,13 @@
 /**
- * AudioPro Tool — Cognira Aesthetic Showcase Script
+ * AudioPro Tool — Studio Console & Showcase Script
+ * Architected & Developed by Md Mahadi
  * Features:
- * - Native After Effects Extension UI Simulation (Voice Isolation & Restoration Toggles)
- * - Real-Time A/B Audio Switcher (Instantly listen to Clean vs Raw Audio)
- * - Fast, Subtle, Non-Intrusive GSAP Reveals (No heavy blurs, snappy & smooth)
- * - Card Spotlight Sheen on Hover
- * - 2-Column FAQ Accordion
- * - Keyboard Shortcuts (Space, 1/2, A/B)
+ * - Native After Effects Extension Console Simulation (Voice Isolation & Restoration Toggles)
+ * - Real-Time A/B Audio Switcher (Instantly toggle Clean vs Raw Audio with zero pops)
+ * - Live Dual Waveform & 16-Band Frequency Spectrum Visualizer
+ * - Responsive Keyboard Shortcuts (Space: Play/Pause, 1 or A: Raw, 2 or B: Clean)
+ * - FAQ Accordion
+ * - Animated Metric Counters via ScrollTrigger (Opacity remains 100% visible)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,7 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const isoDesc = document.getElementById('ui-iso-desc');
   const restoDesc = document.getElementById('ui-resto-desc');
 
-  // Streamlined Audio Bar
+  // Studio Console A/B Switcher & Chips
+  const btnModeRaw = document.getElementById('btn-mode-raw');
+  const btnModeClean = document.getElementById('btn-mode-clean');
+  const chipFast = document.getElementById('chip-fast');
+  const chipSpectral = document.getElementById('chip-spectral');
+
+  // Master Play Controls
   const playPauseBtn = document.getElementById('audio-play-pause-btn');
   const playIcon = document.getElementById('audio-play-icon');
   const pauseIcon = document.getElementById('audio-pause-icon');
@@ -64,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Update audio routing smoothly with fast ramp
+  // Update audio routing smoothly with 20ms linear ramp
   function updateAudioRouting() {
     if (audioCtx && audioCtx.state === 'suspended') {
       audioCtx.resume();
@@ -105,9 +112,20 @@ document.addEventListener('DOMContentLoaded', () => {
     currentMode = mode;
     const isClean = (mode === 'clean');
 
-    // Update Switch
+    // Update Switch Checkbox
     if (toggleIsolation && toggleIsolation.checked !== isClean) {
       toggleIsolation.checked = isClean;
+    }
+
+    // Update Dedicated A/B Buttons
+    if (btnModeRaw && btnModeClean) {
+      if (isClean) {
+        btnModeClean.classList.add('active');
+        btnModeRaw.classList.remove('active');
+      } else {
+        btnModeRaw.classList.add('active');
+        btnModeClean.classList.remove('active');
+      }
     }
 
     // Update UI Descriptions & Indicators
@@ -117,14 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
         statusPill.classList.remove('raw-mode');
         statusPill.classList.add('clean-mode');
       }
-      if (modeText) modeText.textContent = 'AudioPro Clean';
+      if (modeText) modeText.textContent = 'AudioPro Clean (-52dB Noise Cut)';
     } else {
       if (isoDesc) isoDesc.textContent = 'Bypassed • Raw Camera Noise (HVAC Drone & Reverb)';
       if (statusPill) {
         statusPill.classList.remove('clean-mode');
         statusPill.classList.add('raw-mode');
       }
-      if (modeText) modeText.textContent = 'Raw Camera Noise';
+      if (modeText) modeText.textContent = 'Raw Camera Noise Audio';
     }
 
     updateAudioRouting();
@@ -179,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (playText) {
-      playText.textContent = playing ? 'Pause' : 'Listen Preview';
+      playText.textContent = playing ? 'Pause Demo' : 'Listen Audio Demo';
     }
     if (liveBars) {
       if (playing) {
@@ -188,6 +206,14 @@ document.addEventListener('DOMContentLoaded', () => {
         liveBars.classList.remove('animating');
       }
     }
+    const waveBars = document.querySelectorAll('.track-wave-bars');
+    waveBars.forEach(wb => {
+      if (playing) {
+        wb.classList.add('animating');
+      } else {
+        wb.classList.remove('animating');
+      }
+    });
   }
 
   // Loop & Sync Handler
@@ -225,6 +251,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (btnModeRaw) {
+    btnModeRaw.addEventListener('click', () => {
+      initAudioContext();
+      setAudioMode('raw');
+    });
+  }
+
+  if (btnModeClean) {
+    btnModeClean.addEventListener('click', () => {
+      initAudioContext();
+      setAudioMode('clean');
+    });
+  }
+
+  if (chipFast && chipSpectral) {
+    chipFast.addEventListener('click', () => {
+      chipFast.classList.add('active');
+      chipSpectral.classList.remove('active');
+    });
+    chipSpectral.addEventListener('click', () => {
+      chipSpectral.classList.add('active');
+      chipFast.classList.remove('active');
+    });
+  }
+
   if (playPauseBtn) {
     playPauseBtn.addEventListener('click', toggleAudioPlay);
   }
@@ -243,28 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Subtle Card Hover Spotlight
-  const cards = document.querySelectorAll('.cog-feature-card, .cog-step-card, .cog-pricing-card, .testimonial-card');
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const glow = card.querySelector('.card-inner-glow, .pricing-card-glow');
-      if (glow) {
-        glow.style.background = `radial-gradient(circle 240px at ${x}px ${y}px, rgba(0, 212, 255, 0.12) 0%, transparent 100%)`;
-      }
-    });
-
-    card.addEventListener('mouseleave', () => {
-      const glow = card.querySelector('.card-inner-glow, .pricing-card-glow');
-      if (glow) {
-        glow.style.background = '';
-      }
-    });
-  });
-
-  // 2-Column FAQ Accordion
+  // FAQ Accordion
   const faqItems = document.querySelectorAll('.cog-faq-item');
   faqItems.forEach(item => {
     const btn = item.querySelector('.cog-faq-btn');
@@ -295,50 +325,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ==========================================================================
-  // GSAP 3 & ScrollTrigger Animations (Snappy, Clean, No Heavy Blurs)
-  // ==========================================================================
+  // Animated Metric Counters (Only numbers animate, no card opacity hiding)
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero Stagger Entrance (Crisp, fast, no blur lag)
-    gsap.from('.gs-hero-elem', {
-      opacity: 0,
-      y: 18,
-      duration: 0.65,
-      stagger: 0.08,
-      ease: 'power2.out'
-    });
-
-    // Scroll Reveals
-    gsap.utils.toArray('.gs-reveal').forEach(elem => {
-      gsap.from(elem, {
-        scrollTrigger: {
-          trigger: elem,
-          start: 'top 88%',
-          toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 16,
-        duration: 0.55,
-        ease: 'power2.out'
-      });
-    });
-
-    // Bento & Step Cards Stagger
-    ScrollTrigger.batch('.gs-card', {
-      start: 'top 88%',
-      onEnter: batch => gsap.from(batch, {
-        opacity: 0,
-        y: 16,
-        stagger: 0.08,
-        duration: 0.5,
-        ease: 'power2.out',
-        overwrite: true
-      })
-    });
-
-    // Animated Metric Counters
     const counters = document.querySelectorAll('.counter');
     counters.forEach(counter => {
       const target = +counter.getAttribute('data-target');
