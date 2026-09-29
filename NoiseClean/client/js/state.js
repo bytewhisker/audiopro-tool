@@ -23,17 +23,16 @@ class StateManager {
         this.activeTab = 'voice'; // 'voice' | 'stems'
         this.stemsState = {
             status: 'idle', // 'idle' | 'splitting' | 'ready' | 'error'
-            stems: null, // { vocals, music, drums, sfx, duration }
+            stems: null, // { voice, music, noise, duration }
             isPlaying: false,
             currentTime: 0,
             duration: 0,
             percent: 0,
             message: '',
             stemStates: {
-                vocals: { solo: false, mute: false },
+                voice: { solo: false, mute: false },
                 music: { solo: false, mute: false },
-                drums: { solo: false, mute: false },
-                sfx: { solo: false, mute: false }
+                noise: { solo: false, mute: false }
             }
         };
         this.listeners = new Set();
@@ -96,7 +95,7 @@ class StateManager {
         this.stemsState.currentTime = 0;
         this.stemsState.isPlaying = false;
         this.stemsState.percent = 100;
-        this.stemsState.message = '4 Stems ready';
+        this.stemsState.message = '3 Stems ready';
         this.notify();
     }
 

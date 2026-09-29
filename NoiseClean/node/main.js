@@ -30,7 +30,7 @@ const NoiseCleanNode = {
     fs: fs,
 
     /**
-     * Splits an audio file into 4 distinct stems (Vocals, Music, Drums, SFX).
+     * Splits an audio file into 3 distinct stems (Voice, Music, Noise).
      * @param {string} inputFilePath 
      * @param {string} sourceMediaPath Original source media path (for saving in AudioPro_Stems folder)
      * @param {string} clipName 

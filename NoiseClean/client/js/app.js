@@ -557,7 +557,7 @@
 
         try {
             stateManager.startStemSplitting('Analyzing source audio mix...');
-            ui.logDebug(`Starting 4-Stem separation for: ${source.layerName}`);
+            ui.logDebug(`Starting 3-Stem separation for: ${source.layerName}`);
 
             const tempDir = (NoiseCleanNode && NoiseCleanNode.paths) ? NoiseCleanNode.paths.tempBaseDir : 'temp';
             const prep = await aeBridge.prepareLayerAudio(tempDir);
@@ -579,8 +579,8 @@
                 workingAudioPath = await NoiseCleanNode.demuxer.extractAudioToWav(workingSource, outWav);
             }
 
-            // Run 4-Stem separation
-            stateManager.updateStemProgress(20, 'Neural AI isolating vocal & dialogue stem...');
+            // Run 3-Stem separation
+            stateManager.updateStemProgress(20, 'Neural AI isolating vocal & speech stem...');
             const stemResults = await NoiseCleanNode.splitAudioStems(
                 workingAudioPath,
                 workingSource,
@@ -590,7 +590,7 @@
                 }
             );
 
-            ui.logDebug('4 Stems separated successfully!');
+            ui.logDebug('3 Stems separated successfully!');
 
             // Load into StemPlayer for synchronized multi-track preview
             stateManager.updateStemProgress(95, 'Loading stems into preview player...');
@@ -599,7 +599,7 @@
             }
 
             stateManager.setStemsReady(stemResults);
-            ui.logDebug('Stems ready in player. You can preview, solo/mute, or add directly to AE timeline!');
+            ui.logDebug('3 Stems ready in player. You can preview, solo/mute, or add directly to AE timeline!');
 
         } catch (err) {
             ui.logDebug(`Stem Split Error: ${err.message}`);
@@ -613,12 +613,15 @@
         const source = snap.sourceInfo;
         const stems = snap.stemsState.stems;
         const key = stemType.toLowerCase();
-        if (!source || !stems || !stems[key]) {
+        let stemPath = stems ? stems[key] : null;
+        if (!stemPath && stems && key === 'voice') stemPath = stems.vocals;
+        if (!stemPath && stems && key === 'noise') stemPath = stems.sfx;
+
+        if (!source || !stemPath) {
             ui.logDebug(`Cannot add ${stemType} stem: file not ready.`);
             return;
         }
 
-        const stemPath = stems[key];
         try {
             ui.logDebug(`Adding ${stemType} stem into After Effects composition...`);
             const res = await aeBridge.importStemLayer(stemPath, stemType, source.layerIndex, source.compId);
@@ -643,7 +646,7 @@
         }
 
         try {
-            ui.logDebug('Adding all 4 stems into After Effects timeline in microsecond sync...');
+            ui.logDebug('Adding all 3 stems into After Effects timeline in sample sync...');
             const res = await aeBridge.importAllStems(stems, source.layerIndex, source.compId);
             if (!res.success) {
                 throw new Error(res.error || 'Failed to add stems to composition.');

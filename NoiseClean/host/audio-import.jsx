@@ -461,17 +461,15 @@ var NoiseCleanImport = (function() {
 
     /**
      * Maps stem type to AE layer label index:
-     * Vocals -> 2 (Yellow)
-     * Music  -> 8 (Blue/Cyan)
-     * Drums  -> 11 (Orange)
-     * SFX    -> 9 (Green)
+     * Voice -> 2 (Yellow)
+     * Music -> 8 (Blue/Cyan)
+     * Noise -> 1 (Red/Peach)
      */
     function getStemLabelIndex(stemType) {
         var lower = (stemType || "").toLowerCase();
-        if (lower.indexOf("vocal") !== -1 || lower.indexOf("speech") !== -1) return 2; // Yellow
-        if (lower.indexOf("music") !== -1 || lower.indexOf("melody") !== -1) return 8; // Cyan / Blue
-        if (lower.indexOf("drum") !== -1 || lower.indexOf("beat") !== -1) return 11; // Orange
-        if (lower.indexOf("sfx") !== -1 || lower.indexOf("amb") !== -1) return 9; // Green
+        if (lower.indexOf("voice") !== -1 || lower.indexOf("vocal") !== -1 || lower.indexOf("speech") !== -1) return 2; // Yellow
+        if (lower.indexOf("music") !== -1 || lower.indexOf("melody") !== -1 || lower.indexOf("inst") !== -1) return 8; // Cyan / Blue
+        if (lower.indexOf("noise") !== -1 || lower.indexOf("room") !== -1 || lower.indexOf("amb") !== -1 || lower.indexOf("sfx") !== -1) return 1; // Red / Peach
         return 5; // Lavender
     }
 
@@ -576,7 +574,7 @@ var NoiseCleanImport = (function() {
     }
 
     /**
-     * Imports all 4 stems in a single batch, positions them synchronously above the original layer,
+     * Imports all 3 stems in a single batch, positions them synchronously above the original layer,
      * assigns individual label colors, and mutes original layer audio.
      */
     function importAllStems(stemsDataJson, originalLayerIndex, compId) {
@@ -594,7 +592,7 @@ var NoiseCleanImport = (function() {
         }
 
         try {
-            app.beginUndoGroup("AudioPro: Split & Add 4 Stems to Timeline");
+            app.beginUndoGroup("AudioPro: Split & Add 3 Stems to Timeline");
 
             var comp = null;
             if (app.project.activeItem && app.project.activeItem instanceof CompItem && (!compId || app.project.activeItem.id === compId)) {
@@ -624,12 +622,11 @@ var NoiseCleanImport = (function() {
             var parentFolder = (origLayer && origLayer.source && origLayer.source.parentFolder) ? origLayer.source.parentFolder : app.project.rootFolder;
             var stemsBin = getOrCreateStemsFolder(parentFolder);
 
-            // Import sequence: SFX first, then Drums, then Music, then Vocals on top
+            // Import sequence: Noise on bottom, Music in middle, Voice on top
             var stemList = [
-                { type: "SFX", path: stemsData.sfx },
-                { type: "Drums", path: stemsData.drums },
+                { type: "Noise", path: stemsData.noise || stemsData.sfx },
                 { type: "Music", path: stemsData.music },
-                { type: "Vocals", path: stemsData.vocals }
+                { type: "Voice", path: stemsData.voice || stemsData.vocals }
             ];
 
             var addedLayers = [];

@@ -7,7 +7,7 @@ class StemPlayer {
     constructor() {
         this.audioCtx = null;
         this.stems = {}; // { vocals: { el, source, gain, solo, mute }, ... }
-        this.stemKeys = ['vocals', 'music', 'drums', 'sfx'];
+        this.stemKeys = ['voice', 'music', 'noise'];
         this.isPlaying = false;
         this.duration = 0;
         this.animFrameId = null;
@@ -26,8 +26,8 @@ class StemPlayer {
     }
 
     /**
-     * Loads 4 audio stems from local disk paths.
-     * @param {{ vocals: string, music: string, drums: string, sfx: string }} stemPaths 
+     * Loads 3 audio stems (Voice, Music, Noise) from local disk paths.
+     * @param {{ voice: string, music: string, noise: string }} stemPaths 
      */
     async loadStems(stemPaths) {
         this.stop();
@@ -37,7 +37,9 @@ class StemPlayer {
         const loadPromises = [];
 
         for (const key of this.stemKeys) {
-            const rawPath = stemPaths[key];
+            let rawPath = stemPaths[key];
+            if (!rawPath && key === 'voice') rawPath = stemPaths.vocals;
+            if (!rawPath && key === 'noise') rawPath = stemPaths.sfx;
             if (!rawPath) continue;
 
             // Format to file URL

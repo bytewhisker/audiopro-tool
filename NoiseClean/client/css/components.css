@@ -664,6 +664,13 @@
   border: 1px solid rgba(255, 122, 0, 0.35);
 }
 
+.stem-badge-peach,
+.stem-badge-noise {
+  background: rgba(244, 63, 94, 0.18);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+}
+
 .stem-badge-emerald {
   background: rgba(16, 185, 129, 0.18);
   color: #10b981;

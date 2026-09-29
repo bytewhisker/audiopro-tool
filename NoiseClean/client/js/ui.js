@@ -256,7 +256,7 @@ class UIRenderer {
             }
         }
 
-        // 3. Render 4-Stem AI Splitter View
+        // 3. Render 3-Stem AI Splitter View
         const hasSelection = (sourceInfo && sourceInfo.hasSelection);
 
         if (this.elements.stemClipLabel) {
@@ -283,11 +283,11 @@ class UIRenderer {
             this.elements.splitStemsBtn.disabled = !hasSelection || isSplitting;
             if (this.elements.splitBtnText) {
                 if (isSplitting) {
-                    this.elements.splitBtnText.textContent = 'Deconstructing 4 Stems...';
+                    this.elements.splitBtnText.textContent = 'Deconstructing 3 Stems...';
                 } else if (stemsReady) {
-                    this.elements.splitBtnText.textContent = 'Re-separate 4 Stems';
+                    this.elements.splitBtnText.textContent = 'Re-separate 3 Stems';
                 } else {
-                    this.elements.splitBtnText.textContent = 'Separate into 4 Stems';
+                    this.elements.splitBtnText.textContent = 'Separate into 3 Stems';
                 }
             }
         }
@@ -303,7 +303,7 @@ class UIRenderer {
                     this.elements.stemProgressPercent.textContent = `${stemsState.percent}%`;
                 }
                 if (this.elements.stemProgressMessage) {
-                    this.elements.stemProgressMessage.textContent = stemsState.message || 'Separating 4 audio stems...';
+                    this.elements.stemProgressMessage.textContent = stemsState.message || 'Separating 3 audio stems...';
                 }
             } else {
                 this.elements.stemProgressContainer.style.display = 'none';
@@ -338,7 +338,7 @@ class UIRenderer {
             }
 
             // Update per-stem Solo / Mute button highlights and VU meter animation
-            const stemKeys = ['vocals', 'music', 'drums', 'sfx'];
+            const stemKeys = ['voice', 'music', 'noise'];
             const curStates = stemsState.stemStates || {};
 
             // Check if any solo is active
