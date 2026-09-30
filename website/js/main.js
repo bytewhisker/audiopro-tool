@@ -14,9 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnVideoOverlay = document.getElementById('video-overlay-play-btn');
 
   // AudioPro Tool Panel Elements
-  const panelStatusTag = document.getElementById('panel-status-tag');
-  const panelStatusText = document.getElementById('panel-status-text');
-
   const toggleIsolation = document.getElementById('demo-isolation-toggle');
   const isolationBadge = document.getElementById('isolation-state-badge');
   const rowIsolation = document.getElementById('row-isolation');
@@ -126,18 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
       isoDescText.textContent = active 
         ? 'Studio background noise & echo removal' 
         : 'Bypassed • Raw uncleaned camera audio';
-    }
-
-    if (panelStatusTag && panelStatusText) {
-      if (active) {
-        panelStatusTag.classList.remove('is-raw');
-        panelStatusTag.classList.add('active');
-        panelStatusText.textContent = 'AudioPro Clean Active';
-      } else {
-        panelStatusTag.classList.remove('active');
-        panelStatusTag.classList.add('is-raw');
-        panelStatusText.textContent = 'Bypass: Raw Camera Audio';
-      }
     }
 
     applyAudioRouting();
@@ -272,21 +257,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Timeline Scrubber Click/Seek
+  // Timeline Scrubber Click & Touch Scrub
+  function handleTimelineSeek(clientX) {
+    if (!video || !timelineTrack) return;
+    const rect = timelineTrack.getBoundingClientRect();
+    const clickRatio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    const targetTime = clickRatio * (video.duration || 20);
+
+    video.currentTime = targetTime;
+    if (audioEnhanced) audioEnhanced.currentTime = targetTime;
+    if (audioOriginal) audioOriginal.currentTime = targetTime;
+
+    if (timelineBar) {
+      timelineBar.style.width = `${clickRatio * 100}%`;
+    }
+    if (timeCurrent) {
+      timeCurrent.textContent = formatTime(targetTime);
+    }
+
+    if (!isPlaying) {
+      startPlayback();
+    }
+  }
+
   if (timelineTrack && video) {
     timelineTrack.addEventListener('click', (e) => {
-      const rect = timelineTrack.getBoundingClientRect();
-      const clickRatio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const targetTime = clickRatio * (video.duration || 20);
-
-      video.currentTime = targetTime;
-      if (audioEnhanced) audioEnhanced.currentTime = targetTime;
-      if (audioOriginal) audioOriginal.currentTime = targetTime;
-
-      if (!isPlaying) {
-        startPlayback();
-      }
+      handleTimelineSeek(e.clientX);
     });
+
+    let isTouchSeeking = false;
+    timelineTrack.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        isTouchSeeking = true;
+        handleTimelineSeek(e.touches[0].clientX);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (isTouchSeeking && e.touches && e.touches.length > 0) {
+        handleTimelineSeek(e.touches[0].clientX);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      isTouchSeeking = false;
+    }, { passive: true });
   }
 
   // Isolation Toggle Event
@@ -334,11 +349,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Keyboard Shortcuts: Space (Play/Pause), 1 (Raw/OFF), 2 (Clean/ON)
+  // Mobile Navigation Drawer Controller
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileNavDrawer = document.getElementById('mobile-nav-drawer');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link, .btn-mobile-cta');
+
+  function openMobileMenu() {
+    if (!mobileNavDrawer || !mobileMenuBtn) return;
+    mobileMenuBtn.classList.add('is-active');
+    mobileMenuBtn.setAttribute('aria-expanded', 'true');
+    mobileNavDrawer.classList.add('is-open');
+    mobileNavDrawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+  }
+
+  function closeMobileMenu() {
+    if (!mobileNavDrawer || !mobileMenuBtn) return;
+    mobileMenuBtn.classList.remove('is-active');
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    mobileNavDrawer.classList.remove('is-open');
+    mobileNavDrawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+  }
+
+  function toggleMobileMenu() {
+    if (mobileNavDrawer && mobileNavDrawer.classList.contains('is-open')) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  }
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMobileMenu();
+    });
+  }
+
+  // Close drawer when any mobile nav link or CTA is clicked
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMobileMenu();
+    });
+  });
+
+  // Close mobile drawer on desktop window resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860 && mobileNavDrawer && mobileNavDrawer.classList.contains('is-open')) {
+      closeMobileMenu();
+    }
+  }, { passive: true });
+
+  // Close drawer when tapping outside
+  document.addEventListener('click', (e) => {
+    if (mobileNavDrawer && mobileNavDrawer.classList.contains('is-open')) {
+      if (!mobileNavDrawer.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        closeMobileMenu();
+      }
+    }
+  });
+
+  // Keyboard Shortcuts: Space (Play/Pause), 1 (Raw/OFF), 2 (Clean/ON), Escape (Close Menu)
   window.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-    if (e.code === 'Space') {
+    if (e.key === 'Escape') {
+      closeMobileMenu();
+    } else if (e.code === 'Space') {
       e.preventDefault();
       togglePlayback();
     } else if (e.key === '1' || e.key === 'a' || e.key === 'A') {

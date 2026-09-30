@@ -28,7 +28,8 @@
   <meta name="twitter:image" content="media/thumbnails/audiopro_thumbnail_2.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="media/logo_transparent.png">
+  <link rel="icon" type="image/png" href="media/favicon.png">
+  <link rel="apple-touch-icon" href="media/favicon.png">
 
   <!-- Typography: Inter & Geist Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,7 +84,10 @@
   <header class="app-header">
     <div class="site-container nav-container">
       <a href="#" class="brand-link" aria-label="AudioPro Tool Home">
-        <img src="media/logo_transparent.png" alt="AudioPro Tool" class="brand-logo">
+        <picture>
+          <source srcset="media/logo_opt.webp" type="image/webp">
+          <img src="media/logo_opt.png" alt="AudioPro Tool" class="brand-logo" width="105" height="42" fetchpriority="high">
+        </picture>
       </a>
 
       <nav class="nav-links">
@@ -95,10 +99,56 @@
         <a href="#faq" class="nav-link">FAQ</a>
       </nav>
 
-      <div class="nav-cta">
-        <a href="https://buy.stripe.com/14AaEXg5r4ZigdSdrKds40f" target="_blank" rel="noopener" class="btn-primary btn-sm">
-          Get AudioPro — $39
+      <div class="nav-actions">
+        <a href="https://buy.stripe.com/14AaEXg5r4ZigdSdrKds40f" target="_blank" rel="noopener" class="btn-primary btn-sm nav-cta-btn">
+          <span class="cta-text-full">Get AudioPro — $39</span>
+          <span class="cta-text-compact">Get — $39</span>
         </a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+      <div class="mobile-nav-links">
+        <a href="#interactive-demo" class="mobile-nav-link">
+          <span>Demo</span>
+          <span class="mobile-nav-arrow">&rarr;</span>
+        </a>
+        <a href="#pricing" class="mobile-nav-link">
+          <span>Pricing</span>
+          <span class="mobile-nav-arrow">&rarr;</span>
+        </a>
+        <a href="#features" class="mobile-nav-link">
+          <span>Features</span>
+          <span class="mobile-nav-arrow">&rarr;</span>
+        </a>
+        <a href="#workflow" class="mobile-nav-link">
+          <span>Workflow</span>
+          <span class="mobile-nav-arrow">&rarr;</span>
+        </a>
+        <a href="#benchmarks" class="mobile-nav-link">
+          <span>Benchmarks</span>
+          <span class="mobile-nav-arrow">&rarr;</span>
+        </a>
+        <a href="#faq" class="mobile-nav-link">
+          <span>FAQ</span>
+          <span class="mobile-nav-arrow">&rarr;</span>
+        </a>
+      </div>
+      <div class="mobile-nav-footer">
+        <a href="https://buy.stripe.com/14AaEXg5r4ZigdSdrKds40f" target="_blank" rel="noopener" class="btn-primary btn-block btn-mobile-cta">
+          Get AudioPro Lifetime — $39
+        </a>
+        <div class="mobile-nav-meta">
+          <span>AE CC 2019 – 2026+</span>
+          <span>&bull;</span>
+          <span>100% Offline Inference</span>
+        </div>
       </div>
     </div>
   </header>
@@ -130,18 +180,17 @@
       <!-- Hero Product Video & Simple Adobe-Enhance-Style Toggle Demo -->
       <div class="hero-demo-wrapper" id="interactive-demo">
         <!-- Hidden Audio Tracks (Synced & Switched in Real Time) -->
-        <audio id="audio-enhanced" preload="auto">
+        <audio id="audio-enhanced" preload="metadata">
           <source src="media/audio_enhanced.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio-original" preload="auto">
+        <audio id="audio-original" preload="metadata">
           <source src="media/audio_original.mp3" type="audio/mpeg">
         </audio>
 
         <!-- Video Player Stage: Woman in Noisy Cafe (Speaking to Camera) -->
         <div class="demo-video-stage">
-          <video id="demo-video" class="demo-video-element" playsinline loop muted poster="media/demo_poster.jpg">
+          <video id="demo-video" class="demo-video-element" playsinline loop muted preload="metadata" poster="media/demo_poster_opt.jpg">
             <source src="media/talking_head_demo.mp4" type="video/mp4">
-            <source src="media/Noise_Video_Enhanced_web.mp4" type="video/mp4">
           </video>
 
           <!-- Big Play Button Overlay -->
@@ -179,17 +228,6 @@
 
         <!-- Native AudioPro Tool UI Interface -->
         <div class="audiopro-plugin-card">
-          <div class="audiopro-card-header">
-            <div class="audiopro-card-brand">
-              <img src="media/logo_transparent.png" alt="AudioPro Tool" class="audiopro-card-logo">
-              <span class="audiopro-card-badge">STUDIO PANEL</span>
-            </div>
-            <div class="audiopro-card-tag active" id="panel-status-tag">
-              <span class="status-pulse-dot"></span>
-              <span id="panel-status-text">AudioPro Clean Active</span>
-            </div>
-          </div>
-
           <div class="audiopro-card-body">
             <!-- Feature Row 1: Voice Isolation -->
             <div class="audiopro-feature-row active" id="row-isolation">
@@ -235,10 +273,6 @@
                 <span class="toggle-state-badge emerald" id="restoration-state-badge">ON</span>
               </div>
             </div>
-          </div>
-
-          <div class="audiopro-card-footer">
-            <span class="footer-hint">💡 Flip <strong>Voice Isolation</strong> to compare raw camera audio vs AudioPro clean sound in real time.</span>
           </div>
         </div>
       </div>
@@ -603,7 +637,10 @@
   <footer class="app-footer">
     <div class="site-container footer-container">
       <div class="footer-left">
-        <img src="media/logo_transparent.png" alt="AudioPro Tool" class="footer-logo">
+        <picture>
+          <source srcset="media/logo_opt.webp" type="image/webp">
+          <img src="media/logo_opt.png" alt="AudioPro Tool" class="footer-logo" width="85" height="34" loading="lazy">
+        </picture>
         <p class="footer-tagline">Developed by Md Mahadi. 100% offline studio voice isolation.</p>
       </div>
 
