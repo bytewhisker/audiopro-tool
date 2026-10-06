@@ -20,7 +20,11 @@
     "speech-enhancement",
     "aescripts"
   ],
-  "author": "AudioPro Tool",
-  "license": "Commercial",
+  "author": "Md Mahadi (ByteWhisker)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bytewhisker/audiopro-tool.git"
+  },
   "dependencies": {}
 }
