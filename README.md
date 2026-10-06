@@ -4,6 +4,7 @@
 
 ![AudioPro Tool Banner](Assets/AudioPro%20Tool%20Logo.png)
 
+[![Latest Release](https://img.shields.io/github/v/release/bytewhisker/audiopro-tool?color=orange&logo=github)](https://github.com/bytewhisker/audiopro-tool/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Adobe After Effects](https://img.shields.io/badge/Adobe%20After%20Effects-CC%202019%E2%80%932026%2B-9999FF?logo=adobeaftereffects&logoColor=white)](https://www.adobe.com/products/aftereffects.html)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-informational)](#-installation)
@@ -14,7 +15,7 @@
 **Professional, 100% Offline AI Audio Cleaning directly inside Adobe After Effects.**  
 *Zero Cloud APIs. Zero Subscriptions. Studio-grade dialogue enhancement with sample-accurate timeline sync.*
 
-[Key Features](#-key-features) • [Installation](#-installation) • [Architecture](#-architecture--data-flow) • [Comparison](#-audiopro-vs-alternatives) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
+[Download Latest Release](https://github.com/bytewhisker/audiopro-tool/releases/latest) • [Key Features](#-key-features) • [Installation](#-installation) • [Architecture](#-architecture--data-flow) • [Comparison](#-audiopro-vs-alternatives) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
 
 </div>
 
@@ -64,9 +65,21 @@ Select any footage layer, audio track, or nested pre-comp directly inside Adobe 
 
 ## 🛠️ Installation
 
-### Option 1: Quick Install (Recommended for Users)
+### Option 1: Direct Download (Easiest for Video Editors)
 
-1. Clone or download this repository:
+1. Download the pre-built extension package from **[Releases (v1.0.0)](https://github.com/bytewhisker/audiopro-tool/releases/latest)**:
+   * 📦 **[NoiseClean_v1.0.0.zip](https://github.com/bytewhisker/audiopro-tool/releases/download/v1.0.0/NoiseClean_v1.0.0.zip)**
+2. Unzip `NoiseClean_v1.0.0.zip` directly into your Adobe CEP extensions folder:
+   * **Windows:** `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions\` *(or `%APPDATA%\Adobe\CEP\extensions\`)*
+   * **macOS:** `/Library/Application Support/Adobe/CEP/extensions/` *(or `~/Library/Application Support/Adobe/CEP/extensions/`)*
+3. Enable CEP Debug Mode (see below) and restart After Effects.
+4. Launch the panel from **Window > Extensions > NoiseClean**.
+
+---
+
+### Option 2: Clone & Symlink (For Developers)
+
+1. Clone this repository:
    ```bash
    git clone https://github.com/bytewhisker/audiopro-tool.git
    cd audiopro-tool/NoiseClean
