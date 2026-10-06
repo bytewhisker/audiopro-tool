@@ -33,12 +33,6 @@ class UIRenderer {
     }
 
     initDomReferences() {
-        // Mode Tabs
-        this.elements.tabVoiceBtn = document.getElementById('tab-voice-btn');
-        this.elements.tabStemsBtn = document.getElementById('tab-stems-btn');
-        this.elements.voiceView = document.getElementById('voice-view');
-        this.elements.stemsView = document.getElementById('stems-view');
-
         // Voice Clean Elements
         this.elements.noiseToggle = document.getElementById('noise-toggle');
         this.elements.toggleSub = document.getElementById('toggle-sub');
@@ -52,29 +46,7 @@ class UIRenderer {
         this.elements.progressTipTag = document.getElementById('progress-tip-tag');
         this.elements.progressTipText = document.getElementById('progress-tip-text');
 
-        // Stem Splitter Elements
-        this.elements.stemClipLabel = document.getElementById('stem-clip-label');
-        this.elements.stemClipTime = document.getElementById('stem-clip-time');
-        this.elements.splitStemsBtn = document.getElementById('split-stems-btn');
-        this.elements.splitBtnText = document.getElementById('split-btn-text');
-
-        this.elements.stemProgressContainer = document.getElementById('stem-progress-container');
-        this.elements.stemProgressBarFill = document.getElementById('stem-progress-bar-fill');
-        this.elements.stemProgressMessage = document.getElementById('stem-progress-message');
-        this.elements.stemProgressPercent = document.getElementById('stem-progress-percent');
-        this.elements.stemProgressTip = document.getElementById('stem-progress-tip');
-
-        this.elements.stemPlayerSection = document.getElementById('stem-player-section');
-        this.elements.stemMasterPlayBtn = document.getElementById('stem-master-play-btn');
-        this.elements.playIcon = document.getElementById('play-icon');
-        this.elements.pauseIcon = document.getElementById('pause-icon');
-        this.elements.stemScrubberTrack = document.getElementById('stem-scrubber-track');
-        this.elements.stemScrubberFill = document.getElementById('stem-scrubber-fill');
-        this.elements.stemCurrentTime = document.getElementById('stem-current-time');
-        this.elements.stemTotalTime = document.getElementById('stem-total-time');
-        this.elements.addAllStemsBtn = document.getElementById('add-all-stems-btn');
-
-        // Shared Error Notice
+        // Error Notice
         this.elements.errorNotice = document.getElementById('error-notice');
         this.elements.errorText = document.getElementById('error-text');
     }
@@ -134,15 +106,6 @@ class UIRenderer {
     }
 
     bindEvents() {
-        // Tab switching
-        if (this.elements.tabVoiceBtn && this.elements.tabStemsBtn) {
-            this.elements.tabVoiceBtn.addEventListener('click', () => {
-                this.sm.setActiveTab('voice');
-            });
-            this.elements.tabStemsBtn.addEventListener('click', () => {
-                this.sm.setActiveTab('stems');
-            });
-        }
 
         // Voice Restoration toggle update
         if (this.elements.resembleToggle) {
@@ -189,20 +152,9 @@ class UIRenderer {
     }
 
     render(snapshot) {
-        const { state, sourceInfo, isNoiseCleanActive, progress, lastError, activeTab, stemsState } = snapshot;
+        const { state, sourceInfo, isNoiseCleanActive, progress, lastError } = snapshot;
 
-        // 1. Render Tab Switching
-        const isVoiceTab = (activeTab === 'voice');
-        if (this.elements.tabVoiceBtn && this.elements.tabStemsBtn) {
-            this.elements.tabVoiceBtn.classList.toggle('active', isVoiceTab);
-            this.elements.tabStemsBtn.classList.toggle('active', !isVoiceTab);
-        }
-        if (this.elements.voiceView && this.elements.stemsView) {
-            this.elements.voiceView.style.display = isVoiceTab ? 'block' : 'none';
-            this.elements.stemsView.style.display = isVoiceTab ? 'none' : 'block';
-        }
-
-        // 2. Render Voice Clean View
+        // 1. Render Voice Isolation Switch
         if (this.elements.noiseToggle) {
             if (state === 'NO_SELECTION') {
                 this.elements.noiseToggle.disabled = true;
@@ -228,6 +180,7 @@ class UIRenderer {
             }
         }
 
+        // 2. Render Voice Restoration Switch
         if (this.elements.resembleToggle) {
             this.elements.resembleToggle.checked = !!snapshot.resembleEnhance;
             this.elements.resembleToggle.disabled = (state === 'PROCESSING');
@@ -241,8 +194,9 @@ class UIRenderer {
             }
         }
 
+        // 3. Render Progress Indicator
         if (this.elements.progressContainer) {
-            if (state === 'PROCESSING' && isVoiceTab) {
+            if (state === 'PROCESSING') {
                 this.elements.progressContainer.style.display = 'flex';
                 this.startTipRotation();
                 if (this.elements.progressBarFill) this.elements.progressBarFill.style.width = `${progress.percent}%`;
@@ -256,124 +210,9 @@ class UIRenderer {
             }
         }
 
-        // 3. Render 3-Stem AI Splitter View
-        const hasSelection = (sourceInfo && sourceInfo.hasSelection);
-
-        if (this.elements.stemClipLabel) {
-            if (hasSelection) {
-                this.elements.stemClipLabel.textContent = sourceInfo.layerName || 'Active Clip';
-            } else {
-                this.elements.stemClipLabel.textContent = 'Select audio/video clip in timeline';
-            }
-        }
-
-        if (this.elements.stemClipTime) {
-            if (hasSelection && sourceInfo.durationSec) {
-                this.elements.stemClipTime.textContent = this.formatTime(sourceInfo.durationSec);
-            } else {
-                this.elements.stemClipTime.textContent = '';
-            }
-        }
-
-        // Split button state
-        const isSplitting = (stemsState && stemsState.status === 'splitting');
-        const stemsReady = (stemsState && stemsState.status === 'ready');
-
-        if (this.elements.splitStemsBtn) {
-            this.elements.splitStemsBtn.disabled = !hasSelection || isSplitting;
-            if (this.elements.splitBtnText) {
-                if (isSplitting) {
-                    this.elements.splitBtnText.textContent = 'Separating Vocal & Music...';
-                } else if (stemsReady) {
-                    this.elements.splitBtnText.textContent = 'Re-separate Stems';
-                } else {
-                    this.elements.splitBtnText.textContent = 'Separate Vocal & Music';
-                }
-            }
-        }
-
-        // Stem Splitting Progress Indicator
-        if (this.elements.stemProgressContainer) {
-            if (isSplitting) {
-                this.elements.stemProgressContainer.style.display = 'flex';
-                if (this.elements.stemProgressBarFill) {
-                    this.elements.stemProgressBarFill.style.width = `${stemsState.percent}%`;
-                }
-                if (this.elements.stemProgressPercent) {
-                    this.elements.stemProgressPercent.textContent = `${stemsState.percent}%`;
-                }
-                if (this.elements.stemProgressMessage) {
-                    this.elements.stemProgressMessage.textContent = stemsState.message || 'Separating vocal & music stems...';
-                }
-            } else {
-                this.elements.stemProgressContainer.style.display = 'none';
-            }
-        }
-
-        // Stem Player & Matrix Section
-        if (this.elements.stemPlayerSection) {
-            this.elements.stemPlayerSection.style.display = (stemsReady && !isSplitting) ? 'flex' : 'none';
-        }
-
-        if (stemsReady) {
-            // Master Play / Pause icon
-            if (this.elements.playIcon && this.elements.pauseIcon) {
-                this.elements.playIcon.style.display = stemsState.isPlaying ? 'none' : 'block';
-                this.elements.pauseIcon.style.display = stemsState.isPlaying ? 'block' : 'none';
-            }
-
-            // Scrubber
-            const curTime = stemsState.currentTime || 0;
-            const dur = stemsState.duration || 1;
-            const pct = Math.max(0, Math.min(100, (curTime / dur) * 100));
-
-            if (this.elements.stemScrubberFill) {
-                this.elements.stemScrubberFill.style.width = `${pct}%`;
-            }
-            if (this.elements.stemCurrentTime) {
-                this.elements.stemCurrentTime.textContent = this.formatTime(curTime);
-            }
-            if (this.elements.stemTotalTime) {
-                this.elements.stemTotalTime.textContent = this.formatTime(dur);
-            }
-
-            // Update per-stem Solo / Mute button highlights and VU meter animation
-            const stemKeys = ['voice', 'music'];
-            const curStates = stemsState.stemStates || {};
-
-            // Check if any solo is active
-            let anySolo = false;
-            for (const k of stemKeys) {
-                if (curStates[k] && curStates[k].solo) anySolo = true;
-            }
-
-            for (const k of stemKeys) {
-                const sObj = curStates[k] || { solo: false, mute: false };
-                const card = document.querySelector(`.stem-card[data-stem="${k}"]`);
-                const soloBtn = document.querySelector(`.btn-stem-solo[data-stem="${k}"]`);
-                const muteBtn = document.querySelector(`.btn-stem-mute[data-stem="${k}"]`);
-
-                if (soloBtn) soloBtn.classList.toggle('active', !!sObj.solo);
-                if (muteBtn) muteBtn.classList.toggle('active', !!sObj.mute);
-
-                // Is stem audible right now?
-                let isAudible = false;
-                if (stemsState.isPlaying) {
-                    if (anySolo) {
-                        isAudible = sObj.solo && !sObj.mute;
-                    } else {
-                        isAudible = !sObj.mute;
-                    }
-                }
-                if (card) {
-                    card.classList.toggle('playing', isAudible);
-                }
-            }
-        }
-
         // 4. Render Error Notice
         if (this.elements.errorNotice) {
-            if ((state === 'ERROR' || (stemsState && stemsState.status === 'error')) && lastError) {
+            if (state === 'ERROR' && lastError) {
                 this.elements.errorNotice.style.display = 'flex';
                 if (this.elements.errorText) {
                     this.elements.errorText.textContent = this.formatUserErrorMessage(lastError);
